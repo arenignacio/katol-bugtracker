@@ -24,7 +24,7 @@ Router.route('/create-ticket').post((req, res) => {
 });
 
 //edit existing ticket
-Router.route('/edit/:id').put(async (req, res) => {
+Router.route('/:id').put((req, res) => {
 	const { id } = req.params;
 	const update = req.body;
 
@@ -42,8 +42,16 @@ Router.route('/edit/:id').put(async (req, res) => {
 	});
 });
 
-//delete ticket
+//delete
+Router.route('/:id').delete((req, res) => {
+	const { id } = req.params;
+	let confirmation = `Document ${id} successfully deleted.`;
 
-//
+	Ticket.findByIdAndDelete(id, (err) => {
+		if (err) confirmation = err.message;
+
+		res.send(confirmation);
+	});
+});
 
 module.exports = Router;
