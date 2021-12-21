@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 //#imports
 const mongodb = require('./database/db');
+const ticketRoute = require('./routes/tickets.routes');
 /* 
 const User = require('./models/User');
 
@@ -35,6 +36,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(express.static(__dirname + '/build'));
+
+//routes
+app.use('/ticket', ticketRoute);
 
 //test apis
 app.post('/users/registration', (req, res, next) => {
