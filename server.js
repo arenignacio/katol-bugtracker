@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 //#imports
 const mongodb = require('./database/db');
 const ticketRoute = require('./routes/tickets.routes');
+const userRoute = require('./routes/users.routers');
 /* 
 const User = require('./models/User');
 
@@ -21,8 +22,11 @@ User.create({
 }); */
 
 const app = express();
+
+//envinronment variables set
 require('dotenv').config();
 
+//connect to db
 mongoose.connect(mongodb.db, (err) => {
 	if (err) {
 		console.log('Failed to connect to database. ' + err.message);
@@ -39,13 +43,7 @@ app.use(express.static(__dirname + '/build'));
 
 //routes
 app.use('/ticket', ticketRoute);
-
-//test apis
-app.post('/users/registration', (req, res, next) => {
-	console.log(req.body, req.headers);
-
-	res.send('Good');
-});
+app.use('/user', userRoute);
 
 app.get('*', (req, res) => {
 	res.status(404).send('Oops. Page not found. Did you mean something else?');

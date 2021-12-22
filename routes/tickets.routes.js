@@ -1,11 +1,7 @@
 const express = require('express');
 const Ticket = require('../models/Ticket');
 
-const app = express();
 const Router = express.Router();
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 //new ticket
 Router.route('/create-ticket').post((req, res) => {
@@ -27,6 +23,7 @@ Router.route('/create-ticket').post((req, res) => {
 Router.route('/:id').put((req, res) => {
 	const { id } = req.params;
 	const update = req.body;
+	update.last_updated = new Date();
 
 	Ticket.findByIdAndUpdate(id, update, (err, doc) => {
 		let confirmation = `Document ${id} successfully updated.`;
@@ -52,6 +49,14 @@ Router.route('/:id').delete((req, res) => {
 
 		res.send(confirmation);
 	});
+});
+
+//find tickets
+Router.route('/query').get(async (req, res) => {
+	const { body } = req;
+	let result = await Ticket.where(body);
+
+	res.json(result);
 });
 
 module.exports = Router;
