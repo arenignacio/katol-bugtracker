@@ -20,7 +20,7 @@ users.route('/register').post((req, res) => {
 			res.send('Account already exists. Please log in to continue.');
 		} else {
 			await User.create(body);
-			res.send('Account successfully created.');
+			res.send('Account successfully created');
 		}
 	});
 });
@@ -28,10 +28,23 @@ users.route('/register').post((req, res) => {
 users.route('/:id').put((req, res) => {
 	const { id } = req.params;
 	const { body } = req;
+	let confirmation = 'User successfully updated';
 
 	User.findByIdAndUpdate(id, body, (err) => {
-		if (err) res.send('Invalid ID');
-		else res.send(`User successfully updated`);
+		if (err) confirmation = 'Invalid ID';
+
+		res.send(confirmation);
+	});
+});
+
+users.route('/:id').delete((req, res) => {
+	const { id } = req.params;
+	let confirmation = 'User successfully deleted';
+
+	User.findByIdAndDelete(id, null, (err) => {
+		if (err) confirmation = 'Invalid ID';
+
+		res.send(confirmation);
 	});
 });
 
