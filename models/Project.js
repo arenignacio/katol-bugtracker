@@ -4,9 +4,8 @@ const projectSchema = mongoose.Schema({
 	name: { type: String, required: true },
 	description: String,
 	project_manager: {
-		id: String,
-		name: String,
-		required: true,
+		id: { type: String, required: true },
+		name: { type: String, required: true },
 	},
 	members: [{ id: String, name: String }],
 });

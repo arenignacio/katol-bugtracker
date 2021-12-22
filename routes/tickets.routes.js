@@ -13,9 +13,7 @@ Router.route('/create-ticket').post((req, res) => {
 		if (err) {
 			console.log(err.message);
 			res.send(`error: ${err.message}`);
-		}
-
-		res.send('Ticket successfully created');
+		} else res.send('Ticket successfully created');
 	});
 });
 

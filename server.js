@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const mongodb = require('./database/db');
 const ticketRoute = require('./routes/tickets.routes');
 const userRoute = require('./routes/users.routers');
+const projectRoute = require('./routes/projects.routes');
 /* 
 const User = require('./models/User');
 
@@ -44,6 +45,7 @@ app.use(express.static(__dirname + '/build'));
 //routes
 app.use('/ticket', ticketRoute);
 app.use('/user', userRoute);
+app.use('/project', projectRoute);
 
 app.get('*', (req, res) => {
 	res.status(404).send('Oops. Page not found. Did you mean something else?');
