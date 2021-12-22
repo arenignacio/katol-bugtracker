@@ -9,10 +9,10 @@ app.use(express.json());
 
 const users = express.Router();
 
-users.route('/register').post((req, res, next) => {
+users.route('/register').post((req, res) => {
 	const { body } = req;
 
-	bcrypt.hash(body.password, 10, async function (err, hash) {
+	bcrypt.hash(body.password, 10, async (err, hash) => {
 		if (err) res.send(err.message);
 		body.password = hash;
 
@@ -22,6 +22,16 @@ users.route('/register').post((req, res, next) => {
 			await User.create(body);
 			res.send('Account successfully created.');
 		}
+	});
+});
+
+users.route('/:id').put((req, res) => {
+	const { id } = req.params;
+	const { body } = req;
+
+	User.findByIdAndUpdate(id, body, (err) => {
+		if (err) res.send('Invalid ID');
+		else res.send(`User successfully updated`);
 	});
 });
 
