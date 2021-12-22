@@ -48,4 +48,11 @@ users.route('/:id').delete((req, res) => {
 	});
 });
 
+users.route('/query').get(async (req, res) => {
+	const { body } = req;
+	let result = await User.where(body);
+
+	res.json(result);
+});
+
 module.exports = users;

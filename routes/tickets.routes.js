@@ -44,8 +44,8 @@ Router.route('/:id').delete((req, res) => {
 	const { id } = req.params;
 	let confirmation = `Document ${id} successfully deleted.`;
 
-	Ticket.findByIdAndDelete(id, (err) => {
-		if (err) confirmation = err.message;
+	Ticket.findByIdAndDelete(id, null, (err) => {
+		if (err) confirmation = 'Invalid ID';
 
 		res.send(confirmation);
 	});
