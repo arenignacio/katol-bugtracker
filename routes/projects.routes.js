@@ -12,6 +12,18 @@ Router.route('/create-project').post((req, res) => {
 	});
 });
 
-Router.route('/query').get((req, res) => {});
+Router.route('/query').get(async (req, res) => {
+	const { body } = req;
+	let result;
+
+	try {
+		result = await Project.where(body);
+		if (result.length < 1) result = 'No data found';
+	} catch (err) {
+		result = err.message;
+	}
+
+	res.json(result);
+});
 
 module.exports = Router;
