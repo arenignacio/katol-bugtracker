@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+
 //#modules
 const express = require('express');
 const mongoose = require('mongoose');
@@ -8,24 +12,9 @@ const mongodb = require('./database/db');
 const ticketRoute = require('./routes/tickets.routes');
 const userRoute = require('./routes/users.routers');
 const projectRoute = require('./routes/projects.routes');
-/* 
-const User = require('./models/User');
 
-User.create({
-	username: 'johdoe123',
-	password: 'Password123',
-	firstname: 'John',
-	lastname: 'Doe',
-	email: 'johdoe123@email.com',
-	phone: '123-456-7890',
-	notifications: [],
-	role: 'engineer',
-}); */
-
+//#initializers
 const app = express();
-
-//envinronment variables set
-require('dotenv').config();
 
 //connect to db
 mongoose.connect(mongodb.db, (err) => {
