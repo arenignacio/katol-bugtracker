@@ -26,6 +26,7 @@
   "scripts": {
     "start": "node server.js",
     "devStart": "nodemon server.js",
+    "deploy": "git push heroku main",
     "web": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
