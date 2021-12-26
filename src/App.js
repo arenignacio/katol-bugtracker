@@ -1,7 +1,7 @@
 const App = () => {
 	return (
 		<div>
-			<h1>This is App. Heroku Test.</h1>
+			<h1>This is App. Heroku Test2.</h1>
 		</div>
 	);
 };
