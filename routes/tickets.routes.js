@@ -1,5 +1,8 @@
 const express = require('express');
+
 const Ticket = require('../models/Ticket');
+//const { DateTime } = require('luxon');
+// DateTime.fromJSDate(doc.date_initiated).toLocaleString(DateTime.DATE_MED)  ----returns Mon, DD, YYYY
 
 const Router = express.Router();
 
@@ -52,7 +55,12 @@ Router.route('/:id').delete((req, res) => {
 //find tickets
 Router.route('/query').get(async (req, res) => {
 	const { body } = req;
-	let result = await Ticket.where(body);
+	let result = null;
+	try {
+		result = await Ticket.where(body);
+	} catch (err) {
+		result = err.message;
+	}
 
 	res.json(result);
 });
