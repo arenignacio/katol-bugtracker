@@ -4,9 +4,9 @@ const Project = require('../models/Project');
 const Router = express.Router();
 
 Router.route('/create-project').post((req, res) => {
-	const { body } = req;
+	const input = req.body;
 
-	Project.create(body, (err) => {
+	Project.create(input, (err) => {
 		if (err) res.send(err.message);
 		else res.send('Project successfully created');
 	});

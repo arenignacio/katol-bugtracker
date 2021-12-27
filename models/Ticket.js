@@ -22,6 +22,7 @@ const ticketSchema = mongoose.Schema({
 	assigned_to: {
 		id: { type: String /* , required: true  */ },
 		name: { type: String /* , required: true  */ },
+		default: {},
 	},
 	date_initiated: { type: Date, default: new Date(), immutable: true },
 	last_updated: { type: Date, default: new Date() },

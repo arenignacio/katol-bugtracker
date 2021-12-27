@@ -26,6 +26,7 @@ mongoose.connect(mongodb.db, (err) => {
 });
 
 //middleware
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
