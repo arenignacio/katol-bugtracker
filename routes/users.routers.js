@@ -7,20 +7,10 @@ const session = require('express-session');
 
 //#imports
 const User = require('../models/User');
-const initPassport = require('../auth/passport-config');
 
 //#initializers
 const users = express.Router();
 const app = express();
-
-initPassport(
-	passport,
-	(email) =>
-		User.findOne({ email }, (err, docs) => {
-			console.log(docs);
-		}),
-	(id) => User.findById(id)
-);
 
 app.use(flash());
 app.use(

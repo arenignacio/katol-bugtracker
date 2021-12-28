@@ -40,24 +40,42 @@ Router.route('/create-ticket').post(
 );
 
 //edit existing ticket
-Router.route('/:id').put((req, res) => {
-	const { id } = req.params;
-	const update = req.body;
-	update.last_updated = new Date();
+Router.route('/:id').put(
+	body('initiated_by.id', 'id must be an email')
+		.isEmail()
+		.optional()
+		.trim()
+		.escape()
+		.toLowerCase(),
+	body('assigned_to.id', 'id must be an email')
+		.optional()
+		.isEmail()
+		.trim()
+		.escape()
+		.toLowerCase(),
+	body('subject').trim().escape().optional(),
+	body('description').trim().escape().optional(),
+	body('assigned_to.name').optional().trim().escape().toLowerCase(),
+	body('initiated_by.name').trim().escape().optional().toLowerCase(),
+	(req, res) => {
+		const { id } = req.params;
+		const update = req.body;
+		update.last_updated = new Date();
 
-	Ticket.findByIdAndUpdate(id, update, (err, doc) => {
-		let confirmation = `Document ${id} successfully updated.`;
+		Ticket.findByIdAndUpdate(id, update, (err, doc) => {
+			let confirmation = `Document ${id} successfully updated.`;
 
-		if (err) confirmation = err.message;
+			if (err) confirmation = err.message;
 
-		if (update.assigned_to && doc.status === 'initiated') {
-			doc.status = 'assigned';
-			doc.save();
-		}
+			if (update.assigned_to && doc.status === 'initiated') {
+				doc.status = 'assigned';
+				doc.save();
+			}
 
-		res.send(confirmation);
-	});
-});
+			res.send(confirmation);
+		});
+	}
+);
 
 //delete
 Router.route('/:id').delete((req, res) => {
