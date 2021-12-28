@@ -2,26 +2,12 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const flash = require('express-flash');
-const session = require('express-session');
 
 //#imports
 const User = require('../models/User');
 
 //#initializers
 const users = express.Router();
-const app = express();
-
-app.use(flash());
-app.use(
-	session({
-		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false,
-	})
-);
-app.use(passport.initialize());
-app.use(passport.session());
 
 users.route('/register').post((req, res) => {
 	const { body } = req;

@@ -3,10 +3,12 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 //#modules
+const path = require('path');
 const express = require('express');
+const flash = require('express-flash');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const path = require('path');
 const LocalStrategy = require('passport-local');
 // const nodemailer = require('nodemailer'); //# nodemailer can be used for sending emails
 
@@ -33,9 +35,19 @@ mongoose.connect(mongodb.db, (err) => {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 passport.use(new LocalStrategy({ usernameField: 'email' }, authenticate));
+app.use(flash());
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: false,
+	})
+);
 app.use(express.static(path.join(__dirname + '/build')));
 
 //#authentication
+app.use(passport.initialize());
+app.use(passport.session());
 passport.serializeUser((user, done) => {
 	console.log(user);
 	done(null, user.id);
