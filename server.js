@@ -34,7 +34,6 @@ mongoose.connect(mongodb.db, (err) => {
 //#middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-passport.use(new LocalStrategy({ usernameField: 'email' }, authenticate));
 app.use(flash());
 app.use(
 	session({
@@ -48,6 +47,8 @@ app.use(express.static(path.join(__dirname + '/build')));
 //#authentication
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new LocalStrategy({ usernameField: 'email' }, authenticate));
+
 passport.serializeUser((user, done) => {
 	console.log(user);
 	done(null, user.id);

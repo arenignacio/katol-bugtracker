@@ -25,10 +25,11 @@ Router.route('/create-ticket').post(
 	body('initiated_by.name').trim().escape().toLowerCase(),
 	(req, res) => {
 		const input = req.body;
-		const errors = validationResult(req);
-		console.log(input);
+		const errors = validationResult(req); //validate body
 
+		//if errors is not empty, return array of all errors
 		if (!errors.isEmpty()) res.json(errors.array());
+		//else create new ticket
 		else {
 			input.status = input['assigned_to'] ? 'assigned' : 'initiated';
 			Ticket.create(input, (err) => {
@@ -62,20 +63,24 @@ Router.route('/:id').put(
 	(req, res) => {
 		const { id } = req.params;
 		const update = req.body;
+		const errors = validationResult(req);
 		update.last_updated = new Date();
 
-		Ticket.findByIdAndUpdate(id, update, (err, doc) => {
-			let confirmation = `Document ${id} successfully updated.`;
+		if (!errors.isEmpty()) res.json(errors.array());
+		else {
+			Ticket.findByIdAndUpdate(id, update, (err, doc) => {
+				let confirmation = `Document ${id} successfully updated.`;
 
-			if (err) confirmation = err.message;
+				if (err) confirmation = err.message;
 
-			if (update.assigned_to && doc.status === 'initiated') {
-				doc.status = 'assigned';
-				doc.save();
-			}
+				if (update.assigned_to && doc.status === 'initiated') {
+					doc.status = 'assigned';
+					doc.save();
+				}
 
-			res.send(confirmation);
-		});
+				res.send(confirmation);
+			});
+		}
 	}
 );
 
