@@ -7,6 +7,7 @@ const path = require('path');
 const express = require('express');
 const flash = require('express-flash');
 const session = require('express-session');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -33,6 +34,7 @@ mongoose.connect(mongodb.db, (err) => {
 });
 
 //#middleware
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(flash());
