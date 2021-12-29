@@ -1,14 +1,19 @@
-import Router from '../routes/tickets.routes';
-
-const { BrowserRouter } = require('react-router-dom');
+import { Link, Outlet } from 'react-router-dom';
 
 const App = () => {
 	return (
 		<div>
 			<h1>This is App. test</h1>
-			<BrowserRouter>
-				<Router></Router>
-			</BrowserRouter>
+			<div>
+				{' '}
+				<Link style={{ marginRight: '10px' }} to="/Login">
+					login
+				</Link>
+				<Link style={{ marginRight: '10px' }} to="/User">
+					user
+				</Link>
+				<Outlet />
+			</div>
 		</div>
 	);
 };

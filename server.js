@@ -58,9 +58,8 @@ passport.deserializeUser((id, done) => done(null, id));
 app.use('/ticket', ticketRoute);
 app.use('/user', userRoute);
 app.use('/project', projectRoute);
-
-app.get('*', (req, res) => {
-	res.status(404).send('Oops. Page not found. Did you mean something else?');
+app.use('/*', (req, res) => {
+	res.sendFile(path.join(__dirname + '/build/index.html'));
 });
 
 app.listen(process.env.PORT || 3000, () =>
