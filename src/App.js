@@ -1,10 +1,6 @@
-import { useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 const App = () => {
-	useEffect(() => {
-		fetch('http://localhost:8080/user/amiloggedin');
-	});
 	return (
 		<div>
 			<h1>This is App. test</h1>

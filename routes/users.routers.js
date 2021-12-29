@@ -9,6 +9,8 @@ const User = require('../models/User');
 //#initializers
 const users = express.Router();
 
+//#middlewares
+
 users.route('/register').post((req, res) => {
 	const { body } = req;
 
@@ -59,6 +61,7 @@ users.route('/login').post(
 	passport.authenticate('local', {
 		failureFlash: true,
 	}),
+
 	(req, res) => {
 		if (req.user && req.session.passport) {
 			console.log('successfully logged in');
@@ -72,8 +75,10 @@ users.route('/login').post(
 );
 
 users.route('/amIloggedIn').get((req, res) => {
-	console.log('user is logged in ' + req.user);
-	res.end();
+	const user = req.user;
+
+	if (user) res.json(true);
+	else res.json(false);
 });
 
 users.route('/myinfo').get((req, res) => res.json(req.user));

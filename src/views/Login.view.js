@@ -1,8 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 	const navigate = useNavigate();
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	useEffect(() => {
+		fetch('http://localhost:8080/user/amIloggedIn')
+			.then(async (response) => response.json())
+			.then((isLoggedIn) => {
+				if (isLoggedIn) setIsLoggedIn(isLoggedIn);
+			});
+	}, []);
 
 	const [loginForm, setLoginForm] = useState({
 		email: '',
@@ -37,29 +46,33 @@ const Login = () => {
 
 	return (
 		<>
-			<form onSubmit={onSubmitLogin}>
-				<div>
-					<label htmlFor="email">E-mail: </label>
-					<input
-						type="text"
-						id="email"
-						placeholder="enter email"
-						onChange={handleChange}
-						value={loginForm.email}
-					/>
-				</div>
-				<div>
-					<label htmlFor="password">Password: </label>
-					<input
-						type="text"
-						id="password"
-						placeholder="enter password"
-						onChange={handleChange}
-						value={loginForm.password}
-					/>
-				</div>
-				<input type="submit" value="Submit" />
-			</form>
+			{!isLoggedIn ? (
+				<form onSubmit={onSubmitLogin}>
+					<div>
+						<label htmlFor="email">E-mail: </label>
+						<input
+							type="text"
+							id="email"
+							placeholder="enter email"
+							onChange={handleChange}
+							value={loginForm.email}
+						/>
+					</div>
+					<div>
+						<label htmlFor="password">Password: </label>
+						<input
+							type="text"
+							id="password"
+							placeholder="enter password"
+							onChange={handleChange}
+							value={loginForm.password}
+						/>
+					</div>
+					<input type="submit" value="Submit" />
+				</form>
+			) : (
+				navigate('/user')
+			)}
 		</>
 	);
 };
