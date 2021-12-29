@@ -57,11 +57,24 @@ users.route('/query').get(async (req, res) => {
 
 users.route('/login').post(
 	passport.authenticate('local', {
-		successRedirect: '/',
-		failureRedirect: '/login',
 		failureFlash: true,
-	})
+	}),
+	(req, res) => {
+		if (req.user && req.session.passport) {
+			console.log('successfully logged in');
+			res.status(200).send('okay');
+		} else {
+			res.status(404).send('bad');
+		}
+		console.log(req.session);
+		res.end();
+	}
 );
+
+users.route('/amIloggedIn').get((req, res) => {
+	console.log('user is logged in ' + req.user);
+	res.end();
+});
 
 users.route('/myinfo').get((req, res) => res.json(req.user));
 

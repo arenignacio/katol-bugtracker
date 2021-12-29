@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+	const navigate = useNavigate();
+
 	const [loginForm, setLoginForm] = useState({
 		email: '',
 		password: '',
@@ -17,7 +20,19 @@ const Login = () => {
 
 	const onSubmitLogin = (e) => {
 		e.preventDefault();
-		console.log(loginForm);
+
+		console.log(JSON.stringify(loginForm));
+
+		fetch('http://localhost:8080/user/login', {
+			method: 'Post',
+			headers: { 'Content-type': 'application/json; charset=UTF-8' },
+			body: JSON.stringify(loginForm),
+		}).then((response) => {
+			console.log(response.ok);
+			if (response.ok) {
+				navigate('/user');
+			} else navigate('/');
+		});
 	};
 
 	return (

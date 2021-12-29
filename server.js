@@ -18,6 +18,7 @@ const authenticate = require('./auth/passport-config');
 const ticketRoute = require('./routes/tickets.routes');
 const userRoute = require('./routes/users.routers');
 const projectRoute = require('./routes/projects.routes');
+const User = require('./models/User');
 
 //#initializers
 const app = express();
@@ -50,10 +51,12 @@ app.use(passport.session());
 passport.use(new LocalStrategy({ usernameField: 'email' }, authenticate));
 
 passport.serializeUser((user, done) => {
-	console.log(user);
-	done(null, user.id);
+	console.log('user is ' + user);
+	done(null, user._id);
 });
-passport.deserializeUser((id, done) => done(null, id));
+passport.deserializeUser((id, done) =>
+	User.findById(id, (err, user) => done(err, user))
+);
 
 //#routes
 app.use('/ticket', ticketRoute);
