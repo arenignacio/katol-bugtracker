@@ -14,7 +14,7 @@ const LocalStrategy = require('passport-local');
 // const nodemailer = require('nodemailer'); //# nodemailer can be used for sending emails
 
 //#imports
-const mongodb = require('./database/db');
+//const mongodb = require('./database/db');
 const authenticate = require('./auth/passport-config');
 const ticketRoute = require('./routes/tickets.routes');
 const userRoute = require('./routes/users.routers');
@@ -25,7 +25,7 @@ const User = require('./models/User');
 const app = express();
 
 //#connect to db
-mongoose.connect(mongodb.db, (err) => {
+mongoose.connect(process.env.DB_URL, (err) => {
 	if (err) {
 		console.log('Failed to connect to database. ' + err.message);
 	} else {
