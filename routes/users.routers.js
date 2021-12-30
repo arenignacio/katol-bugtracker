@@ -77,6 +77,8 @@ users.route('/login').post(
 users.route('/amIloggedIn').get((req, res) => {
 	const user = req.user;
 
+	console.log(user);
+
 	if (user) res.json(true);
 	else res.json(false);
 });

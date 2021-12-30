@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { API_BASEURL } from '../utils/constants';
+
 const Login = () => {
 	const navigate = useNavigate();
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	useEffect(() => {
-		fetch('http://localhost:8080/user/amIloggedIn')
+		fetch(`${API_BASEURL}/user/amIloggedIn`)
 			.then(async (response) => response.json())
 			.then((isLoggedIn) => {
 				if (isLoggedIn) setIsLoggedIn(isLoggedIn);
@@ -32,7 +34,7 @@ const Login = () => {
 
 		console.log(JSON.stringify(loginForm));
 
-		fetch('http://localhost:8080/user/login', {
+		fetch(`${API_BASEURL}/user/login`, {
 			method: 'Post',
 			headers: { 'Content-type': 'application/json; charset=UTF-8' },
 			body: JSON.stringify(loginForm),
@@ -61,7 +63,7 @@ const Login = () => {
 					<div>
 						<label htmlFor="password">Password: </label>
 						<input
-							type="text"
+							type="password"
 							id="password"
 							placeholder="enter password"
 							onChange={handleChange}
