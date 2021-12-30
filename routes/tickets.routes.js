@@ -30,14 +30,17 @@ Router.route('/create-ticket').post(
 		//if errors is not empty, return array of all errors
 		if (!errors.isEmpty()) res.json(errors.array());
 		//else create new ticket
-		else {
+		else if (req.user) {
 			input.status = input['assigned_to'] ? 'assigned' : 'initiated';
+			input.initiated_by.id = req.user._id;
 			Ticket.create(input, (err) => {
 				if (err) {
 					console.log(err.message);
-					res.send(`error: ${err.message}`);
+					res.status(201).send(`error: ${err.message}`);
 				} else res.send('Ticket successfully created');
 			});
+		} else {
+			res.status(401).send('Unauthorized user');
 		}
 	}
 );
