@@ -1,8 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { API_BASEURL } from '../utils/constants';
 
 const User = () => {
 	let [user, setUser] = useState(null);
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		console.log('handle logout clicked');
+		fetch(`${API_BASEURL}/user/logout`);
+		navigate('/');
+	};
 
 	useEffect(() => {
 		const renderUsers = async () => {
@@ -21,6 +29,7 @@ const User = () => {
 		<>
 			{user ? <div>Welcome {user.firstname} </div> : <div>Loading..</div>}
 			<div>List of Users</div>
+			<button onClick={handleLogout}>Logout</button>
 		</>
 	);
 };

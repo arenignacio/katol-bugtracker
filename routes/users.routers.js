@@ -35,7 +35,7 @@ users.route('/:id').put((req, res) => {
 	User.findByIdAndUpdate(id, body, (err) => {
 		if (err) confirmation = 'Invalid ID';
 
-		res.send(confirmation);
+		res.json(confirmation);
 	});
 });
 
@@ -46,7 +46,7 @@ users.route('/:id').delete((req, res) => {
 	User.findByIdAndDelete(id, null, (err) => {
 		if (err) confirmation = 'Invalid ID';
 
-		res.send(confirmation);
+		res.json(confirmation);
 	});
 });
 
@@ -65,14 +65,20 @@ users.route('/login').post(
 	(req, res) => {
 		if (req.user && req.session.passport) {
 			console.log('successfully logged in');
-			res.status(200).send('okay');
+			res.status(200).json('okay');
 		} else {
-			res.status(404).send('bad');
+			res.status(404).json('bad');
 		}
 		console.log(req.session);
 		res.end();
 	}
 );
+
+users.route('/logout').get((req, res) => {
+	req.logout();
+	console.log('logout. user exists? ' + req.user);
+	res.end();
+});
 
 users.route('/amIloggedIn').get((req, res) => {
 	const user = req.user;
