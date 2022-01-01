@@ -7,7 +7,7 @@ import './reset.css';
 
 const Container = styled.div`
 	display: flex;
-	flex-direction: ${({ navHidden }) => (navHidden ? 'column' : 'row')}
+	flex-direction: ${({ navHidden }) => (navHidden ? 'column' : 'row')};
 	border: solid black;
 	background: rgb(76, 76, 84);
 	background: linear-gradient(
@@ -20,12 +20,12 @@ const Container = styled.div`
 `;
 
 const App = () => {
-	const navHidden = false;
+	const navHidden = true;
 
 	return (
 		<Container navHidden={navHidden}>
 			{navHidden ? '' : <Navigation></Navigation>}
-			<div style={{ width: navHidden ? '100%' : '80%', background: '#fff' }}>
+			<div style={{ width: navHidden ? '100%' : '85%', background: '#fff' }}>
 				<h1>This is App. test</h1>
 				<div>
 					{' '}
