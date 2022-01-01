@@ -5,14 +5,16 @@ import { ReactComponent as Logo } from '../assets/img/spiral.svg';
 
 const Wrapper = styled.div`
 	display: flex;
-   align-items: center;
-   border-bottom: 0.5px solid rgba(0,0,0, 0.5);
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 0.5px solid rgba(0, 0, 0, 0.5);
 	width: 100%;
-   background: #fff;
-	height: ${({ heightSize }) => {
-		return heightSize ? heightSize : '5';
+	background: #fff;
+	height: 100%;
 	}}vh;
 
+	span {
+		margin-right: 15px;
 	}
 `;
 
@@ -27,13 +29,18 @@ const LogoWrapper = styled.div`
 	}
 `;
 
-const headerBar = ({ heightSize }) => {
+const headerBar = () => {
 	return (
-		<Wrapper heightSize={heightSize}>
+		<Wrapper>
 			<LogoWrapper>
 				<Logo width={30} height={30} />
 				<span>Katol</span>
 			</LogoWrapper>
+			<div>
+				<span>My Account</span>
+				<span>Picture</span>
+				<span>Help</span>
+			</div>
 		</Wrapper>
 	);
 };

@@ -17,7 +17,7 @@ const BodyWrapper = styled.div`
 	display: flex;
 	flex-direction: ${({ navHidden }) => (navHidden ? 'column' : 'row')};
 	width: 100%;
-	height: 88vh;
+	height: 85.5vh;
 `;
 
 const App = () => {
@@ -25,7 +25,9 @@ const App = () => {
 
 	return (
 		<Container navHidden={navHidden}>
-			<HeaderBar heightSize={6}></HeaderBar>
+			<div style={{ height: '6vh', borderBottom: '0.5px black solid' }}>
+				<HeaderBar></HeaderBar>
+			</div>
 			<BodyWrapper>
 				{navHidden ? '' : <Navigation widthSize="10%"></Navigation>}
 				<div
