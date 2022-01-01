@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import Login from './views/Login.view';
 import User from './views/User.View';
+import './index.css';
 
 ReactDOM.render(
 	<React.StrictMode>
