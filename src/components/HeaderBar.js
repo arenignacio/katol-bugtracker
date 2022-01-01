@@ -7,11 +7,12 @@ const Wrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	box-sizing: border-box;
 	border-bottom: 0.5px solid rgba(0, 0, 0, 0.5);
 	width: 100%;
 	background: #fff;
 	height: 100%;
-	}}vh;
+	z-index: 1;
 
 	span {
 		margin-right: 15px;

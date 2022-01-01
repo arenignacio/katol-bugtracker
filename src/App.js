@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import Navigation from './components/Navigation';
 import HeaderBar from './components/HeaderBar';
 
-const Container = styled.div``;
+const Container = styled.div`
+	height: 100vh;
+`;
 /*	background: rgb(76, 76, 84);
 	background: linear-gradient(
 		90deg,
@@ -16,8 +18,9 @@ const Container = styled.div``;
 const BodyWrapper = styled.div`
 	display: flex;
 	flex-direction: ${({ navHidden }) => (navHidden ? 'column' : 'row')};
+	box-sizing: border-box;
+	height: 95%;
 	width: 100%;
-	height: 85.5vh;
 `;
 
 const App = () => {
@@ -25,17 +28,19 @@ const App = () => {
 
 	return (
 		<Container navHidden={navHidden}>
-			<div style={{ height: '6vh', borderBottom: '0.5px black solid' }}>
+			<div style={{ height: '5%' }}>
 				<HeaderBar></HeaderBar>
 			</div>
 			<BodyWrapper>
 				{navHidden ? '' : <Navigation widthSize="10%"></Navigation>}
 				<div
 					style={{
+						boxSizing: 'border-box',
 						width: navHidden ? '100%' : '87%',
 						padding: '30px',
 						background: '#fff',
 						height: '100%',
+						zIndex: '-1',
 					}}
 				>
 					<h1>This is App. test</h1>
