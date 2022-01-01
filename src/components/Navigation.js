@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
+	background: blue;
 	height: 100vh;
+	width: 20%;
 	min-width: 200px;
-	max-width: 20%;
-	border: 1px solid black;
 `;
 
 const Navigation = () => {

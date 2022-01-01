@@ -7,7 +7,6 @@ const path = require('path');
 const express = require('express');
 const flash = require('express-flash');
 const session = require('express-session');
-const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
