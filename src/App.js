@@ -40,7 +40,6 @@ const App = () => {
 						padding: '30px',
 						background: '#fff',
 						height: '100%',
-						zIndex: '-1',
 					}}
 				>
 					<h1>This is App. test</h1>
