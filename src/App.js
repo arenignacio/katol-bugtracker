@@ -28,7 +28,7 @@ const App = () => {
 
 	return (
 		<Container navHidden={navHidden}>
-			<div style={{ height: '5%' }}>
+			<div style={{ height: '5%', zIndex: '2' }}>
 				<HeaderBar></HeaderBar>
 			</div>
 			<BodyWrapper>

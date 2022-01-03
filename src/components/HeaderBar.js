@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 //assets
 import { ReactComponent as Logo } from '../assets/img/spiral.svg';
+import { ReactComponent as MyProfile } from '../assets/img/my_profile.svg';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -12,7 +13,13 @@ const Wrapper = styled.div`
 	width: 100%;
 	background: #fff;
 	height: 100%;
-	z-index: 1;
+	z-index: 2;
+
+	#menu {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
 	span {
 		margin-right: 15px;
@@ -25,6 +32,10 @@ const LogoWrapper = styled.div`
 	margin-left: 15px;
 	font-family: 'Montserrat', sans-serif;
 
+	#logo {
+		transform: rotate(-45deg);
+	}
+
 	span {
 		margin-left: 0.5rem;
 	}
@@ -34,12 +45,16 @@ const headerBar = () => {
 	return (
 		<Wrapper>
 			<LogoWrapper>
-				<Logo width={30} height={30} />
+				<div id="logo">
+					<Logo width={30} height={30} />
+				</div>
 				<span>Katol</span>
 			</LogoWrapper>
-			<div>
+			<div id="menu">
 				<span>My Account</span>
-				<span>Picture</span>
+				<span>
+					<MyProfile width={25} height={25} />
+				</span>
 				<span>Help</span>
 			</div>
 		</Wrapper>
