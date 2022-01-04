@@ -51,7 +51,7 @@ const headerBar = () => {
 				<span>KATOL</span>
 			</LogoWrapper>
 			<div id="menu">
-				<span>My Account</span>
+				<span id="username">johdoe</span>
 				<span>
 					<MyProfile width={25} height={25} />
 				</span>

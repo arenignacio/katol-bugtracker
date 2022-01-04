@@ -9,7 +9,7 @@ const User = () => {
 	const handleLogout = () => {
 		console.log('handle logout clicked');
 		fetch(`${API_BASEURL}/user/logout`);
-		navigate('/');
+		navigate('/login');
 	};
 
 	useEffect(() => {

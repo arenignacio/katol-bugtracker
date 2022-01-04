@@ -1,8 +1,11 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Navigation from './components/Navigation';
 import HeaderBar from './components/HeaderBar';
+import checkLoginStatus from './utils/UseVerifyLogin';
+import { API_BASEURL } from './utils/constants';
+import { useEffect } from 'react';
 
 const Container = styled.div`
 	height: 100vh;
@@ -25,6 +28,9 @@ const BodyWrapper = styled.div`
 
 const App = () => {
 	const navHidden = false;
+	const navigate = useNavigate();
+
+	checkLoginStatus();
 
 	return (
 		<Container navHidden={navHidden}>

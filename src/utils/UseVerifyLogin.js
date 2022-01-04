@@ -8,17 +8,18 @@ const useVerifyLogin = (status = 'check') => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		console.log('useVerifyLogin executed');
-		const status = fetch(`${API_BASEURL}/user/amIloggedIn`);
-		status
-			.then((response) => {
-				return response.json();
-			})
-			.then((isLoggedIn) => {
-				console.log(`user is logged in? ${isLoggedIn}`);
+		const checkStat = async () => {
+			try {
+				const status = await fetch(`${API_BASEURL}/user/amIloggedIn`);
+				const isLoggedIn = await status.json();
 				if (!isLoggedIn) navigate('/login');
-			});
-	});
+			} catch (e) {
+				navigate('/login');
+			}
+		};
+
+		checkStat();
+	}, [navigate]);
 };
 
 export default useVerifyLogin;
