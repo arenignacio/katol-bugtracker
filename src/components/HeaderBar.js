@@ -48,7 +48,7 @@ const headerBar = () => {
 				<div id="logo">
 					<Logo width={30} height={30} />
 				</div>
-				<span>Katol</span>
+				<span>KATOL</span>
 			</LogoWrapper>
 			<div id="menu">
 				<span>My Account</span>
