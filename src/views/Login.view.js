@@ -122,18 +122,17 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Login = () => {
+const Login = ({ handleLogin }) => {
 	const navigate = useNavigate();
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
 
 	useEffect(() => {
 		fetch(`${API_BASEURL}/user/amIloggedIn`)
 			.then(async (response) => response.json())
 			.then((isLoggedIn) => {
-				if (isLoggedIn) setIsLoggedIn(isLoggedIn);
+				if (isLoggedIn) handleLogin(isLoggedIn);
 			});
-	}, []);
+	}, [handleLogin]);
 
 	const [loginForm, setLoginForm] = useState({
 		email: '',
@@ -175,40 +174,36 @@ const Login = () => {
 
 	return (
 		<Wrapper>
-			{!isLoggedIn ? (
-				<div id="content">
-					<div className="logo-container">
-						<div id="logo">
-							<Logo width={160} />
-						</div>
-						<span>KATOL</span>
+			<div id="content">
+				<div className="logo-container">
+					<div id="logo">
+						<Logo width={160} />
 					</div>
-					<form onSubmit={onSubmitLogin}>
-						{errorMsg ? <div id="errorMsg">{errorMsg}</div> : ''}
-						<input
-							type="text"
-							id="email"
-							placeholder="enter email"
-							onChange={handleChange}
-							value={loginForm.email}
-						/>
-						<input
-							type="password"
-							id="password"
-							placeholder="enter password"
-							onChange={handleChange}
-							value={loginForm.password}
-						/>
-						<input type="submit" value="Log In" />
-					</form>
-					<div id="register-prompt">
-						<span>Don't have an account yet?</span>&nbsp;
-						<span onClick={onClickRegister}>Register</span>.
-					</div>
+					<span>KATOL</span>
 				</div>
-			) : (
-				navigate('/user')
-			)}
+				<form onSubmit={onSubmitLogin}>
+					{errorMsg ? <div id="errorMsg">{errorMsg}</div> : ''}
+					<input
+						type="text"
+						id="email"
+						placeholder="enter email"
+						onChange={handleChange}
+						value={loginForm.email}
+					/>
+					<input
+						type="password"
+						id="password"
+						placeholder="enter password"
+						onChange={handleChange}
+						value={loginForm.password}
+					/>
+					<input type="submit" value="Log In" />
+				</form>
+				<div id="register-prompt">
+					<span>Don't have an account yet?</span>&nbsp;
+					<span onClick={onClickRegister}>Register</span>.
+				</div>
+			</div>
 			<div id="attribution">
 				Background Photo by{' '}
 				<a href="https://unsplash.com/@tayo_ux?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">

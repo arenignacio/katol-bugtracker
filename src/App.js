@@ -1,11 +1,13 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Navigation from './components/Navigation';
 import HeaderBar from './components/HeaderBar';
+import Login from './views/Login.view';
+
 import checkLoginStatus from './utils/UseVerifyLogin';
 import { API_BASEURL } from './utils/constants';
-import { useEffect } from 'react';
 
 const Container = styled.div`
 	height: 100vh;
@@ -28,42 +30,62 @@ const BodyWrapper = styled.div`
 
 const App = () => {
 	const navHidden = false;
+
+	const [isLoggedIn, setIsLoggedIn] = useState(
+		localStorage.getItem('isLoggedIn') ? true : false
+	);
+	const [errorMsg, setErrorMsg] = useState('');
 	const navigate = useNavigate();
 
-	checkLoginStatus();
+	useEffect(() => {
+		checkLoginStatus().then((res) => {
+			setIsLoggedIn(res);
+			console.log(res);
+		});
+	}, []);
 
 	return (
-		<Container navHidden={navHidden}>
-			<div style={{ height: '5%', zIndex: '2' }}>
-				<HeaderBar></HeaderBar>
-			</div>
-			<BodyWrapper>
-				{navHidden ? '' : <Navigation widthSize="10%"></Navigation>}
-				<div
-					style={{
-						boxSizing: 'border-box',
-						width: navHidden ? '100%' : '87%',
-						padding: '30px',
-						background: '#fff',
-						height: '100%',
+		<>
+			{!isLoggedIn ? (
+				<Login
+					handleLogin={(val) => {
+						setIsLoggedIn(val);
 					}}
-				>
-					<h1>This is App. test</h1>
-					<div>
-						{' '}
-						<Link style={{ marginRight: '10px' }} to="/Login">
-							login
-						</Link>
-						<Link style={{ marginRight: '10px' }} to="/User">
-							user
-						</Link>
+				/>
+			) : (
+				<Container navHidden={navHidden}>
+					<div style={{ height: '5%', zIndex: '2' }}>
+						<HeaderBar></HeaderBar>
 					</div>
+					<BodyWrapper>
+						{navHidden ? '' : <Navigation widthSize="10%"></Navigation>}
+						<div
+							style={{
+								boxSizing: 'border-box',
+								width: navHidden ? '100%' : '87%',
+								padding: '30px',
+								background: '#fff',
+								height: '100%',
+							}}
+						>
+							<h1>This is App. test</h1>
+							<div>
+								{' '}
+								<Link style={{ marginRight: '10px' }} to="/Login">
+									login
+								</Link>
+								<Link style={{ marginRight: '10px' }} to="/User">
+									user
+								</Link>
+							</div>
 
-					<h3>App renders here</h3>
-					<Outlet />
-				</div>
-			</BodyWrapper>
-		</Container>
+							<h3>App renders here</h3>
+							<Outlet />
+						</div>
+					</BodyWrapper>
+				</Container>
+			)}
+		</>
 	);
 };
 
