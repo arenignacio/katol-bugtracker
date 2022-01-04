@@ -111,7 +111,7 @@ const Wrapper = styled.div`
 const Login = () => {
 	const navigate = useNavigate();
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('Invalid combination');
+	const [errorMsg, setErrorMsg] = useState('');
 
 	useEffect(() => {
 		fetch(`${API_BASEURL}/user/amIloggedIn`)
@@ -148,7 +148,9 @@ const Login = () => {
 			console.log(response.ok);
 			if (response.ok) {
 				navigate('/user');
-			} else navigate('/');
+			} else {
+				setErrorMsg('Invalid email/password');
+			}
 		});
 	};
 

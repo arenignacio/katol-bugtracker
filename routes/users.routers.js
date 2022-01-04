@@ -42,12 +42,17 @@ users.route('/:id').put((req, res) => {
 users.route('/:id').delete((req, res) => {
 	const { id } = req.params;
 	let confirmation = 'User successfully deleted';
+	const curUser = req.user;
 
-	User.findByIdAndDelete(id, null, (err) => {
-		if (err) confirmation = 'Invalid ID';
+	if (curUser._id === id || curUser.role === 'admin') {
+		User.findByIdAndDelete(id, null, (err) => {
+			if (err) confirmation = 'Invalid ID';
 
-		res.json(confirmation);
-	});
+			res.json(confirmation);
+		});
+	} else {
+		res.status(401).json({ message: 'Unauthorized action' });
+	}
 });
 
 users.route('/query').get(async (req, res) => {
