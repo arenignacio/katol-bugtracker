@@ -32,16 +32,18 @@ const App = () => {
 	const navHidden = false;
 
 	const [isLoggedIn, setIsLoggedIn] = useState(
-		localStorage.getItem('isLoggedIn') ? true : false
+		localStorage.getItem('isLoggedIn')
 	);
-	const [errorMsg, setErrorMsg] = useState('');
-	const navigate = useNavigate();
 
 	useEffect(() => {
-		checkLoginStatus().then((res) => {
-			setIsLoggedIn(res);
-			console.log(res);
-		});
+		console.log(localStorage.getItem('isLoggedIn'));
+
+		if (localStorage.getItem('isLoggedIn') === null) {
+			checkLoginStatus().then((res) => {
+				setIsLoggedIn(res);
+				console.log(res);
+			});
+		}
 	}, []);
 
 	return (
@@ -49,6 +51,7 @@ const App = () => {
 			{!isLoggedIn ? (
 				<Login
 					handleLogin={(val) => {
+						console.log(val);
 						setIsLoggedIn(val);
 					}}
 				/>

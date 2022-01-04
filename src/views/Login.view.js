@@ -160,7 +160,7 @@ const Login = ({ handleLogin }) => {
 		}).then((response) => {
 			console.log(response.ok);
 			if (response.ok) {
-				navigate('/user');
+				handleLogin(response.ok);
 			} else {
 				setErrorMsg('Invalid email/password');
 			}

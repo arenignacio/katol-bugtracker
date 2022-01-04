@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
+//components
+import Menu from './menu_dropdown';
+
 //assets
 import { ReactComponent as Logo } from '../assets/img/spiral.svg';
-import { ReactComponent as MyProfile } from '../assets/img/my_profile.svg';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -53,7 +55,7 @@ const headerBar = () => {
 			<div id="menu">
 				<span id="username">johdoe</span>
 				<span>
-					<MyProfile width={25} height={25} />
+					<Menu></Menu>
 				</span>
 				<span>Help</span>
 			</div>

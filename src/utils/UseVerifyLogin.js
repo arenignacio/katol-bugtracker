@@ -29,7 +29,7 @@ import { API_BASEURL } from './constants';
 const verifyLogin = async () => {
 	let result = false;
 
-	localStorage.setItem('isLoggedIn', 'false');
+	console.log('check executes');
 
 	//pass 'initial' as a parameter if verification is done during login
 

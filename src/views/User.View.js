@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { API_BASEURL } from '../utils/constants';
 
 const User = () => {
 	let [user, setUser] = useState(null);
-	const navigate = useNavigate();
+	//const navigate = useNavigate();
 
 	const handleLogout = () => {
 		console.log('handle logout clicked');
 		fetch(`${API_BASEURL}/user/logout`);
-		navigate('/login');
+		localStorage.removeItem('isLoggedIn');
 	};
 
 	useEffect(() => {
@@ -29,7 +29,9 @@ const User = () => {
 		<>
 			{user ? <div>Welcome {user.firstname} </div> : <div>Loading..</div>}
 			<div>List of Users</div>
-			<button onClick={handleLogout}>Logout</button>
+			<button onClick={handleLogout}>
+				<Link to="/">Logout</Link>
+			</button>
 		</>
 	);
 };
