@@ -29,6 +29,23 @@ const Wrapper = styled.div`
 		border-radius: 7px;
 		margin-bottom: 5px;
 
+		#register-prompt {
+			display: flex;
+			justify-content: center;
+			margin-top: 0.8rem;
+			font-size: 0.7rem;
+
+			> span:nth-child(2) {
+				font-weight: bold;
+				color: blue;
+				text-decoration: underline;
+
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
+
 		.logo-container {
 			display: flex;
 			flex-direction: column;
@@ -51,7 +68,7 @@ const Wrapper = styled.div`
 			align-items: center;
 			background: white;
 
-			#prompt {
+			#errorMsg {
 				width: 100%;
 				margin-bottom: 15px;
 				padding: 2.5px;
@@ -60,9 +77,6 @@ const Wrapper = styled.div`
 				border-radius: 3px;
 				color: #d8000c;
 				background-color: #ffd2d2;
-
-				/* color: red;
-				background: hsla(350, 70%, 65%, 0.5); */
 			}
 
 			input[type='text'],
@@ -154,6 +168,11 @@ const Login = () => {
 		});
 	};
 
+	const onClickRegister = (e) => {
+		e.preventDefault();
+		navigate('/Register');
+	};
+
 	return (
 		<Wrapper>
 			{!isLoggedIn ? (
@@ -165,7 +184,7 @@ const Login = () => {
 						<span>KATOL</span>
 					</div>
 					<form onSubmit={onSubmitLogin}>
-						{errorMsg ? <div id="prompt">{errorMsg}</div> : ''}
+						{errorMsg ? <div id="errorMsg">{errorMsg}</div> : ''}
 						<input
 							type="text"
 							id="email"
@@ -182,6 +201,10 @@ const Login = () => {
 						/>
 						<input type="submit" value="Log In" />
 					</form>
+					<div id="register-prompt">
+						<span>Don't have an account yet?</span>&nbsp;
+						<span onClick={onClickRegister}>Register</span>.
+					</div>
 				</div>
 			) : (
 				navigate('/user')
