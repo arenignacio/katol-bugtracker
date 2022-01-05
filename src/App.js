@@ -68,7 +68,7 @@ const App = () => {
 
 	return (
 		<>
-			{!fauxLogin ? (
+			{!isLoggedIn ? (
 				<Login
 					handleLogin={(val) => {
 						setIsLoggedIn(val);
