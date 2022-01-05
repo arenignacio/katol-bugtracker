@@ -43,7 +43,7 @@ const LogoWrapper = styled.div`
 	}
 `;
 
-const headerBar = ({ headerLinksArr }) => {
+const headerBar = ({ handleLogout, headerLinksArr }) => {
 	return (
 		<Wrapper>
 			<LogoWrapper>
@@ -55,7 +55,10 @@ const headerBar = ({ headerLinksArr }) => {
 			<div id="menu">
 				<span id="username">johdoe</span>
 				<span>
-					<Menu linksArr={headerLinksArr}></Menu>
+					<Menu
+						handleMenuLogout={handleLogout}
+						linksArr={headerLinksArr}
+					></Menu>
 				</span>
 				<span>Help</span>
 			</div>

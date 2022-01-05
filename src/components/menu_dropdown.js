@@ -67,11 +67,16 @@ const StyledLink = styled(Link)`
 	}
 `;
 
-const MenuDropdown = ({ linksArr }) => {
+const MenuDropdown = ({ handleMenuLogout, linksArr }) => {
 	const renderLinks = (links) => {
 		return links.map((link, idx) => {
 			return (
-				<span key={`menu-link-${idx}`}>
+				<span
+					onClick={() => {
+						if (link.name === 'Logout') handleMenuLogout();
+					}}
+					key={`menu-link-${idx}`}
+				>
 					<StyledLink to={link.to}>{link.name}</StyledLink>
 				</span>
 			);

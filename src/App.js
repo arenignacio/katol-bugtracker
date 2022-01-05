@@ -30,6 +30,7 @@ const BodyWrapper = styled.div`
 
 const App = () => {
 	const navHidden = false;
+	const navigate = useNavigate();
 
 	const linksArr = [
 		{ to: '/myprofile', name: 'My Profile' },
@@ -51,6 +52,14 @@ const App = () => {
 		}
 	}, []);
 
+	const handleLogout = () => {
+		console.log('logout executed');
+		fetch(`${API_BASEURL}/user/logout`);
+		localStorage.removeItem('isLoggedIn');
+		setIsLoggedIn(null);
+		window.location.reload();
+	};
+
 	return (
 		<>
 			{!isLoggedIn ? (
@@ -62,7 +71,10 @@ const App = () => {
 			) : (
 				<Container navHidden={navHidden}>
 					<div style={{ height: '5%', zIndex: '2' }}>
-						<HeaderBar headerLinksArr={linksArr}></HeaderBar>
+						<HeaderBar
+							handleLogout={handleLogout}
+							headerLinksArr={linksArr}
+						></HeaderBar>
 					</div>
 					<BodyWrapper>
 						{navHidden ? '' : <Navigation widthSize="10%"></Navigation>}
