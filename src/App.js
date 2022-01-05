@@ -10,6 +10,7 @@ import checkLoginStatus from './utils/UseVerifyLogin';
 import { API_BASEURL } from './utils/constants';
 
 const Container = styled.div`
+	color: rgba(0, 0, 0, 0.8);
 	height: 100vh;
 `;
 /*	background: rgb(76, 76, 84);
@@ -41,6 +42,9 @@ const App = () => {
 		localStorage.getItem('isLoggedIn')
 	);
 
+	//! used to simulate login status for front-end development
+	const fauxLogin = true;
+
 	useEffect(() => {
 		console.log(localStorage.getItem('isLoggedIn'));
 
@@ -62,7 +66,7 @@ const App = () => {
 
 	return (
 		<>
-			{!isLoggedIn ? (
+			{!fauxLogin ? (
 				<Login
 					handleLogin={(val) => {
 						setIsLoggedIn(val);

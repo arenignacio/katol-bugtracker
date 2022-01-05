@@ -25,13 +25,17 @@ const Wrapper = styled.div`
 			justify-content: center;
 			align-items: center;
 			border-radius: 50%;
+		}
 
-			&:hover {
-				cursor: pointer;
+		&:hover {
+			cursor: pointer;
 
-				#profile-svg {
-					fill: hsla(80, 80%, 50%, 1);
-				}
+			#username {
+				color: hsla(200, 100%, 35%, 1);
+			}
+
+			#profile-svg {
+				fill: hsla(200, 100%, 35%, 1);
 			}
 		}
 	}
@@ -40,30 +44,36 @@ const Wrapper = styled.div`
 		display: none;
 		text-align: left;
 		position: absolute;
+		padding-top: 0.2rem;
 		top: 100%;
 		right: 0;
-		margin: 1px;
-		padding: 5px;
-		font-family: arial;
-		font-size: 12px;
-
-		background-color: #f9f9f9;
+		width: fit-content;
 		z-index: 1;
-
-		span {
-			white-space: nowrap;
-			margin-bottom: 2.5px;
-		}
 	}
 `;
 
 const StyledLink = styled(Link)`
+	white-space: nowrap;
+	width: 100%;
 	text-decoration: none;
-	font-weight: 600;
-	color: rgba(0, 0, 0, 0.5);
+	font-family: arial;
+	font-size: 13px;
+	font-weight: bold;
+	color: rgba(0, 0, 0, 0.7);
 
-	&:hover {
-		color: rgba(0, 0, 0, 1);
+	span {
+		display: flex;
+		width: 100%;
+		background: wheat;
+		padding: 10px;
+		box-sizing: border-box;
+		outline: 1px rgba(0, 0, 0, 0.5) solid;
+		background-color: #fff;
+
+		&:hover {
+			background: hsla(200, 30%, 50%, 1);
+			color: white;
+		}
 	}
 `;
 
@@ -71,14 +81,16 @@ const MenuDropdown = ({ handleMenuLogout, linksArr }) => {
 	const renderLinks = (links) => {
 		return links.map((link, idx) => {
 			return (
-				<span
-					onClick={() => {
-						if (link.name === 'Logout') handleMenuLogout();
-					}}
-					key={`menu-link-${idx}`}
-				>
-					<StyledLink to={link.to}>{link.name}</StyledLink>
-				</span>
+				<StyledLink to={link.to}>
+					<span
+						onClick={() => {
+							if (link.name === 'Logout') handleMenuLogout();
+						}}
+						key={`menu-link-${idx}`}
+					>
+						{link.name}
+					</span>
+				</StyledLink>
 			);
 		});
 	};
@@ -88,8 +100,10 @@ const MenuDropdown = ({ handleMenuLogout, linksArr }) => {
 			{' '}
 			<div className="dropdown">
 				<div className="dropbtn">
+					<span id="username">johdoe123</span>
 					<MyProfile id="profile-svg" width={30} height={30}></MyProfile>
 				</div>
+
 				<div className="dropdown-content">{renderLinks(linksArr)}</div>
 			</div>
 		</Wrapper>

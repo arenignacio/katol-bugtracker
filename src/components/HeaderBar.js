@@ -5,6 +5,7 @@ import Menu from './menu_dropdown';
 
 //assets
 import { ReactComponent as Logo } from '../assets/img/spiral.svg';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -53,7 +54,6 @@ const headerBar = ({ handleLogout, headerLinksArr }) => {
 				<span>KATOL</span>
 			</LogoWrapper>
 			<div id="menu">
-				<span id="username">johdoe</span>
 				<span>
 					<Menu
 						handleMenuLogout={handleLogout}
