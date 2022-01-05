@@ -49,9 +49,12 @@ const App = () => {
 		console.log(localStorage.getItem('isLoggedIn'));
 
 		if (localStorage.getItem('isLoggedIn') === null) {
+			console.log('re-check executes');
 			checkLoginStatus().then((res) => {
-				setIsLoggedIn(res);
-				console.log(res);
+				if (res) {
+					localStorage.setItem('isLoggedIn', res);
+					setIsLoggedIn(res);
+				}
 			});
 		}
 	}, []);
@@ -60,13 +63,12 @@ const App = () => {
 		console.log('logout executed');
 		fetch(`${API_BASEURL}/user/logout`);
 		localStorage.removeItem('isLoggedIn');
-		setIsLoggedIn(null);
 		window.location.reload();
 	};
 
 	return (
 		<>
-			{!fauxLogin ? (
+			{!isLoggedIn ? (
 				<Login
 					handleLogin={(val) => {
 						setIsLoggedIn(val);

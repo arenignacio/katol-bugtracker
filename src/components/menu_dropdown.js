@@ -53,27 +53,21 @@ const Wrapper = styled.div`
 `;
 
 const StyledLink = styled(Link)`
+	display: flex;
 	white-space: nowrap;
 	width: 100%;
+	padding: 10px;
+	outline: 1px rgba(0, 0, 0, 0.5) solid;
 	text-decoration: none;
 	font-family: arial;
 	font-size: 13px;
 	font-weight: bold;
+	background-color: #fff;
 	color: rgba(0, 0, 0, 0.7);
 
-	span {
-		display: flex;
-		width: 100%;
-		background: wheat;
-		padding: 10px;
-		box-sizing: border-box;
-		outline: 1px rgba(0, 0, 0, 0.5) solid;
-		background-color: #fff;
-
-		&:hover {
-			background: hsla(200, 30%, 50%, 1);
-			color: white;
-		}
+	&:hover {
+		background: hsla(200, 30%, 50%, 1);
+		color: white;
 	}
 `;
 
@@ -81,15 +75,14 @@ const MenuDropdown = ({ handleMenuLogout, linksArr }) => {
 	const renderLinks = (links) => {
 		return links.map((link, idx) => {
 			return (
-				<StyledLink to={link.to}>
-					<span
-						onClick={() => {
-							if (link.name === 'Logout') handleMenuLogout();
-						}}
-						key={`menu-link-${idx}`}
-					>
-						{link.name}
-					</span>
+				<StyledLink
+					onClick={() => {
+						if (link.name === 'Logout') handleMenuLogout();
+					}}
+					key={`menu-link-${idx}`}
+					to={link.to}
+				>
+					{link.name}
 				</StyledLink>
 			);
 		});
