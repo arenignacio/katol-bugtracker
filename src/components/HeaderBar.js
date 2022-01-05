@@ -43,7 +43,7 @@ const LogoWrapper = styled.div`
 	}
 `;
 
-const headerBar = () => {
+const headerBar = ({ headerLinksArr }) => {
 	return (
 		<Wrapper>
 			<LogoWrapper>
@@ -55,7 +55,7 @@ const headerBar = () => {
 			<div id="menu">
 				<span id="username">johdoe</span>
 				<span>
-					<Menu></Menu>
+					<Menu linksArr={headerLinksArr}></Menu>
 				</span>
 				<span>Help</span>
 			</div>

@@ -16,14 +16,18 @@ const Wrapper = styled.div`
 		margin-top: 10px;
 		color: rgba(0, 0, 0, 0.6);
 
-		span:hover {
-			color: black;
-			cursor: pointer;
-		}
+		span {
+			user-select: none;
 
-		span:focus {
-			font-weight: bold;
-			color: black;
+			&:hover {
+				font-weight: 900;
+				color: rgba(0, 0, 0, 0.9);
+				cursor: pointer;
+			}
+
+			&:active {
+				color: rgba(0, 0, 0, 0.5);
+			}
 		}
 
 		> li {

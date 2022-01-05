@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Navigation from './components/Navigation';
 import HeaderBar from './components/HeaderBar';
-import Login from './views/Login.view';
+import Login from './views/Login-Register.view';
 
 import checkLoginStatus from './utils/UseVerifyLogin';
 import { API_BASEURL } from './utils/constants';
@@ -31,6 +31,11 @@ const BodyWrapper = styled.div`
 const App = () => {
 	const navHidden = false;
 
+	const linksArr = [
+		{ to: '/myprofile', name: 'My Profile' },
+		{ to: '/', name: 'Logout' },
+	];
+
 	const [isLoggedIn, setIsLoggedIn] = useState(
 		localStorage.getItem('isLoggedIn')
 	);
@@ -51,14 +56,13 @@ const App = () => {
 			{!isLoggedIn ? (
 				<Login
 					handleLogin={(val) => {
-						console.log(val);
 						setIsLoggedIn(val);
 					}}
 				/>
 			) : (
 				<Container navHidden={navHidden}>
 					<div style={{ height: '5%', zIndex: '2' }}>
-						<HeaderBar></HeaderBar>
+						<HeaderBar headerLinksArr={linksArr}></HeaderBar>
 					</div>
 					<BodyWrapper>
 						{navHidden ? '' : <Navigation widthSize="10%"></Navigation>}
