@@ -3,132 +3,75 @@ import { useNavigate } from 'react-router-dom';
 
 import { API_BASEURL } from '../utils/constants';
 
-import { ReactComponent as Logo } from '../assets/img/spiral.svg';
-
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	#logo-rect {
-		width: 25px;
-	}
-
-	#content {
+	form {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		background: white;
-		padding: 20px 30px;
-		border: 1px solid grey;
-		border-radius: 7px;
-		margin-bottom: 5px;
 
-		#register-prompt {
-			display: flex;
-			justify-content: center;
-			margin-top: 0.8rem;
-			font-size: 0.7rem;
-
-			> span:nth-child(2) {
-				font-weight: bold;
-				color: blue;
-				text-decoration: underline;
-
-				&:hover {
-					cursor: pointer;
-				}
-			}
+		#errorMsg {
+			width: 100%;
+			margin-bottom: 15px;
+			padding: 2.5px;
+			font-size: 20px;
+			text-align: center;
+			border-radius: 3px;
+			color: #d8000c;
+			background-color: #ffd2d2;
 		}
 
-		.logo-container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			border-bottom: 1.5px solid rgba(0, 0, 0, 0.5);
-			padding-bottom: 25px;
-			margin-bottom: 25px;
-			font-size: 50px;
-			font-family: 'Montserrat', sans-serif;
-			letter-spacing: 5px;
-
-			#logo {
-				transform: rotate(-45deg);
-			}
+		input[type='text'],
+		input[type='password'] {
+			width: 225px;
+			height: 1.5rem;
+			margin-bottom: 10px;
+			border-radius: 5px;
+			outline: none;
+			padding: 0px 10px;
+			border: 1px solid rgba(0, 0, 0, 0.3);
 		}
 
-		form {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			background: white;
+		input[type='submit'] {
+			letter-spacing: 0.5px;
+			font-size: 18px;
+			height: 35px;
+			width: 150px;
+			margin: 10px 0px;
+			font-family: 'Mukta', sans-serif;
+			font-weight: bold;
+			color: rgba(0, 0, 0, 0.7);
+			background: hsla(190, 40%, 70%, 0.7);
+			border: 0.5px solid rgba(0, 0, 250, 0.5);
+			border-radius: 5px;
 
-			#errorMsg {
-				width: 100%;
-				margin-bottom: 15px;
-				padding: 2.5px;
-				font-size: 20px;
-				text-align: center;
-				border-radius: 3px;
-				color: #d8000c;
-				background-color: #ffd2d2;
+			&:hover {
+				color: rgba(0, 0, 0, 0.9);
+				background: hsla(190, 60%, 70%, 1);
+				cursor: pointer;
 			}
 
-			input[type='text'],
-			input[type='password'] {
-				width: 225px;
-				height: 1.5rem;
-				margin-bottom: 10px;
-				border-radius: 5px;
-				outline: none;
-				padding: 0px 10px;
-				border: 1px solid rgba(0, 0, 0, 0.3);
-			}
-
-			input[type='submit'] {
-				letter-spacing: 0.5px;
-				font-size: 18px;
-				height: 35px;
-				width: 150px;
-				margin: 10px 0px;
-				font-family: 'Mukta', sans-serif;
-				font-weight: bold;
-				color: rgba(0, 0, 0, 0.7);
-				background: hsla(190, 40%, 70%, 0.7);
-				border: 0.5px solid rgba(0, 0, 250, 0.5);
-				border-radius: 5px;
-
-				&:hover {
-					color: rgba(0, 0, 0, 0.9);
-					background: hsla(190, 60%, 70%, 1);
-					cursor: pointer;
-				}
-
-				&:active {
-					color: white;
-					background: hsla(195, 100%, 40%, 1);
-				}
+			&:active {
+				color: white;
+				background: hsla(195, 100%, 40%, 1);
 			}
 		}
-	}
-
-	#attribution {
-		font-size: 10px;
 	}
 `;
 
-const LoginForm = ({ handleLogin }) => {
+const LoginForm = ({ handleLogin, handleFormChange }) => {
 	const navigate = useNavigate();
 	const [errorMsg, setErrorMsg] = useState('');
 
-	useEffect(() => {
+	/* useEffect(() => {
 		fetch(`${API_BASEURL}/user/amIloggedIn`)
 			.then(async (response) => response.json())
 			.then((isLoggedIn) => {
 				if (isLoggedIn) handleLogin(isLoggedIn);
 			});
-	}, [handleLogin]);
+	}, [handleLogin]); */
 
 	const [loginForm, setLoginForm] = useState({
 		email: '',
@@ -147,14 +90,11 @@ const LoginForm = ({ handleLogin }) => {
 	const onSubmitLogin = (e) => {
 		e.preventDefault();
 
-		console.log(JSON.stringify(loginForm));
-
 		fetch(`${API_BASEURL}/user/login`, {
 			method: 'Post',
 			headers: { 'Content-type': 'application/json; charset=UTF-8' },
 			body: JSON.stringify(loginForm),
 		}).then((response) => {
-			console.log(response.ok);
 			if (response.ok) {
 				handleLogin(response.ok);
 			} else {
@@ -165,50 +105,32 @@ const LoginForm = ({ handleLogin }) => {
 
 	const onClickRegister = (e) => {
 		e.preventDefault();
-		navigate('/Register');
+		handleFormChange();
 	};
 
 	return (
 		<Wrapper>
-			<div id="content">
-				<div className="logo-container">
-					<div id="logo">
-						<Logo width={160} />
-					</div>
-					<span>KATOL</span>
-				</div>
-				<form onSubmit={onSubmitLogin}>
-					{errorMsg ? <div id="errorMsg">{errorMsg}</div> : ''}
-					<input
-						type="text"
-						id="email"
-						placeholder="enter email"
-						onChange={handleChange}
-						value={loginForm.email}
-					/>
-					<input
-						type="password"
-						id="password"
-						placeholder="enter password"
-						onChange={handleChange}
-						value={loginForm.password}
-					/>
-					<input type="submit" value="Log In" />
-				</form>
-				<div id="register-prompt">
-					<span>Don't have an account yet?</span>&nbsp;
-					<span onClick={onClickRegister}>Register</span>.
-				</div>
-			</div>
-			<div id="attribution">
-				Background Photo by &nbsp;
-				<a href="https://unsplash.com/@tayo_ux?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
-					John Olopade
-				</a>
-				&nbsp; on &nbsp;
-				<a href="https://unsplash.com/t/textures-patterns?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
-					Unsplash
-				</a>
+			<form onSubmit={onSubmitLogin}>
+				{errorMsg ? <div id="errorMsg">{errorMsg}</div> : ''}
+				<input
+					type="text"
+					id="email"
+					placeholder="enter email"
+					onChange={handleChange}
+					value={loginForm.email}
+				/>
+				<input
+					type="password"
+					id="password"
+					placeholder="enter password"
+					onChange={handleChange}
+					value={loginForm.password}
+				/>
+				<input type="submit" value="Log In" />
+			</form>
+			<div id="register-prompt">
+				<span>Don't have an account yet?</span>&nbsp;
+				<span onClick={onClickRegister}>Register</span>.
 			</div>
 		</Wrapper>
 	);
