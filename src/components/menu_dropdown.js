@@ -45,9 +45,8 @@ const Wrapper = styled.div`
 		text-align: left;
 		position: absolute;
 		padding-top: 0.2rem;
+		width: 100%;
 		top: 100%;
-		right: 0;
-		width: fit-content;
 		z-index: 1;
 	}
 `;
