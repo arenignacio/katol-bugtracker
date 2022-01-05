@@ -8,6 +8,10 @@ import { ReactComponent as Logo } from '../assets/img/spiral.svg';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
 	#logo-rect {
 		width: 25px;
 	}
@@ -111,8 +115,6 @@ const Wrapper = styled.div`
 
 	#attribution {
 		font-size: 10px;
-		display: flex;
-		justify-content: flex-end;
 	}
 `;
 
