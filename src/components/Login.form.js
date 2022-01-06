@@ -62,7 +62,6 @@ const Wrapper = styled.div`
 `;
 
 const LoginForm = ({ handleLogin, handleFormChange }) => {
-	const navigate = useNavigate();
 	const [errorMsg, setErrorMsg] = useState('');
 
 	/* useEffect(() => {
@@ -80,11 +79,13 @@ const LoginForm = ({ handleLogin, handleFormChange }) => {
 
 	const handleChange = (e) => {
 		setLoginForm((prevState) => {
-			return e.target.id === 'email'
+			const id = e.target.id;
+			return { ...prevState, [id]: e.target.value };
+
+			/* 	return e.target.id === 'email'
 				? { ...prevState, email: e.target.value }
-				: { ...prevState, password: e.target.value };
-		}); /* 
-		else setLoginForm({ password: e.target.value }); */
+				: { ...prevState, password: e.target.value }; */
+		});
 	};
 
 	const onSubmitLogin = (e) => {

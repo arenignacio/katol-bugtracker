@@ -5,6 +5,7 @@ import loginBg from '../assets/img/bubbles.jpg';
 import { ReactComponent as Logo } from '../assets/img/spiral.svg';
 
 import LoginForm from '../components/Login.form';
+import RegisterForm from '../components/Register.form';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -43,19 +44,18 @@ const Wrapper = styled.div`
 
 		.logo-container {
 			display: flex;
-			flex-direction: ${({ activeForm }) => {
-				return activeForm === 'login' ? 'column' : 'row';
+			flex-direction: ${({ isLoginForm }) => {
+				return isLoginForm ? 'column' : 'row';
 			}};
 			align-items: center;
 			border-bottom: 1.5px solid rgba(0, 0, 0, 0.5);
 			padding-bottom: 25px;
 			margin-bottom: 25px;
-			font-size: ${({ activeForm }) =>
-				activeForm === 'login' ? '50px' : '25px'};
+			font-size: ${({ isLoginForm }) => (isLoginForm ? '50px' : '25px')};
 			font-family: 'Montserrat', sans-serif;
 			letter-spacing: 5px;
-			${({ activeForm }) => {
-				return activeForm === 'login' ? '' : 'height: 50px;';
+			${({ isLoginForm }) => {
+				return isLoginForm ? '' : 'height: 50px;';
 			}}
 
 			#logo {
@@ -70,42 +70,28 @@ const Wrapper = styled.div`
 `;
 
 const Login = ({ handleLogin }) => {
-	const [activeForm, setActiveForm] = useState('login');
+	const [isLoginForm, setIsLoginForm] = useState(true);
 
-	const handleFormChange = () => {
-		activeForm === 'login'
-			? setActiveForm('register')
-			: setActiveForm('login');
+	const toggleForm = () => {
+		setIsLoginForm(!isLoginForm);
 	};
 
 	return (
-		<Wrapper activeForm={activeForm}>
+		<Wrapper isLoginForm={isLoginForm}>
 			<div id="content">
 				<div className="logo-container">
 					<div id="logo">
-						<Logo width={activeForm === 'login' ? 160 : 50} />
+						<Logo width={isLoginForm ? 160 : 50} />
 					</div>
 					<span>KATOL</span>
 				</div>
-				{activeForm === 'login' ? (
+				{isLoginForm ? (
 					<LoginForm
 						handleLogin={handleLogin}
-						handleFormChange={handleFormChange}
-					></LoginForm>
+						handleFormChange={toggleForm}
+					/>
 				) : (
-					<div>
-						This is registration
-						<div>12312</div>
-						<div>12312</div>
-						<div>12312</div>
-						<div>12312</div>
-						<div>12312</div>
-						<div>12312</div>
-						<div>12312</div>
-						<div>12312</div>
-						<div>12312</div>
-						<div>12312</div>
-					</div>
+					<RegisterForm handleFormChange={toggleForm} />
 				)}
 			</div>
 
