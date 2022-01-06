@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 import { API_BASEURL } from '../utils/constants';
 
@@ -24,7 +23,8 @@ const Wrapper = styled.div`
 		}
 
 		input[type='text'],
-		input[type='password'] {
+		input[type='password'],
+		input[type='email'] {
 			width: 225px;
 			height: 1.5rem;
 			margin-bottom: 10px;
@@ -61,47 +61,37 @@ const Wrapper = styled.div`
 	}
 `;
 
-const LoginForm = ({ handleLogin, handleFormChange }) => {
+const LoginForm = ({
+	inputFields,
+	handleLogin,
+	handleFormChange,
+	fetchData,
+}) => {
 	const [errorMsg, setErrorMsg] = useState('');
+	const [loginForm, setLoginForm] = useState(inputFields[0]);
 
-	/* useEffect(() => {
-		fetch(`${API_BASEURL}/user/amIloggedIn`)
-			.then(async (response) => response.json())
-			.then((isLoggedIn) => {
-				if (isLoggedIn) handleLogin(isLoggedIn);
-			});
-	}, [handleLogin]); */
-
-	const [loginForm, setLoginForm] = useState({
-		email: '',
-		password: '',
-	});
-
-	const handleChange = (e) => {
+	const handleInputChange = (e) => {
 		setLoginForm((prevState) => {
 			const id = e.target.id;
 			return { ...prevState, [id]: e.target.value };
-
-			/* 	return e.target.id === 'email'
-				? { ...prevState, email: e.target.value }
-				: { ...prevState, password: e.target.value }; */
 		});
 	};
 
-	const onSubmitLogin = (e) => {
+	const onSubmitHandler = async (e) => {
 		e.preventDefault();
+		let data;
 
-		fetch(`${API_BASEURL}/user/login`, {
-			method: 'Post',
-			headers: { 'Content-type': 'application/json; charset=UTF-8' },
-			body: JSON.stringify(loginForm),
-		}).then((response) => {
-			if (response.ok) {
-				handleLogin(response.ok);
-			} else {
-				setErrorMsg('Invalid email/password');
-			}
-		});
+		//?fetchData is data to be fed into fetch command
+		fetchData[1].body = JSON.stringify(loginForm);
+		data = await fetch(fetchData[0], fetchData[1]);
+
+		if (data.ok) {
+			if (typeof handleLogin === 'function') handleLogin(data.ok);
+		} else {
+			setErrorMsg('Invalid email/password');
+		}
+
+		console.log(fetchData, data);
 	};
 
 	const onClickRegister = (e) => {
@@ -109,24 +99,42 @@ const LoginForm = ({ handleLogin, handleFormChange }) => {
 		handleFormChange();
 	};
 
+	const renderFields = (fields, placeholders = []) => {
+		const fieldsArr = Object.entries(fields);
+
+		return fieldsArr.map((field, idx) => {
+			let type = 'text';
+			const placeholder =
+				placeholders.length > 0 ? placeholders[idx] : field[0];
+
+			switch (field[0]) {
+				case 'password':
+					type = 'password';
+					break;
+				case 'email':
+					type = 'email';
+					break;
+				default:
+					break;
+			}
+
+			return (
+				<input
+					type={type}
+					id={field[0]}
+					placeholder={placeholder}
+					onChange={handleInputChange}
+					value={loginForm[field[0]]}
+				/>
+			);
+		});
+	};
+
 	return (
 		<Wrapper>
-			<form onSubmit={onSubmitLogin}>
+			<form onSubmit={onSubmitHandler}>
 				{errorMsg ? <div id="errorMsg">{errorMsg}</div> : ''}
-				<input
-					type="text"
-					id="email"
-					placeholder="enter email"
-					onChange={handleChange}
-					value={loginForm.email}
-				/>
-				<input
-					type="password"
-					id="password"
-					placeholder="enter password"
-					onChange={handleChange}
-					value={loginForm.password}
-				/>
+				{renderFields(inputFields[0], inputFields[1])}
 				<input type="submit" value="Log In" />
 			</form>
 			<div id="register-prompt">

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-
 import styled from 'styled-components';
+
+import { API_BASEURL } from '../utils/constants';
+
 import loginBg from '../assets/img/bubbles.jpg';
 import { ReactComponent as Logo } from '../assets/img/spiral.svg';
 
-import LoginForm from '../components/Login.form';
+import LoginForm from '../components/Form';
 import RegisterForm from '../components/Register.form';
 
 const Wrapper = styled.div`
@@ -71,6 +73,22 @@ const Wrapper = styled.div`
 
 const Login = ({ handleLogin }) => {
 	const [isLoginForm, setIsLoginForm] = useState(true);
+	const loginFields = [
+		{
+			email: '',
+			password: '',
+		},
+		['Enter your email', 'Enter your password'],
+	];
+
+	const fetchData = [
+		`${API_BASEURL}/user/login`,
+		{
+			method: 'Post',
+			headers: { 'Content-type': 'application/json; charset=UTF-8' },
+			body: '',
+		},
+	];
 
 	const toggleForm = () => {
 		setIsLoginForm(!isLoginForm);
@@ -87,8 +105,10 @@ const Login = ({ handleLogin }) => {
 				</div>
 				{isLoginForm ? (
 					<LoginForm
+						inputFields={loginFields}
 						handleLogin={handleLogin}
 						handleFormChange={toggleForm}
+						fetchData={fetchData}
 					/>
 				) : (
 					<RegisterForm handleFormChange={toggleForm} />
