@@ -6,8 +6,7 @@ import { API_BASEURL } from '../utils/constants';
 import loginBg from '../assets/img/bubbles.jpg';
 import { ReactComponent as Logo } from '../assets/img/spiral.svg';
 
-import LoginForm from '../components/Form';
-import RegisterForm from '../components/Register.form';
+import Form from '../components/Form';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -26,6 +25,17 @@ const Wrapper = styled.div`
 		border: 1px solid grey;
 		border-radius: 7px;
 		margin-bottom: 5px;
+
+		#errorMsg {
+			width: 100%;
+			margin-bottom: 15px;
+			padding: 2.5px;
+			font-size: 20px;
+			text-align: center;
+			border-radius: 3px;
+			color: #d8000c;
+			background-color: #ffd2d2;
+		}
 
 		#prompt {
 			display: flex;
@@ -73,6 +83,7 @@ const Wrapper = styled.div`
 
 const Login = ({ setIsLoggedIn }) => {
 	const [isLoginForm, setIsLoginForm] = useState(true);
+	const [errorMsg, setErrorMsg] = useState('');
 	const loginOptions = {
 		fetchData: {
 			url: `${API_BASEURL}/user/login`,
@@ -92,8 +103,37 @@ const Login = ({ setIsLoggedIn }) => {
 		buttons: [{ name: 'Login', handler: setIsLoggedIn }],
 	};
 
+	const registerOptions = {
+		fetchData: {
+			url: `${API_BASEURL}/user/register`,
+			options: {
+				method: 'Post',
+				headers: { 'Content-type': 'application/json; charset=UTF-8' },
+				body: '',
+			},
+		},
+		fields: [
+			{
+				email: '',
+				firstname: '',
+				lastname: '',
+				password: '',
+				phone: '',
+			},
+			[
+				'Enter email',
+				'Enter first name',
+				'Enter last name',
+				'Enter password',
+				'Enter phone number',
+			],
+		],
+		buttons: [{ name: 'Register', handler: setIsLoggedIn }],
+	};
+
 	const toggleForm = () => {
 		setIsLoginForm(!isLoginForm);
+		setErrorMsg('');
 	};
 
 	return (
@@ -105,10 +145,17 @@ const Login = ({ setIsLoggedIn }) => {
 					</div>
 					<span>KATOL</span>
 				</div>
+				{errorMsg ? <div id="errorMsg">{errorMsg}</div> : ''}
 				{isLoginForm ? (
-					<LoginForm options={loginOptions} />
+					<Form
+						options={loginOptions}
+						handleErrorMsg={(err) => setErrorMsg(err)}
+					/>
 				) : (
-					<RegisterForm handleFormChange={toggleForm} />
+					<Form
+						options={registerOptions}
+						handleErrorMsg={(err) => setErrorMsg(err)}
+					/>
 				)}
 				<div id="prompt">
 					{isLoginForm ? (

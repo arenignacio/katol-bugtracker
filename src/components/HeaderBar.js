@@ -44,7 +44,7 @@ const LogoWrapper = styled.div`
 	}
 `;
 
-const headerBar = ({ handleLogout, headerLinksArr }) => {
+const headerBar = ({ handleLogout, headerLinksArr, currentUser }) => {
 	return (
 		<Wrapper>
 			<LogoWrapper>
@@ -58,6 +58,7 @@ const headerBar = ({ handleLogout, headerLinksArr }) => {
 					<Menu
 						handleMenuLogout={handleLogout}
 						linksArr={headerLinksArr}
+						currentUser={currentUser}
 					></Menu>
 				</span>
 				<span>Help</span>

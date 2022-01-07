@@ -70,7 +70,7 @@ const StyledLink = styled(Link)`
 	}
 `;
 
-const MenuDropdown = ({ handleMenuLogout, linksArr }) => {
+const MenuDropdown = ({ handleMenuLogout, linksArr, currentUser }) => {
 	const renderLinks = (links) => {
 		return links.map((link, idx) => {
 			return (
@@ -92,7 +92,7 @@ const MenuDropdown = ({ handleMenuLogout, linksArr }) => {
 			{' '}
 			<div className="dropdown">
 				<div className="dropbtn">
-					<span id="username">johdoe123</span>
+					<span id="username">{`${currentUser.firstname} ${currentUser.lastname}`}</span>
 					<MyProfile id="profile-svg" width={30} height={30}></MyProfile>
 				</div>
 

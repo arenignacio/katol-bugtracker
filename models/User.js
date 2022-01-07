@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
 			message: String,
 		},
 	],
-	role: { type: String, required: true },
+	role: { type: String, default: 'engineer' },
 });
 
 module.exports = mongoose.model('User', userSchema);

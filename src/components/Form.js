@@ -26,16 +26,7 @@ const Wrapper = styled.div`
 		align-items: center;
 		background: white;
 
-		#errorMsg {
-			width: 100%;
-			margin-bottom: 15px;
-			padding: 2.5px;
-			font-size: 20px;
-			text-align: center;
-			border-radius: 3px;
-			color: #d8000c;
-			background-color: #ffd2d2;
-		}
+	
 
 		input[type='text'],
 		input[type='password'],
@@ -118,14 +109,11 @@ options {
 	fetchData, fields, buttons 
 }
 */
-const LoginForm = ({ options }) => {
+const LoginForm = ({ options, handleErrorMsg }) => {
 	const fields = options.fields;
 	const fetchData = options.fetchData;
 	const [submitBtn, ...buttons] = options.buttons;
 
-	console.log(buttons);
-
-	const [errorMsg, setErrorMsg] = useState('');
 	const [loginForm, setLoginForm] = useState(fields);
 
 	const handleInputChange = (e) => {
@@ -142,16 +130,22 @@ const LoginForm = ({ options }) => {
 
 		//?fetchData is data to be fed into fetch command
 		fetchData.options.body = JSON.stringify(loginForm);
-		console.log(fetchData);
+
 		data = await fetch(fetchData.url, fetchData.options);
 
-		if (data.ok) {
+		console.log('data.ok: ' + data.ok);
+
+		if (data.status === 200) {
 			if (typeof dataHandler === 'function') dataHandler(data.ok);
+		} else if (data.status === 409) {
+			handleErrorMsg('User already exists');
+		} else if (data.status === 401) {
+			handleErrorMsg('Invalid username/password');
 		} else {
-			setErrorMsg('Invalid email/password');
+			handleErrorMsg('Complete all fields');
 		}
 
-		console.log(fetchData, data);
+		console.log(await data.json());
 	};
 
 	const renderFields = (fields, placeholders = []) => {
@@ -187,8 +181,6 @@ const LoginForm = ({ options }) => {
 	};
 
 	const renderButtons = (buttons) => {
-		console.log(buttons);
-
 		return buttons.map((btn, idx) => {
 			const name = btn.name;
 			const handler = btn.handler;
@@ -207,7 +199,6 @@ const LoginForm = ({ options }) => {
 	return (
 		<Wrapper buttons={buttons}>
 			<form onSubmit={onSubmitHandler}>
-				{errorMsg ? <div id="errorMsg">{errorMsg}</div> : ''}
 				{renderFields(fields[0], fields[1])}
 				<div id="buttons">
 					{' '}

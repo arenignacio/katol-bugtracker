@@ -10,6 +10,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const cors = require('cors');
 // const nodemailer = require('nodemailer'); //# nodemailer can be used for sending emails
 
 //#imports
@@ -33,7 +34,7 @@ mongoose.connect(process.env.DB_URL, (err) => {
 });
 
 //#middleware
-//app.use(cors());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(flash());

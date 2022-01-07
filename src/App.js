@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -31,7 +31,6 @@ const BodyWrapper = styled.div`
 
 const App = () => {
 	const navHidden = false;
-	const navigate = useNavigate();
 
 	const linksArr = [
 		{ to: '/myprofile', name: 'My Profile' },
@@ -41,6 +40,8 @@ const App = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(
 		localStorage.getItem('isLoggedIn')
 	);
+
+	const [currentUser, setCurrentUser] = useState(null);
 
 	//! used to simulate login status for front-end development
 	const fauxLogin = true;
@@ -57,7 +58,17 @@ const App = () => {
 				}
 			});
 		}
-	}, []);
+
+		const getInfo = async () => {
+			const response = await fetch(`${API_BASEURL}/user/myinfo`);
+			console.log(response.ok);
+			const data = await response.json();
+			setCurrentUser(data);
+			console.log(data);
+		};
+
+		getInfo();
+	}, [isLoggedIn]);
 
 	const handleLogout = () => {
 		console.log('logout executed');
@@ -80,6 +91,11 @@ const App = () => {
 						<HeaderBar
 							handleLogout={handleLogout}
 							headerLinksArr={linksArr}
+							currentUser={
+								currentUser
+									? currentUser
+									: { firstname: 'Hello', lastname: 'Guest' }
+							}
 						></HeaderBar>
 					</div>
 					<BodyWrapper>

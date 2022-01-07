@@ -11,18 +11,36 @@ const users = express.Router();
 
 //#middlewares
 
-users.route('/register').post((req, res) => {
+users.route('/register').post((req, res, next) => {
 	const { body } = req;
+	body.username = 'test123';
 
 	bcrypt.hash(body.password, 10, async (err, hash) => {
 		if (err) res.send(err.message);
 		body.password = hash;
 
-		if (await User.exists({ username: body.username })) {
-			res.send('Account already exists. Please log in to continue.');
+		if (!body.email) {
+			console.log("email doesn't exist");
+			res.status(401).json(
+				'Account already exists. Please log in to continue.'
+			);
+		} else if (await User.exists({ email: body.email })) {
+			console.log('this executes');
+			res.status(409).json(
+				'Account already exists. Please log in to continue.'
+			);
 		} else {
-			await User.create(body);
-			res.send('Account successfully created');
+			User.create(body, (err, user) => {
+				if (err) res.json(err);
+				else {
+					console.log('logging in');
+					req.login(user, (err) => {
+						if (err) res.json(err);
+						else console.log('logged in');
+						res.end();
+					});
+				}
+			});
 		}
 	});
 });
@@ -72,7 +90,7 @@ users.route('/login').post(
 			console.log('successfully logged in');
 			res.status(200).json('okay');
 		} else {
-			res.status(404).json('bad');
+			res.status(401).json('bad');
 		}
 		console.log(req.session);
 		res.end();
@@ -88,12 +106,13 @@ users.route('/logout').get((req, res) => {
 users.route('/amIloggedIn').get((req, res) => {
 	const user = req.user;
 
-	console.log(user);
-
 	if (user) res.json(true);
 	else res.json(false);
 });
 
-users.route('/myinfo').get((req, res) => res.json(req.user));
+users.route('/myinfo').get((req, res) => {
+	console.log('my info executes');
+	res.json(req.user);
+});
 
 module.exports = users;
