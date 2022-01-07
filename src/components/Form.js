@@ -1,3 +1,21 @@
+/* takes in  object with the following data
+{
+	fetchData: object, 
+	fields: array, 
+	buttons: array
+}
+
+fetchData {
+	url: urlString,
+	options: options object {method, header, and body}
+} 
+
+fields [Fields object with key and value, array of placeholders]
+
+buttons [submit button: object, other buttons: object..]
+each button object must contain {name: string, handler: callback}
+*/
+
 import { useState } from 'react';
 import styled from 'styled-components';
 
