@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 		border-radius: 7px;
 		margin-bottom: 5px;
 
-		#register-prompt {
+		#prompt {
 			display: flex;
 			justify-content: center;
 			margin-top: 0.8rem;
@@ -71,24 +71,26 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Login = ({ handleLogin }) => {
+const Login = ({ setIsLoggedIn }) => {
 	const [isLoginForm, setIsLoginForm] = useState(true);
-	const loginFields = [
-		{
-			email: '',
-			password: '',
+	const loginOptions = {
+		fetchData: {
+			url: `${API_BASEURL}/user/login`,
+			options: {
+				method: 'Post',
+				headers: { 'Content-type': 'application/json; charset=UTF-8' },
+				body: '',
+			},
 		},
-		['Enter your email', 'Enter your password'],
-	];
-
-	const fetchData = [
-		`${API_BASEURL}/user/login`,
-		{
-			method: 'Post',
-			headers: { 'Content-type': 'application/json; charset=UTF-8' },
-			body: '',
-		},
-	];
+		fields: [
+			{
+				email: '',
+				password: '',
+			},
+			['Enter your email', 'Enter your password'],
+		],
+		buttons: [{ name: 'Login', handler: setIsLoggedIn }],
+	};
 
 	const toggleForm = () => {
 		setIsLoginForm(!isLoginForm);
@@ -104,15 +106,23 @@ const Login = ({ handleLogin }) => {
 					<span>KATOL</span>
 				</div>
 				{isLoginForm ? (
-					<LoginForm
-						inputFields={loginFields}
-						handleLogin={handleLogin}
-						handleFormChange={toggleForm}
-						fetchData={fetchData}
-					/>
+					<LoginForm options={loginOptions} />
 				) : (
 					<RegisterForm handleFormChange={toggleForm} />
 				)}
+				<div id="prompt">
+					{isLoginForm ? (
+						<>
+							<span>Don't have an account yet?</span>&nbsp;
+							<span onClick={toggleForm}>Register</span>
+						</>
+					) : (
+						<>
+							<span>Already have an account?</span>&nbsp;
+							<span onClick={toggleForm}>Sign In</span>.
+						</>
+					)}
+				</div>
 			</div>
 
 			<div id="attribution">

@@ -70,7 +70,7 @@ const App = () => {
 		<>
 			{!isLoggedIn ? (
 				<Login
-					handleLogin={(val) => {
+					setIsLoggedIn={(val) => {
 						setIsLoggedIn(val);
 					}}
 				/>
