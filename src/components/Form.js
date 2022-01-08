@@ -109,15 +109,18 @@ options {
 	fetchData, fields, buttons 
 }
 */
-const LoginForm = ({ options, handleErrorMsg }) => {
+const Form = ({ options, handleErrorMsg }) => {
+	//#constants
 	const fields = options.fields;
 	const fetchData = options.fetchData;
 	const [submitBtn, ...buttons] = options.buttons;
 
-	const [loginForm, setLoginForm] = useState(fields);
+	//#states
+	const [formValues, setFormValues] = useState(fields);
 
+	//#handlers
 	const handleInputChange = (e) => {
-		setLoginForm((prevState) => {
+		setFormValues((prevState) => {
 			const id = e.target.id;
 			return { ...prevState, [id]: e.target.value };
 		});
@@ -125,27 +128,27 @@ const LoginForm = ({ options, handleErrorMsg }) => {
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
-		let data;
+		let res;
 		const dataHandler = submitBtn.handler;
+		handleErrorMsg(null);
 
 		//?fetchData is data to be fed into fetch command
-		fetchData.options.body = JSON.stringify(loginForm);
+		fetchData.options.body = JSON.stringify(formValues);
 
-		data = await fetch(fetchData.url, fetchData.options);
+		res = await fetch(fetchData.url, fetchData.options);
 
-		console.log('data.ok: ' + data.ok);
+		console.log('res.ok: ' + res.ok);
 
-		if (data.status === 200) {
-			if (typeof dataHandler === 'function') dataHandler(data.ok);
-		} else if (data.status === 409) {
-			handleErrorMsg('User already exists');
-		} else if (data.status === 401) {
-			handleErrorMsg('Invalid username/password');
+		if (res.ok) {
+			const data = await res.json();
+			if (typeof dataHandler === 'function') dataHandler(data);
+		} else if (res.status === 401) {
+			handleErrorMsg('Invalid email/password');
 		} else {
-			handleErrorMsg('Complete all fields');
+			const err = await res.json();
+			console.log(err);
+			handleErrorMsg(err);
 		}
-
-		console.log(await data.json());
 	};
 
 	const renderFields = (fields, placeholders = []) => {
@@ -174,7 +177,7 @@ const LoginForm = ({ options, handleErrorMsg }) => {
 					id={key}
 					placeholder={placeholder}
 					onChange={handleInputChange}
-					value={loginForm[key]}
+					value={formValues[key]}
 				/>
 			);
 		});
@@ -213,4 +216,4 @@ const LoginForm = ({ options, handleErrorMsg }) => {
 	);
 };
 
-export default LoginForm;
+export default Form;

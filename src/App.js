@@ -1,13 +1,17 @@
+//#dependencies
 import { Link, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+//#components
 import Navigation from './components/Navigation';
 import HeaderBar from './components/HeaderBar';
 import Login from './views/Login-Register.view';
 
-import checkLoginStatus from './utils/UseVerifyLogin';
+/* import checkLoginStatus from './utils/UseVerifyLogin'; */
+//#utilities
 import { API_BASEURL } from './utils/constants';
+import parseFromStorage from './utils/parseFromLocalStorage';
 
 const Container = styled.div`
 	color: rgba(0, 0, 0, 0.8);
@@ -37,9 +41,7 @@ const App = () => {
 		{ to: '/', name: 'Logout' },
 	];
 
-	const [isLoggedIn, setIsLoggedIn] = useState(
-		localStorage.getItem('isLoggedIn')
-	);
+	const [isLoggedIn, setIsLoggedIn] = useState(parseFromStorage('isLoggedIn'));
 
 	const [currentUser, setCurrentUser] = useState(null);
 
@@ -47,42 +49,53 @@ const App = () => {
 	const fauxLogin = true;
 
 	useEffect(() => {
-		console.log(localStorage.getItem('isLoggedIn'));
-
-		if (localStorage.getItem('isLoggedIn') === null) {
+		/* 	if (localStorage.getItem('isLoggedIn') === null) {
 			console.log('re-check executes');
 			checkLoginStatus().then((res) => {
+				console.log(res);
+
 				if (res) {
 					localStorage.setItem('isLoggedIn', res);
 					setIsLoggedIn(res);
 				}
 			});
-		}
+		} */
 
-		const getInfo = async () => {
+		const checkLoginStatus = async () => {
 			const response = await fetch(`${API_BASEURL}/user/myinfo`);
-			console.log(response.ok);
-			const data = await response.json();
-			setCurrentUser(data);
-			console.log(data);
+			console.log('getinfo response is ' + response.ok);
+			if (response.ok) {
+				const data = await response.json();
+				localStorage.setItem('isLoggedIn', response.ok);
+				console.log('data is ', data);
+				console.log(
+					'user is logged in: ' + localStorage.getItem('isLoggedIn')
+				);
+				setCurrentUser(data);
+			} else {
+				console.log('failed to get info');
+				console.log('user is logged in: ' + false);
+				localStorage.removeItem('isLoggedIn');
+				setCurrentUser(null);
+			}
 		};
 
-		getInfo();
-	}, [isLoggedIn]);
+		checkLoginStatus();
+	}, []);
 
-	const handleLogout = () => {
+	const handleLogout = async () => {
 		console.log('logout executed');
-		fetch(`${API_BASEURL}/user/logout`);
+		await fetch(`${API_BASEURL}/user/logout`);
 		localStorage.removeItem('isLoggedIn');
-		window.location.reload();
+		setCurrentUser(null);
 	};
 
 	return (
 		<>
-			{!isLoggedIn ? (
+			{!parseFromStorage('isLoggedIn') ? (
 				<Login
-					setIsLoggedIn={(val) => {
-						setIsLoggedIn(val);
+					handleLogin={(val) => {
+						setCurrentUser(val);
 					}}
 				/>
 			) : (

@@ -1,7 +1,8 @@
-//#modules
+//#dependencies
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const { body, validationResult } = require('express-validator');
 
 //#imports
 const User = require('../models/User');
@@ -11,39 +12,53 @@ const users = express.Router();
 
 //#middlewares
 
-users.route('/register').post((req, res, next) => {
-	const { body } = req;
-	body.username = 'test123';
+users
+	.route('/register')
+	.post(
+		body('email', 'Invalid email').isEmpty().trim().escape().toLowerCase(),
+		body('username').isAlphanumeric(),
+		(req, res, next) => {
+			const { body } = req;
+			const errors = validationResult(req);
+			body.username = 'test123';
 
-	bcrypt.hash(body.password, 10, async (err, hash) => {
-		if (err) res.send(err.message);
-		body.password = hash;
+			console.log('registering..');
 
-		if (!body.email) {
-			console.log("email doesn't exist");
-			res.status(401).json(
-				'Account already exists. Please log in to continue.'
-			);
-		} else if (await User.exists({ email: body.email })) {
-			console.log('this executes');
-			res.status(409).json(
-				'Account already exists. Please log in to continue.'
-			);
-		} else {
-			User.create(body, (err, user) => {
-				if (err) res.json(err);
-				else {
-					console.log('logging in');
-					req.login(user, (err) => {
-						if (err) res.json(err);
-						else console.log('logged in');
-						res.end();
+			bcrypt.hash(body.password, 10, async (err, hash) => {
+				if (err) {
+					console.log('encryption failed: ' + err.message);
+					res.status(401).json(err.message);
+				} else if (await User.exists({ email: body.email })) {
+					console.log('registration failed: Account already exists');
+					res.status(409).json('Account already exists');
+				} else {
+					console.log('creating user');
+					body.password = hash;
+					User.create(body, (err, user) => {
+						if (err) {
+							console.log('user creation failed: ' + err.message);
+							res.json(err.message);
+						} else {
+							console.log('user successfully created. logging in..');
+							req.login(user, (err) => {
+								if (err) {
+									console.login('failed login: ' + err.message);
+									res.json(err.message);
+								} else {
+									console.log('logged in');
+									res.json({
+										firstname: user.firstname,
+										lastname: user.lastname,
+										username: user.username,
+									});
+								}
+							});
+						}
 					});
 				}
 			});
 		}
-	});
-});
+	);
 
 users.route('/:id').put((req, res) => {
 	const { id } = req.params;
@@ -81,6 +96,10 @@ users.route('/query').get(async (req, res) => {
 });
 
 users.route('/login').post(
+	(req, res, next) => {
+		console.log('logging in...');
+		next();
+	},
 	passport.authenticate('local', {
 		failureFlash: true,
 	}),
@@ -88,18 +107,23 @@ users.route('/login').post(
 	(req, res) => {
 		if (req.user && req.session.passport) {
 			console.log('successfully logged in');
-			res.status(200).json('okay');
+			res.status(200).json({
+				firstname: req.user.firstname,
+				lastname: req.user.lastname,
+				username: req.user.username,
+			});
 		} else {
+			console.log('user login fail');
 			res.status(401).json('bad');
 		}
-		console.log(req.session);
+		console.log(`safety net ran: ` + req.session);
 		res.end();
 	}
 );
 
 users.route('/logout').get((req, res) => {
 	req.logout();
-	console.log('logout. user exists? ' + req.user);
+	console.log('loging out. user is now ' + req.user);
 	res.end();
 });
 
@@ -112,7 +136,10 @@ users.route('/amIloggedIn').get((req, res) => {
 
 users.route('/myinfo').get((req, res) => {
 	console.log('my info executes');
-	res.json(req.user);
+	if (req.user) {
+		console.log('user is ' + req.user.email);
+		res.json(req.user);
+	} else res.status(401).json('no user found');
 });
 
 module.exports = users;

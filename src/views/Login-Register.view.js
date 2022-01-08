@@ -81,9 +81,15 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Login = ({ setIsLoggedIn }) => {
+const Login = ({ handleLogin }) => {
 	const [isLoginForm, setIsLoginForm] = useState(true);
-	const [errorMsg, setErrorMsg] = useState('');
+	const [errorMsg, setErrorMsg] = useState(null);
+
+	const login = (data) => {
+		localStorage.setItem('isLoggedIn', true);
+		handleLogin(data);
+	};
+
 	const loginOptions = {
 		fetchData: {
 			url: `${API_BASEURL}/user/login`,
@@ -100,7 +106,12 @@ const Login = ({ setIsLoggedIn }) => {
 			},
 			['Enter your email', 'Enter your password'],
 		],
-		buttons: [{ name: 'Login', handler: setIsLoggedIn }],
+		buttons: [
+			{
+				name: 'Login',
+				handler: login,
+			},
+		],
 	};
 
 	const registerOptions = {
@@ -128,12 +139,12 @@ const Login = ({ setIsLoggedIn }) => {
 				'Enter phone number',
 			],
 		],
-		buttons: [{ name: 'Register', handler: setIsLoggedIn }],
+		buttons: [{ name: 'Register', handler: login }],
 	};
 
 	const toggleForm = () => {
 		setIsLoginForm(!isLoginForm);
-		setErrorMsg('');
+		setErrorMsg(null);
 	};
 
 	return (

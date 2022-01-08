@@ -76,7 +76,7 @@ const MenuDropdown = ({ handleMenuLogout, linksArr, currentUser }) => {
 			return (
 				<StyledLink
 					onClick={() => {
-						if (link.name === 'Logout') handleMenuLogout();
+						if (link.name.toLowerCase() === 'logout') handleMenuLogout();
 					}}
 					key={`menu-link-${idx}`}
 					to={link.to}
