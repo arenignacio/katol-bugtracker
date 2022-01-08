@@ -6,10 +6,9 @@ const capitalize = require('../stringMutator');
 //#models
 const User = require('../../models/User');
 
-const registerUser = (req, res, next) => {
+const registerUser = async (req, res, next) => {
 	const { body } = req;
 	const errors = validationResult(req);
-	body.username = 'test123';
 
 	console.log('registering..');
 
@@ -22,9 +21,31 @@ const registerUser = (req, res, next) => {
 			res.status(409).json('Account already exists');
 		} else {
 			console.log('creating user');
+
+			const { firstname, lastname } = body;
 			body.password = hash;
-			body.firstname = capitalize(body.firstname);
-			body.lastname = capitalize(body.lastname);
+			body.firstname = capitalize(firstname);
+			body.lastname = capitalize(lastname);
+
+			console.log(`generating username..`);
+			body.username =
+				firstname.substr(0, 3) +
+				lastname.substr(0, 3) +
+				(Math.floor(Math.random() * 99999) + 1000);
+
+			while (await User.exists({ username: body.username })) {
+				console.log(`username ${body.username} is already taken`);
+				body.username =
+					firstname.substr(0, 3) +
+					lastname.substr(0, 3) +
+					Math.floor(Math.random() * 99999) +
+					1000;
+			}
+
+			console.log(
+				`username ${body.username} is available. Continuing user creation..`
+			);
+
 			User.create(body, (err, user) => {
 				if (err) {
 					console.log('user creation failed: ' + err.message);
