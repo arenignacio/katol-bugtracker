@@ -17,13 +17,6 @@ const Container = styled.div`
 	color: rgba(0, 0, 0, 0.8);
 	height: 100vh;
 `;
-/*	background: rgb(76, 76, 84);
-	background: linear-gradient(
-		90deg,
-		rgba(76, 76, 84, 1) 0%,
-		rgba(126, 126, 126, 1) 22%,
-		rgba(255, 255, 255, 1) 100%
-	);*/
 
 const BodyWrapper = styled.div`
 	display: flex;
@@ -41,26 +34,12 @@ const App = () => {
 		{ to: '/', name: 'Logout' },
 	];
 
-	const [isLoggedIn, setIsLoggedIn] = useState(parseFromStorage('isLoggedIn'));
-
 	const [currentUser, setCurrentUser] = useState(null);
 
 	//! used to simulate login status for front-end development
 	const fauxLogin = true;
 
 	useEffect(() => {
-		/* 	if (localStorage.getItem('isLoggedIn') === null) {
-			console.log('re-check executes');
-			checkLoginStatus().then((res) => {
-				console.log(res);
-
-				if (res) {
-					localStorage.setItem('isLoggedIn', res);
-					setIsLoggedIn(res);
-				}
-			});
-		} */
-
 		const checkLoginStatus = async () => {
 			const response = await fetch(`${API_BASEURL}/user/myinfo`);
 			console.log('getinfo response is ' + response.ok);
