@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import { API_BASEURL } from '../utils/constants';
 
@@ -82,12 +83,16 @@ const Wrapper = styled.div`
 `;
 
 const Login = ({ handleLogin }) => {
+	const navigate = useNavigate();
+
+	//#states
 	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [errorMsg, setErrorMsg] = useState(null);
 
 	const login = (data) => {
 		localStorage.setItem('isLoggedIn', true);
 		handleLogin(data);
+		navigate('/dashboard');
 	};
 
 	const loginOptions = {

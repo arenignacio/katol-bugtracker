@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 //#components
 import App from './App';
 import User from './views/User.View';
+import Dashboard from './views/Dashboard';
 import './index.css';
 
 ReactDOM.render(
@@ -13,6 +14,7 @@ ReactDOM.render(
 			<Routes>
 				<Route path="/" element={<App />}>
 					<Route path="user" element={<User />} />
+					<Route path="dashboard" element={<Dashboard />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
