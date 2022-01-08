@@ -12,6 +12,9 @@ const users = express.Router();
 
 //#middlewares
 
+//#utility functions
+const capitalize = require('../utils/stringMutator');
+
 users
 	.route('/register')
 	.post(
@@ -47,8 +50,8 @@ users
 								} else {
 									console.log('logged in');
 									res.json({
-										firstname: user.firstname,
-										lastname: user.lastname,
+										firstname: capitalize(user.firstname),
+										lastname: capitalize(user.lastname),
 										username: user.username,
 									});
 								}
@@ -108,8 +111,8 @@ users.route('/login').post(
 		if (req.user && req.session.passport) {
 			console.log('successfully logged in');
 			res.status(200).json({
-				firstname: req.user.firstname,
-				lastname: req.user.lastname,
+				firstname: capitalize(req.user.firstname),
+				lastname: capitalize(req.user.lastname),
 				username: req.user.username,
 			});
 		} else {
