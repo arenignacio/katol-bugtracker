@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Navigation from './components/Navigation';
 import HeaderBar from './components/HeaderBar';
 import Login from './views/Login-Register.view';
+import Dashboard from './views/Dashboard';
 
 /* import checkLoginStatus from './utils/UseVerifyLogin'; */
 //#utilities
@@ -35,6 +36,7 @@ const App = () => {
 	];
 
 	const [currentUser, setCurrentUser] = useState(null);
+	const [activePage, setActivePage] = useState('Dashboard');
 
 	//! used to simulate login status for front-end development
 	const fauxLogin = true;
@@ -69,6 +71,10 @@ const App = () => {
 		setCurrentUser(null);
 	};
 
+	const renderActivePage = (activePage) => {
+		if (activePage === 'Dashboard') return <Dashboard></Dashboard>;
+	};
+
 	return (
 		<>
 			{!parseFromStorage('isLoggedIn') ? (
@@ -86,12 +92,19 @@ const App = () => {
 							currentUser={
 								currentUser
 									? currentUser
-									: { firstname: 'Hello', lastname: 'Guest' }
+									: { firstname: '', lastname: '' }
 							}
 						></HeaderBar>
 					</div>
 					<BodyWrapper>
-						{navHidden ? '' : <Navigation widthSize="10%"></Navigation>}
+						{navHidden ? (
+							''
+						) : (
+							<Navigation
+								widthSize="10%"
+								setActivePage={(page) => setActivePage(page)}
+							></Navigation>
+						)}
 						<div
 							style={{
 								boxSizing: 'border-box',
@@ -101,19 +114,7 @@ const App = () => {
 								height: '100%',
 							}}
 						>
-							<h1>This is App. test</h1>
-							<div>
-								{' '}
-								<Link style={{ marginRight: '10px' }} to="/Login">
-									login
-								</Link>
-								<Link style={{ marginRight: '10px' }} to="/User">
-									user
-								</Link>
-							</div>
-
-							<h3>App renders here</h3>
-							<Outlet />
+							{renderActivePage(activePage)}
 						</div>
 					</BodyWrapper>
 				</Container>

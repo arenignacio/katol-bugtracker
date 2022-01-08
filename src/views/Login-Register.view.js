@@ -83,8 +83,6 @@ const Wrapper = styled.div`
 `;
 
 const Login = ({ handleLogin }) => {
-	const navigate = useNavigate();
-
 	//#states
 	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [errorMsg, setErrorMsg] = useState(null);
@@ -92,7 +90,6 @@ const Login = ({ handleLogin }) => {
 	const login = (data) => {
 		localStorage.setItem('isLoggedIn', true);
 		handleLogin(data);
-		navigate('/dashboard');
 	};
 
 	const loginOptions = {
