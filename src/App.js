@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 //#components
-import Navigation from './components/Navigation';
-import HeaderBar from './components/HeaderBar';
 import Login from './views/Login-Register.view';
 import Dashboard from './views/Dashboard';
+import MyProfile from './views/MyProfile';
+import Settings from './views/Settings';
+import Navigation from './components/Navigation';
+import HeaderBar from './components/HeaderBar';
 
 /* import checkLoginStatus from './utils/UseVerifyLogin'; */
 //#utilities
@@ -31,8 +33,16 @@ const App = () => {
 	const navHidden = false;
 
 	const linksArr = [
-		{ to: '/myprofile', name: 'My Profile' },
-		{ to: '/', name: 'Logout' },
+		{
+			to: '/myprofile',
+			name: 'My Profile',
+			handler: () => setActivePage('MyProfile'),
+		},
+		{
+			to: '/',
+			name: 'Logout',
+			handler: handleLogout,
+		},
 	];
 
 	const [currentUser, setCurrentUser] = useState(null);
@@ -64,15 +74,19 @@ const App = () => {
 		checkLoginStatus();
 	}, []);
 
-	const handleLogout = async () => {
+	async function handleLogout() {
 		console.log('logout executed');
 		await fetch(`${API_BASEURL}/user/logout`);
 		localStorage.removeItem('isLoggedIn');
 		setCurrentUser(null);
-	};
+	}
 
 	const renderActivePage = (activePage) => {
+		console.log('active page is ' + activePage);
+
 		if (activePage === 'Dashboard') return <Dashboard></Dashboard>;
+		if (activePage === 'Settings') return <Settings></Settings>;
+		if (activePage === 'MyProfile') return <MyProfile></MyProfile>;
 	};
 
 	return (
@@ -87,7 +101,6 @@ const App = () => {
 				<Container navHidden={navHidden}>
 					<div style={{ height: '5%', zIndex: '2' }}>
 						<HeaderBar
-							handleLogout={handleLogout}
 							headerLinksArr={linksArr}
 							currentUser={
 								currentUser

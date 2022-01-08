@@ -51,7 +51,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.div`
 	display: flex;
 	white-space: nowrap;
 	width: 100%;
@@ -70,17 +70,11 @@ const StyledLink = styled(Link)`
 	}
 `;
 
-const MenuDropdown = ({ handleMenuLogout, linksArr, currentUser }) => {
+const MenuDropdown = ({ linksArr, currentUser }) => {
 	const renderLinks = (links) => {
 		return links.map((link, idx) => {
 			return (
-				<StyledLink
-					onClick={() => {
-						if (link.name.toLowerCase() === 'logout') handleMenuLogout();
-					}}
-					key={`menu-link-${idx}`}
-					to={link.to}
-				>
+				<StyledLink onClick={link.handler} key={`menu-link-${idx}`}>
 					{link.name}
 				</StyledLink>
 			);

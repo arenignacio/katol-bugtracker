@@ -43,12 +43,12 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Navigation = ({ widthSize }) => {
+const Navigation = ({ widthSize, setActivePage }) => {
 	return (
 		<Wrapper widthSize={widthSize}>
 			<ul id="nav-menu">
 				<li>
-					<span>Dashboard</span>
+					<span onClick={() => setActivePage('Dashboard')}>Dashboard</span>
 				</li>
 				<li>
 					<span>Projects </span>
@@ -71,7 +71,7 @@ const Navigation = ({ widthSize }) => {
 					<span>Tickets</span>
 				</li>
 				<li>
-					<span>Settings </span>
+					<span onClick={() => setActivePage('Settings')}>Settings </span>
 					<ul>
 						<li>
 							<span>General</span>
