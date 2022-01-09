@@ -47,11 +47,18 @@ const App = () => {
 
 	const [currentUser, setCurrentUser] = useState(null);
 	const [activePage, setActivePage] = useState('Dashboard');
+	const [isLoggedIn, setIsLoggedIn] = useState(
+		JSON.parse(localStorage.getItem('isLoggedIn'))
+	);
 
 	//! used to simulate login status for front-end development
 	const fauxLogin = true;
 
 	useEffect(() => {
+		console.log('first useEffect running..');
+
+		localStorage.removeItem('isLoggedIn');
+
 		const checkLoginStatus = async () => {
 			const response = await fetch(`${API_BASEURL}/user/myinfo`);
 			console.log('getinfo response is ' + response.ok);
@@ -62,22 +69,30 @@ const App = () => {
 				console.log(
 					'user is logged in: ' + localStorage.getItem('isLoggedIn')
 				);
+
 				setCurrentUser(data);
 			} else {
 				console.log('failed to get info');
 				console.log('user is logged in: ' + false);
-				localStorage.removeItem('isLoggedIn');
 				setCurrentUser(null);
 			}
+
+			setIsLoggedIn(JSON.parse(localStorage.getItem('isLoggedIn')));
+			console.log('first useEffect done');
 		};
 
 		checkLoginStatus();
 	}, []);
 
+	useEffect(() => {
+		console.log('isLoggedIn is: ' + isLoggedIn);
+	}, [isLoggedIn]);
+
 	async function handleLogout() {
 		console.log('logout executed');
 		await fetch(`${API_BASEURL}/user/logout`);
 		localStorage.removeItem('isLoggedIn');
+		setIsLoggedIn(null);
 		setCurrentUser(null);
 	}
 
@@ -91,9 +106,10 @@ const App = () => {
 
 	return (
 		<>
-			{!parseFromStorage('isLoggedIn') ? (
+			{!isLoggedIn ? (
 				<Login
 					handleLogin={(val) => {
+						if (val) setIsLoggedIn(true);
 						setCurrentUser(val);
 					}}
 				/>
