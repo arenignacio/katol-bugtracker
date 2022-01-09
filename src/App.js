@@ -1,5 +1,4 @@
 //#dependencies
-import { Link, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -14,7 +13,6 @@ import HeaderBar from './components/HeaderBar';
 /* import checkLoginStatus from './utils/UseVerifyLogin'; */
 //#utilities
 import { API_BASEURL } from './utils/constants';
-import parseFromStorage from './utils/parseFromLocalStorage';
 
 const Container = styled.div`
 	color: rgba(0, 0, 0, 0.8);

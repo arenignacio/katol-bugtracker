@@ -24,6 +24,9 @@ const User = require('./models/User');
 //#initializers
 const app = express();
 
+//#utilities
+const time = require('./utils/time');
+
 //#connect to db
 mongoose.connect(process.env.DB_URL, (err) => {
 	if (err) {
@@ -41,9 +44,10 @@ app.use(flash());
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
-		resave: false,
-		cookie: { maxAge: 0.25 * 60 * 60 * 1000 },
-		saveUninitialized: false,
+		resave: false, //forces to be saved to store even where no changes are made (database if passed)
+		cookie: { maxAge: time({ hours: 24 }) },
+		rolling: true,
+		saveUninitialized: false, //don't store
 	})
 );
 app.use(express.static(path.join(__dirname + '/build')));

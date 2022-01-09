@@ -6,20 +6,29 @@ const time = (input) => {
 	}
 
 	if (typeof input === 'object') {
-		const { day, hours, minutes, seconds } = input;
+		const { days, hours, minutes, seconds } = input;
+		console.log(input);
 
-		if (seconds) {
-			output *= seconds;
+		if (seconds && seconds !== 0) {
+			output += seconds * 1000;
 		}
 
-		if (minutes) {
-			output = output * 60 * minutes;
+		if (minutes && minutes !== 0) {
+			output += minutes * 60 * 1000;
 		}
 
-		return;
+		if (hours && hours !== 0) {
+			output += hours * 60 * 60 * 1000;
+		}
+
+		if (days && days !== 0) {
+			output += days * 24 * 60 * 60 * 1000;
+		}
+
+		return output;
 	}
 
 	return output;
 };
 
-export default time;
+module.exports = time;
