@@ -27,6 +27,16 @@ const BodyWrapper = styled.div`
 	box-sizing: border-box;
 	height: 95%;
 	width: 100%;
+
+	#body-content {
+		boxsizing: border-box;
+		width: ${({ navHidden }) => (navHidden ? '100%' : '87%')};
+		padding: 30px;
+		height: 100%;
+		box-sizing: border-box;
+		background: rgba(0, 0, 0, 0.1);
+		z-index: -1;
+	}
 `;
 
 const App = () => {
@@ -55,41 +65,26 @@ const App = () => {
 	const fauxLogin = true;
 
 	useEffect(() => {
-		console.log('first useEffect running..');
-
 		localStorage.removeItem('isLoggedIn');
 
 		const checkLoginStatus = async () => {
 			const response = await fetch(`${API_BASEURL}/user/myinfo`);
-			console.log('getinfo response is ' + response.ok);
 			if (response.ok) {
 				const data = await response.json();
 				localStorage.setItem('isLoggedIn', response.ok);
-				console.log('data is ', data);
-				console.log(
-					'user is logged in: ' + localStorage.getItem('isLoggedIn')
-				);
 
 				setCurrentUser(data);
 			} else {
-				console.log('failed to get info');
-				console.log('user is logged in: ' + false);
 				setCurrentUser(null);
 			}
 
 			setIsLoggedIn(JSON.parse(localStorage.getItem('isLoggedIn')));
-			console.log('first useEffect done');
 		};
 
 		checkLoginStatus();
 	}, []);
 
-	useEffect(() => {
-		console.log('isLoggedIn is: ' + isLoggedIn);
-	}, [isLoggedIn]);
-
 	async function handleLogout() {
-		console.log('logout executed');
 		await fetch(`${API_BASEURL}/user/logout`);
 		localStorage.removeItem('isLoggedIn');
 		setIsLoggedIn(null);
@@ -97,7 +92,6 @@ const App = () => {
 	}
 
 	const renderActivePage = (activePage) => {
-		console.log('active page is ' + activePage);
 		let page = '';
 
 		if (activePage === 'Dashboard') page = <Dashboard></Dashboard>;
@@ -139,17 +133,7 @@ const App = () => {
 								setActivePage={(page) => setActivePage(page)}
 							></Navigation>
 						)}
-						<div
-							style={{
-								boxSizing: 'border-box',
-								width: navHidden ? '100%' : '87%',
-								padding: '30px',
-								background: '#fff',
-								height: '100%',
-							}}
-						>
-							{renderActivePage(activePage)}
-						</div>
+						<div id="body-content">{renderActivePage(activePage)}</div>
 					</BodyWrapper>
 				</Container>
 			)}

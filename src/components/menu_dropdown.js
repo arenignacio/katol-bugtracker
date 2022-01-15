@@ -65,11 +65,11 @@ const StyledLink = styled.div`
 	font-size: 13px;
 	font-weight: bold;
 	height: 17px;
-	background: rgba(0 0 0 / 1%);
+	background: hsla(0, 9%, 95%, 1);
 	color: rgba(0, 0, 0, 0.5);
 
 	&:hover {
-		background: hsla(200, 30%, 95%, 1);
+		background: hsla(200, 30%, 80%, 1);
 		color: black;
 	}
 `;
