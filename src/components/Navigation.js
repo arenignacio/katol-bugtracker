@@ -14,13 +14,14 @@ const Wrapper = styled.div`
 
 	#nav-menu {
 		margin-top: 10px;
-		color: rgba(0, 0, 0, 0.6);
+		color: rgba(0, 0, 0, 0.5);
 
 		span {
 			user-select: none;
+			font-weight: 200;
 
 			&:hover {
-				font-weight: 900;
+				font-weight: 500;
 				color: rgba(0, 0, 0, 0.9);
 				cursor: pointer;
 			}
@@ -51,7 +52,7 @@ const Navigation = ({ widthSize, setActivePage }) => {
 					<span onClick={() => setActivePage('Dashboard')}>Dashboard</span>
 				</li>
 				<li>
-					<span>Projects </span>
+					<span onClick={() => setActivePage('Project')}>Projects </span>
 					<ul>
 						<li>
 							<span>Project 1</span>
@@ -68,7 +69,7 @@ const Navigation = ({ widthSize, setActivePage }) => {
 					</ul>
 				</li>
 				<li>
-					<span>Tickets</span>
+					<span onClick={() => setActivePage('Tickets')}>Tickets</span>
 				</li>
 				<li>
 					<span onClick={() => setActivePage('Settings')}>Settings </span>

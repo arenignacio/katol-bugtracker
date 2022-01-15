@@ -5,6 +5,8 @@ import styled from 'styled-components';
 //#components
 import Login from './views/Login-Register.view';
 import Dashboard from './views/Dashboard';
+import Projects from './views/Projects';
+import Tickets from './views/Tickets';
 import MyProfile from './views/MyProfile';
 import Settings from './views/Settings';
 import Navigation from './components/Navigation';
@@ -96,10 +98,15 @@ const App = () => {
 
 	const renderActivePage = (activePage) => {
 		console.log('active page is ' + activePage);
+		let page = '';
 
-		if (activePage === 'Dashboard') return <Dashboard></Dashboard>;
-		if (activePage === 'Settings') return <Settings></Settings>;
-		if (activePage === 'MyProfile') return <MyProfile></MyProfile>;
+		if (activePage === 'Dashboard') page = <Dashboard></Dashboard>;
+		if (activePage === 'Settings') page = <Settings></Settings>;
+		if (activePage === 'MyProfile') page = <MyProfile></MyProfile>;
+		if (activePage === 'Project') page = <Projects></Projects>;
+		if (activePage === 'Tickets') page = <Tickets></Tickets>;
+
+		return page;
 	};
 
 	return (

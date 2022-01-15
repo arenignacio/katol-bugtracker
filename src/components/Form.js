@@ -26,7 +26,15 @@ const Wrapper = styled.div`
 		align-items: center;
 		background: white;
 
-	
+		.field {
+			display: flex;
+			flex-direction: column;
+		}
+
+		label {
+			margin-bottom: 3.5px;
+			font-size: 0.8rem;
+		}
 
 		input[type='text'],
 		input[type='password'],
@@ -37,7 +45,12 @@ const Wrapper = styled.div`
 			border-radius: 5px;
 			outline: none;
 			padding: 0px 10px;
+			font-size: 0.7rem;
 			border: 1px solid rgba(0, 0, 0, 0.3);
+
+			&::placeholder {
+				color: rgba(0,0,0, 0.4);
+			}
 		}
 
 		#buttons {
@@ -159,6 +172,7 @@ const Form = ({ options, handleErrorMsg }) => {
 			const [key] = field;
 			const placeholder =
 				placeholders.length > 0 ? placeholders[idx] : field[0];
+			const label = key[0].toUpperCase() + key.substr(1).toLowerCase();
 
 			switch (key) {
 				case 'password':
@@ -172,13 +186,18 @@ const Form = ({ options, handleErrorMsg }) => {
 			}
 
 			return (
-				<input
-					type={type}
-					id={key}
-					placeholder={placeholder}
-					onChange={handleInputChange}
-					value={formValues[key]}
-				/>
+				<div className="field">
+					<label for={key}>{label}</label>
+					<input
+						type={type}
+						id={key}
+						placeholder={placeholder}
+						onChange={handleInputChange}
+						value={formValues[key]}
+						key={`key-${key}`}
+						autoComplete="on"
+					/>
+				</div>
 			);
 		});
 	};
