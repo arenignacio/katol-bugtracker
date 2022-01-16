@@ -15,6 +15,7 @@ import HeaderBar from './components/HeaderBar';
 /* import checkLoginStatus from './utils/UseVerifyLogin'; */
 //#utilities
 import { API_BASEURL } from './utils/constants';
+import { Outlet } from 'react-router-dom';
 
 const Container = styled.div`
 	color: rgba(0, 0, 0, 0.8);
@@ -35,8 +36,8 @@ const BodyWrapper = styled.div`
 		height: 100%;
 		box-sizing: border-box;
 		background: rgba(0, 0, 0, 0.1);
+		overflow: hidden;
 		z-index: -1;
-		overflow-y: auto;
 	}
 `;
 
@@ -134,7 +135,10 @@ const App = () => {
 								setActivePage={(page) => setActivePage(page)}
 							></Navigation>
 						)}
-						<div id="body-content">{renderActivePage(activePage)}</div>
+						<div id="body-content">
+							{/* renderActivePage(activePage) */}
+							<Outlet></Outlet>
+						</div>
 					</BodyWrapper>
 				</Container>
 			)}
