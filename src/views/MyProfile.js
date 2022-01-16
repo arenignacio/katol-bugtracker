@@ -4,6 +4,7 @@ const Wrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	height: 100%;
+	z-index: 1;
 
 	#content {
 		width: 80%;
@@ -104,7 +105,7 @@ const Wrapper = styled.div`
 		#info {
 			display: flex;
 			justify-content: space-evenly;
-			margin-top: 85px;
+			margin-top: 75px;
 			width: 100%;
 
 			&-col1,
@@ -114,6 +115,7 @@ const Wrapper = styled.div`
 				font-family: arial;
 
 				label {
+					letter-spacing: 0.5px;
 					font-size: 1.5rem;
 					font-weight: bold;
 					margin-bottom: 7px;
@@ -131,6 +133,29 @@ const Wrapper = styled.div`
 
 			&-col2 {
 				margin-left: -50px;
+			}
+		}
+
+		#buttons {
+			display: flex;
+			justify-content: space-evenly;
+
+			#btn-edit {
+				font-size: 1.2rem;
+				font-weight: bold;
+				padding: 7px 15px;
+				user-select: none;
+				color: hsla(200, 10%, 25%, 0.7);
+				letter-spacing: 1px;
+
+				&:hover {
+					cursor: pointer;
+					color: hsla(200, 10%, 25%, 1);
+				}
+
+				&:active {
+					color: hsla(200, 25%, 50%, 1);
+				}
 			}
 		}
 	}
@@ -160,6 +185,10 @@ const MyProfile = ({ user }) => {
 								<label htmlFor="email">E-mail</label>
 								<span>johdoe123@email.com</span>
 							</div>
+							<div id="password" class="detail">
+								<label htmlFor="password">Password</label>
+								<span>****</span>
+							</div>
 						</div>
 						<div id="info-col2">
 							{' '}
@@ -172,6 +201,9 @@ const MyProfile = ({ user }) => {
 								<span>123-456-7890</span>
 							</div>
 						</div>
+					</div>
+					<div id="buttons">
+						<div id="btn-edit">edit</div>
 					</div>
 				</div>
 			</div>
