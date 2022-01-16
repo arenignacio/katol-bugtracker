@@ -36,6 +36,7 @@ const BodyWrapper = styled.div`
 		box-sizing: border-box;
 		background: rgba(0, 0, 0, 0.1);
 		z-index: -1;
+		overflow-y: auto;
 	}
 `;
 

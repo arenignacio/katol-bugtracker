@@ -8,6 +8,7 @@ const projectSchema = mongoose.Schema({
 		name: { type: String, required: true },
 	},
 	members: [{ id: String, name: String }],
+	completed: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model('Project', projectSchema);

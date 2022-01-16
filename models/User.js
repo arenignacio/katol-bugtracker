@@ -3,13 +3,20 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
 	username: { type: String, required: true },
 	password: { type: String, required: true },
-	firstname: String,
-	lastname: String,
+	firstname: { type: String, required: true },
+	lastname: { type: String, required: true },
 	email: { type: String, required: true },
 	phone: String,
-	status: {
-		type: String,
-		default: 'active',
+	location: String,
+	online: {
+		type: Boolean,
+		default: false,
+	},
+	status: String,
+	about: String,
+	disabled: {
+		type: Boolean,
+		default: false,
 	},
 	settings: {
 		notifications: { type: Boolean, default: true },
@@ -20,7 +27,7 @@ const userSchema = mongoose.Schema({
 			message: String,
 		},
 	],
-	role: { type: String, default: 'engineer' },
+	role: { type: String, default: 'Software Engineer' },
 });
 
 module.exports = mongoose.model('User', userSchema);

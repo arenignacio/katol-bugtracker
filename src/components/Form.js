@@ -133,9 +133,9 @@ const Form = ({ options, handleErrorMsg }) => {
 
 	//#handlers
 	const handleInputChange = (e) => {
+		const { id, value } = e.target;
 		setFormValues((prevState) => {
-			const id = e.target.id;
-			return { ...prevState, [id]: e.target.value };
+			return { ...prevState, [id]: value };
 		});
 	};
 

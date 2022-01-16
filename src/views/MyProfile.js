@@ -3,13 +3,17 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
 	width: 100%;
 	height: 100%;
-	padding: 30px;
 	box-sizing: border-box;
 	border-radius: 5px;
 	background: #fff;
 
-	.row {
+	.flex {
 		display: flex;
+	}
+
+	.column {
+		display: flex;
+		flex-direction: column;
 	}
 
 	#profile-pic {
@@ -20,10 +24,17 @@ const Wrapper = styled.div`
 		font-family: roboto, sans-serif;
 
 		div {
-			border: 1px solid black;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border: 8px solid white;
 			border-radius: 50%;
-			padding: 25px;
+			padding: 10px;
+			height: 9rem;
+			width: 10rem;
 			font-size: 5rem;
+			color: white;
+			background: hsla(360, 50%, 50%, 1);
 		}
 	}
 
@@ -47,19 +58,57 @@ const Wrapper = styled.div`
 	#profile-number {
 		font-size: 0.8rem;
 	}
+
+	#header {
+		display: flex;
+		align-items: center;
+		height: 25%;
+		background: hsla(240, 30%, 80%, 1);
+		border-top-right-radius: 5px;
+		border-top-left-radius: 5px;
+
+		div {
+			position: relative;
+			bottom: -50%;
+			left: 2%;
+		}
+	}
+
+	#title {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		font-size: 52px;
+		font-family: serif;
+	}
+
+	#info {
+		display: flex;
+		justify-content: space-evenly;
+
+		&-col1,
+		&-col2 {
+			display: flex;
+			width: 50%;
+			padding: 50px;
+			background: gray;
+		}
+	}
 `;
 
 const MyProfile = ({ user }) => {
 	return (
 		<Wrapper>
-			<div className="row">
+			<div id="header">
 				<div id="profile-pic">
 					<div>JD</div>
 				</div>
-				<div id="profile-name">
-					<div id="profile-fullname">John Doe</div>
-					<div id="profile-username">johdoe123@email.com</div>
-					<div id="profile-number">123-45-6789</div>
+			</div>
+			<div id="body">
+				<div id="title">My Profile</div>
+				<div id="info">
+					<div id="info-col1">col1</div>
+					<div id="info-col2">col2</div>
 				</div>
 			</div>
 		</Wrapper>
