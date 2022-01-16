@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 //#components
 import { ReactComponent as MyProfile } from '../assets/img/my_profile.svg';
@@ -56,7 +57,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const StyledLink = styled.div`
+const StyledLink = styled(Link)`
 	display: flex;
 	white-space: nowrap;
 	padding: 10px;
@@ -77,11 +78,26 @@ const StyledLink = styled.div`
 const MenuDropdown = ({ linksArr, currentUser }) => {
 	const renderLinks = (links) => {
 		return links.map((link, idx) => {
-			return (
-				<StyledLink onClick={link.handler} key={`menu-link-${idx}`}>
-					{link.name}
-				</StyledLink>
-			);
+			let result;
+
+			if (link.name.toLowerCase() === 'logout')
+				result = (
+					<StyledLink
+						to=""
+						onClick={link.handler}
+						key={`menu-link-${idx}`}
+					>
+						{link.name}
+					</StyledLink>
+				);
+			else
+				result = (
+					<StyledLink to={link.to} key={`menu-link-${idx}`}>
+						{link.name}
+					</StyledLink>
+				);
+
+			return result;
 		});
 	};
 

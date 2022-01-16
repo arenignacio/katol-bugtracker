@@ -45,7 +45,7 @@ const App = () => {
 
 	const linksArr = [
 		{
-			to: '/myprofile',
+			to: '/profile',
 			name: 'My Profile',
 			handler: () => setActivePage('MyProfile'),
 		},
@@ -85,7 +85,7 @@ const App = () => {
 		checkLoginStatus();
 	}, []);
 
-	async function handleLogout() {
+	async function handleLogout(e) {
 		await fetch(`${API_BASEURL}/user/logout`);
 		localStorage.removeItem('isLoggedIn');
 		setIsLoggedIn(null);

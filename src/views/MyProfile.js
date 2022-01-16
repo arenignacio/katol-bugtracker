@@ -162,12 +162,16 @@ const Wrapper = styled.div`
 `;
 
 const MyProfile = ({ user }) => {
+	console.log(user);
+
 	return (
 		<Wrapper>
 			<div id="content">
 				<div id="header">
 					<div id="profile-pic">
-						<div>JD</div>
+						<div>
+							{user ? user.firstname[0] + user.lastname[0] : 'JD'}
+						</div>
 					</div>
 				</div>
 				<div id="body">
