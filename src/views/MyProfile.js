@@ -104,15 +104,31 @@ const Wrapper = styled.div`
 				box-sizing: border-box;
 				padding: 5px 25px;
 
-				textarea {
-					text-align: left;
+				#textarea-grp {
 					min-width: 95%;
-					max-width: 95%;
-					min-height: 100px;
-					outline: none;
+					max-width: 95%; 
 
+					textarea {
+					box-sizing: border-box;
+					text-align: left;
+					min-width: 100%;
+					max-width: 100%;
+					min-height: 95px;
+					outline: none;
+					border: 1px solid rgba(0,0,0, 0.2);
+					border-radius: 3px;
+					background: rgba(0,0,0, 0.1);
+					font-size: 0.8rem;
+					padding: 0.5rem;
+					}
+
+					div:last-of-type {
+						display: flex;
+						justify-content: end;
+						font-size: 0.7rem;
+					}
 				}
-					
+	
 				#about-me-label {
 					display: flex;
 					justify-content: center;
@@ -124,6 +140,8 @@ const Wrapper = styled.div`
 					text-align: left;
 					width: 100%;
 				}
+
+			
 			}
 
 
@@ -131,18 +149,24 @@ const Wrapper = styled.div`
 				display: flex;
 				justify-content: center;
 				height: 2.5rem;
+				margin: 15px 0px;
+				font-weight: bold;
 
 				div {
-					margin: 15px 0px;
-					font-weight: bold;
+					display: flex;
+					justify-content: space-evenly;
+					height: fit-content;
+					width: 40%;
 
+					.btn {
+						&:hover {
+							cursor: pointer;
+							color: rgba(0,0,0, 0.6);
+						}
 
-					&:hover {
-						cursor: pointer;
-					}
-
-					&:active {
-						color: rgba(0,0,0, 0.5);
+						&:active {
+							color: rgba(0,0,0, 0.4);
+						}
 					}
 				}
 			}
@@ -153,14 +177,16 @@ const Wrapper = styled.div`
 
 const MyProfile = ({ user }) => {
 	const [editMode, setEditMode] = useState(false);
-	const fauxEditMode = true;
+	const [charsLeft, setCharsLeft] = useState(200);
 
 	const toggleEdit = async () => {
 		await setEditMode(!editMode);
 		console.log(editMode);
 	};
 
-	console.log(user);
+	const calculateCharsLeft = (e) => {
+		setCharsLeft(200 - e.target.value.length);
+	};
 
 	return (
 		<Wrapper>
@@ -215,7 +241,7 @@ const MyProfile = ({ user }) => {
 						<div>
 							<label htmlFor="Password">Password</label>
 							{editMode ? (
-								<input type="text" name="password" />
+								<input type="password" name="password" />
 							) : (
 								<span>******</span>
 							)}
@@ -225,7 +251,16 @@ const MyProfile = ({ user }) => {
 					<div id="about-me-grp">
 						<div id="about-me-label">About me</div>
 						{editMode ? (
-							<textarea name="aboutme" maxLength={200} />
+							<div id="textarea-grp">
+								<textarea
+									name="aboutme"
+									onChange={calculateCharsLeft}
+									maxLength={200}
+								/>
+								<div>
+									chars remaining &nbsp;<span>{charsLeft}</span>/200
+								</div>
+							</div>
 						) : (
 							<div id="about-me-content">
 								Lorem ipsum dolor, sit amet consectetur adipisicing
@@ -237,8 +272,21 @@ const MyProfile = ({ user }) => {
 						)}
 					</div>
 
-					<div id="btn-grp" onClick={toggleEdit}>
-						<div>edit</div>
+					<div id="btn-grp">
+						{editMode ? (
+							<div>
+								<div className="btn">save</div>
+								<div className="btn" onClick={toggleEdit}>
+									cancel
+								</div>
+							</div>
+						) : (
+							<div>
+								<div className="btn" onClick={toggleEdit}>
+									edit
+								</div>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
