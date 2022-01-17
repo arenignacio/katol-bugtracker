@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -36,7 +37,7 @@ const Wrapper = styled.div`
 				justify-content: space-evenly;
 				align-items: center;
 				width: 100%;
-				height: 20%;
+				height: 120px;
 				background: rgba(0,0,0, 0.2);
 
 
@@ -82,20 +83,49 @@ const Wrapper = styled.div`
 					span {
 						color: rgba(0, 0, 0, 0.6);
 					}
+
+					input {
+						text-align: center;
+						width: 110px;
+						outline: none;
+						border: 1px solid rgba(0,0,0, 0.2);
+						border-radius: 3px;
+						background: rgba(0,0,0, 0.1);
+						font-size: 0.6rem;
+						padding: 0.2rem;
+					}
 				}
 			}
 
-			#about-me-label {
+			#about-me-grp {
 				display: flex;
-				justify-content: center;
-				margin-top: 15px;
-				font-weight: bold;
+				flex-direction: column;
+				align-items: center;
+				box-sizing: border-box;
+				padding: 5px 25px;
+
+				textarea {
+					text-align: left;
+					min-width: 95%;
+					max-width: 95%;
+					min-height: 100px;
+					outline: none;
+
+				}
+					
+				#about-me-label {
+					display: flex;
+					justify-content: center;
+					margin-bottom: 5px;
+					font-weight: bold;
+				}
+
+				#about-me-content {
+					text-align: left;
+					width: 100%;
+				}
 			}
 
-			#about-me-content {
-				padding: 5px 25px 15px 25px;
-				text-align: left;
-			}
 
 			#btn-grp {
 				display: flex;
@@ -122,6 +152,14 @@ const Wrapper = styled.div`
 `;
 
 const MyProfile = ({ user }) => {
+	const [editMode, setEditMode] = useState(false);
+	const fauxEditMode = true;
+
+	const toggleEdit = async () => {
+		await setEditMode(!editMode);
+		console.log(editMode);
+	};
+
 	console.log(user);
 
 	return (
@@ -135,38 +173,71 @@ const MyProfile = ({ user }) => {
 
 					<div id="personal-info">
 						<div>
+							<label htmlFor="username">Username</label>
+							{editMode ? (
+								<input type="text" name="username" />
+							) : (
+								<span>johdoe123</span>
+							)}
+						</div>
+						<div>
 							<label htmlFor="First Name">First Name</label>
-							<span>John</span>
+							{editMode ? (
+								<input type="text" name="firstname" />
+							) : (
+								<span>John</span>
+							)}
 						</div>
 						<div>
 							<label htmlFor="Last Name">Last Name</label>
-							<span>Doe</span>
+							{editMode ? (
+								<input type="text" name="lastname" />
+							) : (
+								<span>Doe</span>
+							)}
 						</div>
 						<div>
 							<label htmlFor="E-mail">E-mail</label>
-							<span>johdoe123@email.com</span>
+							{editMode ? (
+								<input type="text" name="email" />
+							) : (
+								<span>johdoe123@email.com</span>
+							)}
 						</div>
 						<div>
 							<label htmlFor="Phone">Phone</label>
-							<span>123.456.7890</span>
+							{editMode ? (
+								<input type="text" name="phone" />
+							) : (
+								<span>123.456.7890</span>
+							)}
 						</div>
 						<div>
 							<label htmlFor="Password">Password</label>
-							<span>******</span>
-						</div>
-						<div>
-							<label htmlFor="Username">Username</label>
-							<span>johdoe123</span>
+							{editMode ? (
+								<input type="text" name="password" />
+							) : (
+								<span>******</span>
+							)}
 						</div>
 					</div>
-					<div id="about-me-label">About me</div>
-					<div id="about-me-content">
-						Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-						Doloremque dignissimos nihil nisi consequuntur corporis
-						adipisci, accusamus inventore esse quaerat? Consequuntur
-						maxime dicta asperiores optio ut dolore libero at quis illum
+
+					<div id="about-me-grp">
+						<div id="about-me-label">About me</div>
+						{editMode ? (
+							<textarea name="aboutme" maxLength={200} />
+						) : (
+							<div id="about-me-content">
+								Lorem ipsum dolor, sit amet consectetur adipisicing
+								elit. Doloremque dignissimos nihil nisi consequuntur
+								corporis adipisci, accusamus inventore esse quaerat?
+								Consequuntur maxime dicta asperiores optio ut dolore
+								libero at quis illum
+							</div>
+						)}
 					</div>
-					<div id="btn-grp">
+
+					<div id="btn-grp" onClick={toggleEdit}>
 						<div>edit</div>
 					</div>
 				</div>
