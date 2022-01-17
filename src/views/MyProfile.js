@@ -20,6 +20,7 @@ const Wrapper = styled.div`
 
 		#account-details { 
 			width: 40%;
+			min-width: 400px;
 			height: 75%;
 			box-sizing: border-box;
 			border-radius: 5px;
@@ -33,7 +34,7 @@ const Wrapper = styled.div`
 				align-items: center;
 				width: 100%;
 				height: 20%;
-				background: gray;
+				background: rgba(0,0,0, 0.2);
 
 				#profile-pic {
 					display: flex;
@@ -43,13 +44,49 @@ const Wrapper = styled.div`
 					bottom: -50%;
 					min-height: 120px;
 					min-width: 120px;
+					max-height: 160px;
+					max-width: 160px;
 					border-radius: 50%;
 					box-sizing: border-shadow;
 					border: 5px solid white;
-					padding: 10px;
+					padding: 15px;
 					font-size: 5rem;
-					background: gray;
+					background: hsla(20, 50%, 50%, 1);
 				}
+			}
+
+			#personal-info {
+				display: flex;
+				justify-content: space-evenly;
+				flex-wrap: wrap;
+				margin-top: 100px;
+
+
+				div {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					margin-bottom: 2rem;
+					flex: 50%;
+
+					label {
+						font-weight: bold;
+					}
+
+					span {
+						color: rgba(0, 0, 0, 0.6);
+					}
+				}
+			}
+
+			#about-me-label {
+				display: flex;
+				justify-content: center;
+				margin-top: 15px;
+			}
+
+			#about-me-content {
+				padding: 15px;
 			}
 		}
 
@@ -66,7 +103,40 @@ const MyProfile = ({ user }) => {
 			<div id="layer2">
 				<div id="account-details">
 					<div id="header">
-						<div id="profile-pic">AI</div>
+						<div id="profile-pic">JD</div>
+					</div>
+					<div id="personal-info">
+						<div>
+							<label htmlFor="First Name">First Name</label>
+							<span>John</span>
+						</div>
+						<div>
+							<label htmlFor="Last Name">Last Name</label>
+							<span>Doe</span>
+						</div>
+						<div>
+							<label htmlFor="E-mail">E-mail</label>
+							<span>johdoe123@email.com</span>
+						</div>
+						<div>
+							<label htmlFor="Phone">Phone</label>
+							<span>123.456.7890</span>
+						</div>
+						<div>
+							<label htmlFor="Password">Password</label>
+							<span>******</span>
+						</div>
+						<div>
+							<label htmlFor="Username">Username</label>
+							<span>johdoe123</span>
+						</div>
+					</div>
+					<div id="about-me-label">About me</div>
+					<div id="about-me-content">
+						Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+						Doloremque dignissimos nihil nisi consequuntur corporis
+						adipisci, accusamus inventore esse quaerat? Consequuntur
+						maxime dicta asperiores optio ut dolore libero at quis illum.
 					</div>
 				</div>
 			</div>
