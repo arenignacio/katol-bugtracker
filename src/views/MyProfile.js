@@ -256,7 +256,7 @@ const MyProfile = ({ user }) => {
 									name="aboutme"
 									onChange={calculateCharsLeft}
 									maxLength={200}
-								/>
+								></textarea>
 								<div>
 									chars remaining &nbsp;<span>{charsLeft}</span>/200
 								</div>
