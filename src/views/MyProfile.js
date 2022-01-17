@@ -3,25 +3,28 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	box-sizing: border-box;
-	height: 1000px;
+	height: 100%;
 	background: background: rgba(0, 0, 0, 0.1);
 	z-index: 1;
 
 	#layer1 {
 		display: flex;
+		justify-content: center;
+		margin-bottom: 20px;
+		font-size: 2rem;
 	}
 
 	#layer2 {
 		display: flex;
 		justify-content: space-evenly;
-		width: 100%;
-		height: 80%;
+		width: 90%;
 
 		#account-details { 
 			width: 40%;
 			min-width: 400px;
-			height: 75%;
+			min-height: 75%;
 			box-sizing: border-box;
 			border-radius: 5px;
 			background: white;
@@ -30,11 +33,12 @@ const Wrapper = styled.div`
 
 			#header {
 				display: flex;
-				justify-content: center;
+				justify-content: space-evenly;
 				align-items: center;
 				width: 100%;
 				height: 20%;
 				background: rgba(0,0,0, 0.2);
+
 
 				#profile-pic {
 					display: flex;
@@ -44,8 +48,8 @@ const Wrapper = styled.div`
 					bottom: -50%;
 					min-height: 120px;
 					min-width: 120px;
-					max-height: 160px;
-					max-width: 160px;
+					max-height: 120px;
+					max-width: 120px;
 					border-radius: 50%;
 					box-sizing: border-shadow;
 					border: 5px solid white;
@@ -53,6 +57,8 @@ const Wrapper = styled.div`
 					font-size: 5rem;
 					background: hsla(20, 50%, 50%, 1);
 				}
+
+				
 			}
 
 			#personal-info {
@@ -83,14 +89,35 @@ const Wrapper = styled.div`
 				display: flex;
 				justify-content: center;
 				margin-top: 15px;
+				font-weight: bold;
 			}
 
 			#about-me-content {
-				padding: 15px;
+				padding: 5px 25px 15px 25px;
+				text-align: left;
+			}
+
+			#btn-grp {
+				display: flex;
+				justify-content: center;
+				height: 2.5rem;
+
+				div {
+					margin: 15px 0px;
+					font-weight: bold;
+
+
+					&:hover {
+						cursor: pointer;
+					}
+
+					&:active {
+						color: rgba(0,0,0, 0.5);
+					}
+				}
 			}
 		}
 
-		#
 	}
 `;
 
@@ -105,6 +132,7 @@ const MyProfile = ({ user }) => {
 					<div id="header">
 						<div id="profile-pic">JD</div>
 					</div>
+
 					<div id="personal-info">
 						<div>
 							<label htmlFor="First Name">First Name</label>
@@ -136,7 +164,10 @@ const MyProfile = ({ user }) => {
 						Lorem ipsum dolor, sit amet consectetur adipisicing elit.
 						Doloremque dignissimos nihil nisi consequuntur corporis
 						adipisci, accusamus inventore esse quaerat? Consequuntur
-						maxime dicta asperiores optio ut dolore libero at quis illum.
+						maxime dicta asperiores optio ut dolore libero at quis illum
+					</div>
+					<div id="btn-grp">
+						<div>edit</div>
 					</div>
 				</div>
 			</div>

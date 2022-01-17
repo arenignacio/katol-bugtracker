@@ -1,5 +1,5 @@
 //#dependencies
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 //#components
@@ -35,7 +35,7 @@ const BodyWrapper = styled.div`
 		min-height: 100%;
 		box-sizing: border-box;
 		background: rgba(0, 0, 0, 0.1);
-		padding: 35px;
+		padding: 20px 35px;
 		margin-left: 15%;
 		z-index: 1;
 	}
