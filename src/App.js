@@ -26,17 +26,18 @@ const BodyWrapper = styled.div`
 	display: flex;
 	flex-direction: ${({ navHidden }) => (navHidden ? 'column' : 'row')};
 	box-sizing: border-box;
-	height: 95%;
+	min-height: 95%;
 	width: 100%;
 
 	#body-content {
 		boxsizing: border-box;
-		width: ${({ navHidden }) => (navHidden ? '100%' : '87%')};
-		padding: 30px;
+		width: ${({ navHidden }) => (navHidden ? '100%' : '85%')};
 		height: 100%;
 		box-sizing: border-box;
 		background: rgba(0, 0, 0, 0.1);
-		overflow: hidden;
+		padding: 35px;
+		margin-left: 15%;
+		z-index: 1;
 	}
 `;
 
@@ -115,7 +116,7 @@ const App = () => {
 				/>
 			) : (
 				<Container navHidden={navHidden}>
-					<div style={{ height: '5%', zIndex: '2' }}>
+					<div style={{ position: 'relative', height: '5%', zIndex: '2' }}>
 						<HeaderBar
 							headerLinksArr={linksArr}
 							currentUser={
@@ -123,6 +124,7 @@ const App = () => {
 									? currentUser
 									: { firstname: '', lastname: '' }
 							}
+							fixed={true}
 						></HeaderBar>
 					</div>
 					<BodyWrapper>
@@ -134,9 +136,11 @@ const App = () => {
 								setActivePage={(page) => setActivePage(page)}
 							></Navigation>
 						)}
+
 						<div id="body-content">
-							{/* renderActivePage(activePage) */}
 							<Outlet></Outlet>
+
+							{/* renderActivePage(activePage) */}
 						</div>
 					</BodyWrapper>
 				</Container>

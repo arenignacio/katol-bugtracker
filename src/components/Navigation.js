@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+	position: fixed;
 	background: white;
 	box-sizing: border-box;
 	height: 100%;
-	width: ${({ widthSize }) => {
-		return widthSize ? widthSize : '15%';
-	}};
+	width: 15%;
 	min-width: 200px;
 	padding: 30px;
-	z-index: 1;
+	z-index: 2;
 	box-shadow: 5px 0px 18px -10px rgba(0, 0, 0, 0.3);
 
 	#nav-menu {

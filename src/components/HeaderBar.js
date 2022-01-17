@@ -8,13 +8,17 @@ import { ReactComponent as Logo } from '../assets/img/spiral.svg';
 
 const Wrapper = styled.div`
 	display: flex;
+	position: fixed;
+	top: 0;
+	left: 0;
+
 	align-items: center;
 	justify-content: space-between;
 	box-sizing: border-box;
 	border-bottom: 0.5px solid rgba(0, 0, 0, 0.5);
 	width: 100%;
 	background: #fff;
-	height: 100%;
+	height: 5%;
 	z-index: 2;
 
 	#menu {
@@ -43,9 +47,9 @@ const LogoWrapper = styled.div`
 	}
 `;
 
-const headerBar = ({ headerLinksArr, currentUser }) => {
+const headerBar = ({ headerLinksArr, currentUser, fixed = false }) => {
 	return (
-		<Wrapper>
+		<Wrapper fixed={fixed}>
 			<LogoWrapper>
 				<div id="logo">
 					<Logo width={30} height={30} />
