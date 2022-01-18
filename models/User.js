@@ -7,13 +7,13 @@ const userSchema = mongoose.Schema({
 	lastname: { type: String, required: true },
 	email: { type: String, required: true },
 	phone: String,
-	location: String,
+	location: { type: String, default: 'n/a' },
 	online: {
 		type: Boolean,
 		default: false,
 	},
 	status: String,
-	aboutme: String,
+	aboutme: { type: String, default: 'Write something..' },
 	disabled: {
 		type: Boolean,
 		default: false,
