@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema({
 		default: false,
 	},
 	status: String,
-	about: String,
+	aboutme: String,
 	disabled: {
 		type: Boolean,
 		default: false,

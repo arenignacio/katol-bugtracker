@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+//#context import
+import { UserContext } from '../App';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -87,12 +91,12 @@ const Wrapper = styled.div`
 					input {
 						text-align: center;
 						width: 110px;
+						height: 14px;
 						outline: none;
 						border: 1px solid rgba(0,0,0, 0.2);
 						border-radius: 3px;
 						background: rgba(0,0,0, 0.1);
-						font-size: 0.6rem;
-						padding: 0.2rem;
+						font-size: 0.7rem;
 					}
 				}
 			}
@@ -120,6 +124,7 @@ const Wrapper = styled.div`
 					background: rgba(0,0,0, 0.1);
 					font-size: 0.8rem;
 					padding: 0.5rem;
+					color: rgba(0,0,0, 0.8)
 					}
 
 					div:last-of-type {
@@ -139,6 +144,8 @@ const Wrapper = styled.div`
 				#about-me-content {
 					text-align: left;
 					width: 100%;
+					min-height: 50px;
+					color: rgba(0,0,0, 0.6);
 				}
 
 			
@@ -175,17 +182,80 @@ const Wrapper = styled.div`
 	}
 `;
 
-const MyProfile = ({ user }) => {
+const MyProfile = () => {
 	const [editMode, setEditMode] = useState(false);
 	const [charsLeft, setCharsLeft] = useState(200);
+	const [user, setUser] = useContext(UserContext);
+	const [formValues, setFormValues] = useState({ ...user });
+	const navigate = useNavigate();
+
+	console.log(user);
+
+	useEffect(() => {
+		if (!user) {
+			navigate('../');
+		}
+
+		setCharsLeft(200 - formValues.aboutme.length);
+	}, [formValues, navigate, user]);
 
 	const toggleEdit = async () => {
 		await setEditMode(!editMode);
-		console.log(editMode);
 	};
 
-	const calculateCharsLeft = (e) => {
-		setCharsLeft(200 - e.target.value.length);
+	const resetForm = async () => {
+		await setFormValues(user);
+		toggleEdit();
+	};
+
+	const handleInputChange = async (e) => {
+		const { name, value } = e.target;
+
+		await setFormValues((prevVal) => {
+			return { ...prevVal, [name]: value };
+		});
+
+		console.log(formValues);
+	};
+
+	const updateUser = async () => {
+		await setUser({ ...formValues });
+		toggleEdit();
+	};
+
+	const calculateCharsLeft = () => {
+		setCharsLeft(200 - formValues.aboutme.length);
+	};
+
+	const renderFields = (fields) => {
+		const fieldsArr = Object.entries(fields);
+
+		return fieldsArr.reduce((acc, cur) => {
+			const key = cur[0];
+
+			if (key !== 'aboutme')
+				acc.push(
+					<div>
+						<label htmlFor={key}>
+							{key === 'email'
+								? 'E-mail'
+								: key[0].toUpperCase() + key.substring(1)}
+						</label>
+						{editMode && key !== 'username' ? (
+							<input
+								type="text"
+								name={key}
+								value={fields[key]}
+								onChange={handleInputChange}
+							/>
+						) : (
+							<span>{fields[key]}</span>
+						)}
+					</div>
+				);
+
+			return acc;
+		}, []);
 	};
 
 	return (
@@ -197,56 +267,7 @@ const MyProfile = ({ user }) => {
 						<div id="profile-pic">JD</div>
 					</div>
 
-					<div id="personal-info">
-						<div>
-							<label htmlFor="username">Username</label>
-							{editMode ? (
-								<input type="text" name="username" />
-							) : (
-								<span>johdoe123</span>
-							)}
-						</div>
-						<div>
-							<label htmlFor="First Name">First Name</label>
-							{editMode ? (
-								<input type="text" name="firstname" />
-							) : (
-								<span>John</span>
-							)}
-						</div>
-						<div>
-							<label htmlFor="Last Name">Last Name</label>
-							{editMode ? (
-								<input type="text" name="lastname" />
-							) : (
-								<span>Doe</span>
-							)}
-						</div>
-						<div>
-							<label htmlFor="E-mail">E-mail</label>
-							{editMode ? (
-								<input type="text" name="email" />
-							) : (
-								<span>johdoe123@email.com</span>
-							)}
-						</div>
-						<div>
-							<label htmlFor="Phone">Phone</label>
-							{editMode ? (
-								<input type="text" name="phone" />
-							) : (
-								<span>123.456.7890</span>
-							)}
-						</div>
-						<div>
-							<label htmlFor="Password">Password</label>
-							{editMode ? (
-								<input type="password" name="password" />
-							) : (
-								<span>******</span>
-							)}
-						</div>
-					</div>
+					<div id="personal-info">{renderFields(({} = formValues))}</div>
 
 					<div id="about-me-grp">
 						<div id="about-me-label">About me</div>
@@ -254,29 +275,38 @@ const MyProfile = ({ user }) => {
 							<div id="textarea-grp">
 								<textarea
 									name="aboutme"
-									onChange={calculateCharsLeft}
+									onChange={async (e) => {
+										await handleInputChange(e);
+									}}
 									maxLength={200}
+									value={formValues.aboutme}
 								></textarea>
 								<div>
 									chars remaining &nbsp;<span>{charsLeft}</span>/200
 								</div>
 							</div>
 						) : (
-							<div id="about-me-content">
-								Lorem ipsum dolor, sit amet consectetur adipisicing
-								elit. Doloremque dignissimos nihil nisi consequuntur
-								corporis adipisci, accusamus inventore esse quaerat?
-								Consequuntur maxime dicta asperiores optio ut dolore
-								libero at quis illum
-							</div>
+							<div id="about-me-content">{formValues.aboutme}</div>
 						)}
 					</div>
 
 					<div id="btn-grp">
 						{editMode ? (
 							<div>
-								<div className="btn">save</div>
-								<div className="btn" onClick={toggleEdit}>
+								<div
+									className="btn"
+									onClick={() => {
+										updateUser();
+									}}
+								>
+									save
+								</div>
+								<div
+									className="btn"
+									onClick={() => {
+										resetForm();
+									}}
+								>
 									cancel
 								</div>
 							</div>

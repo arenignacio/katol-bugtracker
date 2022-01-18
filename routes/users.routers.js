@@ -69,10 +69,24 @@ users.route('/login').post(
 	(req, res) => {
 		if (req.user && req.session.passport) {
 			console.log('successfully logged in');
+			const {
+				firstname,
+				username,
+				lastname,
+				email,
+				phone,
+				location,
+				aboutme,
+			} = req.user;
+
 			res.status(200).json({
-				firstname: req.user.firstname,
-				lastname: req.user.lastname,
-				username: req.user.username,
+				username,
+				firstname,
+				lastname,
+				email,
+				phone,
+				location,
+				aboutme,
 			});
 		} else {
 			console.log('user login fail');
@@ -99,7 +113,7 @@ users.route('/amIloggedIn').get((req, res) => {
 users.route('/myinfo').get((req, res) => {
 	console.log('my info executes');
 	if (req.user) {
-		console.log('user is ' + req.user.email);
+		console.log('user is ' + req.user);
 		res.json(req.user);
 	} else res.status(401).json('no user found');
 });

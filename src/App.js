@@ -1,5 +1,5 @@
 //#dependencies
-import { useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 //#components
@@ -16,6 +16,9 @@ import HeaderBar from './components/HeaderBar';
 //#utilities
 import { API_BASEURL } from './utils/constants';
 import { Outlet } from 'react-router-dom';
+
+//#context
+export const UserContext = createContext();
 
 const Container = styled.div`
 	color: rgba(0, 0, 0, 0.8);
@@ -115,35 +118,39 @@ const App = () => {
 					}}
 				/>
 			) : (
-				<Container navHidden={navHidden}>
-					<div style={{ position: 'relative', height: '5%', zIndex: '2' }}>
-						<HeaderBar
-							headerLinksArr={linksArr}
-							currentUser={
-								currentUser
-									? currentUser
-									: { firstname: '', lastname: '' }
-							}
-							fixed={true}
-						></HeaderBar>
-					</div>
-					<BodyWrapper>
-						{navHidden ? (
-							''
-						) : (
-							<Navigation
-								widthSize="10%"
-								setActivePage={(page) => setActivePage(page)}
-							></Navigation>
-						)}
-
-						<div id="body-content">
-							<Outlet></Outlet>
-
-							{/* renderActivePage(activePage) */}
+				<UserContext.Provider value={[currentUser, setCurrentUser]}>
+					<Container navHidden={navHidden}>
+						<div
+							style={{ position: 'relative', height: '5%', zIndex: '2' }}
+						>
+							<HeaderBar
+								headerLinksArr={linksArr}
+								currentUser={
+									currentUser
+										? currentUser
+										: { firstname: '', lastname: '' }
+								}
+								fixed={true}
+							></HeaderBar>
 						</div>
-					</BodyWrapper>
-				</Container>
+						<BodyWrapper>
+							{navHidden ? (
+								''
+							) : (
+								<Navigation
+									widthSize="10%"
+									setActivePage={(page) => setActivePage(page)}
+								></Navigation>
+							)}
+
+							<div id="body-content">
+								<Outlet></Outlet>
+
+								{/* renderActivePage(activePage) */}
+							</div>
+						</BodyWrapper>
+					</Container>
+				</UserContext.Provider>
 			)}
 		</>
 	);
