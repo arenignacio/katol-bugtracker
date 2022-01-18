@@ -149,6 +149,7 @@ const Wrapper = styled.div`
 					width: 100%;
 					min-height: 50px;
 					color: rgba(0,0,0, 0.6);
+					word-break: break-all;
 				}
 
 			
