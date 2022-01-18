@@ -58,10 +58,24 @@ const registerUser = async (req, res, next) => {
 							res.json(err.message);
 						} else {
 							console.log('logged in');
-							res.json({
-								firstname: user.firstname,
-								lastname: user.lastname,
-								username: user.username,
+							const {
+								firstname,
+								username,
+								lastname,
+								email,
+								phone,
+								location,
+								aboutme,
+							} = user;
+
+							res.status(200).json({
+								username,
+								firstname,
+								lastname,
+								email,
+								phone,
+								location,
+								aboutme,
 							});
 						}
 					});
