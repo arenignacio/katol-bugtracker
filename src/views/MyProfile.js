@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { API_BASEURL } from '../utils/constants';
+
 //#context import
 import { UserContext } from '../App';
 
@@ -124,7 +126,8 @@ const Wrapper = styled.div`
 					background: rgba(0,0,0, 0.1);
 					font-size: 0.8rem;
 					padding: 0.5rem;
-					color: rgba(0,0,0, 0.8)
+					color: rgba(0,0,0, 0.8);
+					font-family: 'Time New Roman', Serif;
 					}
 
 					div:last-of-type {
@@ -159,11 +162,17 @@ const Wrapper = styled.div`
 				margin: 15px 0px;
 				font-weight: bold;
 
-				div {
+				div, input {
 					display: flex;
 					justify-content: space-evenly;
 					height: fit-content;
 					width: 40%;
+					border: none;
+					background: white;
+					font-size: 16px;
+					font-family: 'times new roman';
+					font-weight: bold;
+					padding: 0px;
 
 					.btn {
 						&:hover {
@@ -191,10 +200,12 @@ const MyProfile = () => {
 
 	console.log(user);
 
+	//update form everytime user changes
 	useEffect(() => {
 		setFormValues(user);
 	}, [user]);
 
+	//count charactersleft when form changes
 	useEffect(() => {
 		if (formValues) setCharsLeft(200 - formValues.aboutme.length);
 	}, [formValues]);
@@ -219,7 +230,29 @@ const MyProfile = () => {
 	};
 
 	const updateUser = async () => {
-		await setUser({ ...formValues });
+		const isFormUpdated = () => {
+			for (const key in formValues) {
+				if (formValues[key] !== user[key]) return true;
+			}
+
+			return false;
+		};
+
+		const updateDB = async () => {
+			const data = await fetch(`${API_BASEURL}/user/update`, {
+				method: 'Put',
+				headers: { 'Content-type': 'application/json; charset=UTF-8' },
+				body: JSON.stringify(formValues),
+			});
+
+			console.log('user data updated successfully: ' + data.ok);
+			setUser(formValues);
+		};
+
+		if (isFormUpdated()) {
+			updateDB();
+		}
+
 		toggleEdit();
 	};
 
@@ -262,9 +295,11 @@ const MyProfile = () => {
 		<Wrapper>
 			<div id="layer1">My profile</div>
 			<div id="layer2">
-				<div id="account-details">
+				<form id="account-details">
 					<div id="header">
-						<div id="profile-pic">JD</div>
+						<div id="profile-pic">
+							{user.firstname[0] + user.lastname[0]}
+						</div>
 					</div>
 
 					<div id="personal-info">{renderFields(formValues)}</div>
@@ -293,22 +328,23 @@ const MyProfile = () => {
 					<div id="btn-grp">
 						{editMode ? (
 							<div>
-								<div
+								<input
+									type="submit"
 									className="btn"
-									onClick={() => {
+									onClick={(e) => {
+										e.preventDefault();
 										updateUser();
 									}}
-								>
-									save
-								</div>
-								<div
+									value="save"
+								/>
+								<input
+									type="button"
 									className="btn"
 									onClick={() => {
 										resetForm();
 									}}
-								>
-									cancel
-								</div>
+									value="cancel"
+								/>
 							</div>
 						) : (
 							<div>
@@ -318,7 +354,7 @@ const MyProfile = () => {
 							</div>
 						)}
 					</div>
-				</div>
+				</form>
 			</div>
 		</Wrapper>
 	) : (

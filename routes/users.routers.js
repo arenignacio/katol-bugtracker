@@ -22,12 +22,14 @@ users
 		registerUser
 	);
 
-users.route('/:id').put((req, res) => {
-	const { id } = req.params;
+users.route('/update').put((req, res) => {
+	const { _id } = req.user;
 	const { body } = req;
 	let confirmation = 'User successfully updated';
 
-	User.findByIdAndUpdate(id, body, (err) => {
+	console.log(`id is ${_id}`);
+
+	User.findByIdAndUpdate(_id, body, (err) => {
 		if (err) confirmation = 'Invalid ID';
 
 		res.json(confirmation);
