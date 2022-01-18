@@ -186,18 +186,18 @@ const MyProfile = () => {
 	const [editMode, setEditMode] = useState(false);
 	const [charsLeft, setCharsLeft] = useState(200);
 	const [user, setUser] = useContext(UserContext);
-	const [formValues, setFormValues] = useState({ ...user });
+	const [formValues, setFormValues] = useState();
 	const navigate = useNavigate();
 
 	console.log(user);
 
 	useEffect(() => {
-		if (!user) {
-			navigate('../');
-		}
+		setFormValues(user);
+	}, [user]);
 
-		setCharsLeft(200 - formValues.aboutme.length);
-	}, [formValues, navigate, user]);
+	useEffect(() => {
+		if (formValues) setCharsLeft(200 - formValues.aboutme.length);
+	}, [formValues]);
 
 	const toggleEdit = async () => {
 		await setEditMode(!editMode);
@@ -258,7 +258,7 @@ const MyProfile = () => {
 		}, []);
 	};
 
-	return (
+	return user && formValues ? (
 		<Wrapper>
 			<div id="layer1">My profile</div>
 			<div id="layer2">
@@ -267,7 +267,7 @@ const MyProfile = () => {
 						<div id="profile-pic">JD</div>
 					</div>
 
-					<div id="personal-info">{renderFields(({} = formValues))}</div>
+					<div id="personal-info">{renderFields(formValues)}</div>
 
 					<div id="about-me-grp">
 						<div id="about-me-label">About me</div>
@@ -321,6 +321,8 @@ const MyProfile = () => {
 				</div>
 			</div>
 		</Wrapper>
+	) : (
+		''
 	);
 };
 

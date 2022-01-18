@@ -62,6 +62,7 @@ const App = () => {
 
 	const [currentUser, setCurrentUser] = useState(null);
 	const [activePage, setActivePage] = useState('Dashboard');
+	const [userContextVal, setUserContextVal] = useState();
 	const [isLoggedIn, setIsLoggedIn] = useState(
 		JSON.parse(localStorage.getItem('isLoggedIn'))
 	);
@@ -70,6 +71,7 @@ const App = () => {
 	const fauxLogin = true;
 
 	useEffect(() => {
+		console.log('checkloginstatus is running...');
 		localStorage.removeItem('isLoggedIn');
 
 		const checkLoginStatus = async () => {
@@ -79,6 +81,7 @@ const App = () => {
 				localStorage.setItem('isLoggedIn', response.ok);
 
 				setCurrentUser(data);
+				console.log('data succesfully retrieved');
 			} else {
 				setCurrentUser(null);
 			}
@@ -96,18 +99,6 @@ const App = () => {
 		setCurrentUser(null);
 	}
 
-	const renderActivePage = (activePage) => {
-		let page = '';
-
-		if (activePage === 'Dashboard') page = <Dashboard></Dashboard>;
-		if (activePage === 'Settings') page = <Settings></Settings>;
-		if (activePage === 'MyProfile') page = <MyProfile></MyProfile>;
-		if (activePage === 'Project') page = <Projects></Projects>;
-		if (activePage === 'Tickets') page = <Tickets></Tickets>;
-
-		return page;
-	};
-
 	return (
 		<>
 			{!isLoggedIn ? (
@@ -118,7 +109,9 @@ const App = () => {
 					}}
 				/>
 			) : (
-				<UserContext.Provider value={[currentUser, setCurrentUser]}>
+				<UserContext.Provider
+					value={[currentUser, setCurrentUser, setIsLoggedIn]}
+				>
 					<Container navHidden={navHidden}>
 						<div
 							style={{ position: 'relative', height: '5%', zIndex: '2' }}

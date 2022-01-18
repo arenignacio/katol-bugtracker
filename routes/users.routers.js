@@ -112,9 +112,33 @@ users.route('/amIloggedIn').get((req, res) => {
 
 users.route('/myinfo').get((req, res) => {
 	console.log('my info executes');
+
 	if (req.user) {
-		console.log('user is ' + req.user);
-		res.json(req.user);
+		const { firstname, username, lastname, email, phone, location, aboutme } =
+			req.user;
+
+		console.log(
+			'user is ' +
+				{
+					username,
+					firstname,
+					lastname,
+					email,
+					phone,
+					location,
+					aboutme,
+				}
+		);
+
+		res.status(200).json({
+			username,
+			firstname,
+			lastname,
+			email,
+			phone,
+			location,
+			aboutme,
+		});
 	} else res.status(401).json('no user found');
 });
 
