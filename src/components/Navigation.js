@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -44,14 +45,18 @@ const Wrapper = styled.div`
 `;
 
 const Navigation = ({ widthSize, setActivePage }) => {
+	const navigate = useNavigate();
+
 	return (
 		<Wrapper widthSize={widthSize}>
 			<ul id="nav-menu">
 				<li>
-					<span onClick={() => setActivePage('Dashboard')}>Dashboard</span>
+					<span id="dashboard" onClick={(e) => navigate('/dashboard')}>
+						Dashboard
+					</span>
 				</li>
 				<li>
-					<span onClick={() => setActivePage('Project')}>Projects </span>
+					<span>Projects </span>
 					<ul>
 						<li>
 							<span>Project 1</span>
@@ -68,10 +73,10 @@ const Navigation = ({ widthSize, setActivePage }) => {
 					</ul>
 				</li>
 				<li>
-					<span onClick={() => setActivePage('Tickets')}>Tickets</span>
+					<span>Tickets</span>
 				</li>
 				<li>
-					<span onClick={() => setActivePage('Settings')}>Settings </span>
+					<span>Settings </span>
 					<ul>
 						<li>
 							<span>General</span>

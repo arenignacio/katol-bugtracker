@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 //#components
 import App from './App';
-import User from './views/User.View';
 import Dashboard from './views/Dashboard';
 import MyProfile from './views/MyProfile';
 import './index.css';

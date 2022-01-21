@@ -4,11 +4,6 @@ import styled from 'styled-components';
 
 //#components
 import Login from './views/Login-Register.view';
-import Dashboard from './views/Dashboard';
-import Projects from './views/Projects';
-import Tickets from './views/Tickets';
-import MyProfile from './views/MyProfile';
-import Settings from './views/Settings';
 import Navigation from './components/Navigation';
 import HeaderBar from './components/HeaderBar';
 
@@ -47,11 +42,10 @@ const BodyWrapper = styled.div`
 const App = () => {
 	const navHidden = false;
 
-	const linksArr = [
+	const dropdownLinks = [
 		{
 			to: '/profile',
 			name: 'My Profile',
-			handler: () => setActivePage('MyProfile'),
 		},
 		{
 			to: '/',
@@ -61,14 +55,9 @@ const App = () => {
 	];
 
 	const [currentUser, setCurrentUser] = useState(null);
-	const [activePage, setActivePage] = useState('Dashboard');
-	const [userContextVal, setUserContextVal] = useState();
 	const [isLoggedIn, setIsLoggedIn] = useState(
 		JSON.parse(localStorage.getItem('isLoggedIn'))
 	);
-
-	//! used to simulate login status for front-end development
-	const fauxLogin = true;
 
 	useEffect(() => {
 		console.log('checkloginstatus is running...');
@@ -117,7 +106,7 @@ const App = () => {
 							style={{ position: 'relative', height: '5%', zIndex: '2' }}
 						>
 							<HeaderBar
-								headerLinksArr={linksArr}
+								headerLinksArr={dropdownLinks}
 								currentUser={
 									currentUser
 										? currentUser
@@ -130,10 +119,7 @@ const App = () => {
 							{navHidden ? (
 								''
 							) : (
-								<Navigation
-									widthSize="10%"
-									setActivePage={(page) => setActivePage(page)}
-								></Navigation>
+								<Navigation widthSize="10%"></Navigation>
 							)}
 
 							<div id="body-content">

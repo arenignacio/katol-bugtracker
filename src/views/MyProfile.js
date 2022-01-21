@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { API_BASEURL } from '../utils/constants';
+import requests from '../utils/requests';
 
 //#context import
 import { UserContext } from '../App';
@@ -197,16 +197,16 @@ const MyProfile = () => {
 	const [charsLeft, setCharsLeft] = useState(200);
 	const [user, setUser] = useContext(UserContext);
 	const [formValues, setFormValues] = useState();
-	const navigate = useNavigate();
 
-	console.log(user);
+	const req = requests(API_BASEURL);
+	const updateDB = req.update;
 
-	//update form everytime user changes
+	//#update form everytime user changes
 	useEffect(() => {
 		setFormValues(user);
 	}, [user]);
 
-	//count charactersleft when form changes
+	//#count charactersleft when form changes
 	useEffect(() => {
 		if (formValues) setCharsLeft(200 - formValues.aboutme.length);
 	}, [formValues]);
@@ -230,7 +230,7 @@ const MyProfile = () => {
 		console.log(formValues);
 	};
 
-	const updateUser = async () => {
+	const updateUser = async (formValues) => {
 		const isFormUpdated = () => {
 			for (const key in formValues) {
 				if (formValues[key] !== user[key]) return true;
@@ -239,26 +239,12 @@ const MyProfile = () => {
 			return false;
 		};
 
-		const updateDB = async () => {
-			const data = await fetch(`${API_BASEURL}/user/update`, {
-				method: 'Put',
-				headers: { 'Content-type': 'application/json; charset=UTF-8' },
-				body: JSON.stringify(formValues),
-			});
-
-			console.log('user data updated successfully: ' + data.ok);
-			setUser(formValues);
-		};
-
 		if (isFormUpdated()) {
-			updateDB();
+			updateDB('/user/update', formValues);
+			setUser(formValues);
 		}
 
 		toggleEdit();
-	};
-
-	const calculateCharsLeft = () => {
-		setCharsLeft(200 - formValues.aboutme.length);
 	};
 
 	const renderFields = (fields) => {
@@ -296,7 +282,13 @@ const MyProfile = () => {
 		<Wrapper>
 			<div id="layer1">My profile</div>
 			<div id="layer2">
-				<form id="account-details">
+				<form
+					id="account-details"
+					onSubmit={(e) => {
+						e.preventDefault();
+						updateUser(formValues);
+					}}
+				>
 					<div id="header">
 						<div id="profile-pic">
 							{user.firstname[0] + user.lastname[0]}
@@ -329,15 +321,7 @@ const MyProfile = () => {
 					<div id="btn-grp">
 						{editMode ? (
 							<div>
-								<input
-									type="submit"
-									className="btn"
-									onClick={(e) => {
-										e.preventDefault();
-										updateUser();
-									}}
-									value="save"
-								/>
+								<input type="submit" className="btn" value="save" />
 								<input
 									type="button"
 									className="btn"

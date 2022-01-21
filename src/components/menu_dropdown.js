@@ -1,19 +1,20 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 //#components
 import { ReactComponent as MyProfile } from '../assets/img/my_profile.svg';
+import { MenuButton, MenuLink } from '.';
 
 const Wrapper = styled.div`
-	z-index: 3;
 	position: relative;
+	z-index: 3;
 
-	/* The dropdown container */
+	//?The dropdown container
 	.dropdown {
 		display: flex;
 		flex-direction: column;
 		position: relative;
 
+		//?show dropdown;
 		&:hover .dropdown-content-wrapper {
 			display: flex;
 			flex-direction: column;
@@ -41,6 +42,7 @@ const Wrapper = styled.div`
 		}
 	}
 
+	//?dropdown
 	.dropdown-content-wrapper {
 		display: none;
 		text-align: left;
@@ -57,44 +59,22 @@ const Wrapper = styled.div`
 	}
 `;
 
-const StyledLink = styled(Link)`
-	display: flex;
-	white-space: nowrap;
-	padding: 10px;
-	text-decoration: none;
-	font-family: arial;
-	font-size: 13px;
-	font-weight: bold;
-	height: 17px;
-	background: hsla(0, 9%, 95%, 1);
-	color: rgba(0, 0, 0, 0.5);
-
-	&:hover {
-		background: hsla(200, 30%, 80%, 1);
-		color: black;
-	}
-`;
-
 const MenuDropdown = ({ linksArr, currentUser }) => {
 	const renderLinks = (links) => {
 		return links.map((link, idx) => {
 			let result;
 
-			if (link.name.toLowerCase() === 'logout')
+			if (link.handler)
 				result = (
-					<StyledLink
-						to=""
-						onClick={link.handler}
-						key={`menu-link-${idx}`}
-					>
+					<MenuButton onClick={link.handler} key={`menu-link-${idx}`}>
 						{link.name}
-					</StyledLink>
+					</MenuButton>
 				);
 			else
 				result = (
-					<StyledLink to={link.to} key={`menu-link-${idx}`}>
+					<MenuLink to={link.to} key={`menu-link-${idx}`}>
 						{link.name}
-					</StyledLink>
+					</MenuLink>
 				);
 
 			return result;
