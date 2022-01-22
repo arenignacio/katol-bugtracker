@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,6 +10,7 @@ const Wrapper = styled.div`
 	width: 15%;
 	min-width: 200px;
 	padding: 30px;
+	font-size: 0.9rem;
 	z-index: 2;
 	box-shadow: 5px 0px 18px -10px rgba(0, 0, 0, 0.3);
 
@@ -19,6 +21,10 @@ const Wrapper = styled.div`
 		span {
 			user-select: none;
 			font-weight: 200;
+			font-family: montserrat;
+			background: none;
+			border: 0px;
+			color: rgba(0, 0, 0, 0.5);
 
 			&:hover {
 				font-weight: 500;
@@ -34,6 +40,11 @@ const Wrapper = styled.div`
 		> li {
 			margin-bottom: 20px;
 
+			.active {
+				font-weight: bold;
+				color: rgba(0, 0, 0, 0.8);
+			}
+
 			ul {
 				margin: 5px 0px 0px 10px;
 				> li {
@@ -46,12 +57,21 @@ const Wrapper = styled.div`
 
 const Navigation = ({ widthSize, navLinks }) => {
 	const navigate = useNavigate();
+	const [activeBtn, setActiveBtn] = useState();
 
 	const renderLinks = (navLinks) =>
 		navLinks.map((name) => {
 			return (
 				<li>
-					<span id={name} onClick={(e) => navigate(`/${name}`)}>
+					<span
+						id={name}
+						className={activeBtn === name ? 'active' : ''}
+						onClick={(e) => {
+							setActiveBtn(name);
+							console.log(e.target);
+							navigate(`/${name}`);
+						}}
+					>
 						{name[0].toUpperCase() + name.substring(1)}
 					</span>
 				</li>
