@@ -60,7 +60,7 @@ const Navigation = ({ widthSize, navLinks }) => {
 
 	return (
 		<Wrapper widthSize={widthSize}>
-			<ul>{renderLinks(navLinks)}</ul>
+			<ul id="nav-menu">{renderLinks(navLinks)}</ul>
 		</Wrapper>
 	);
 };
