@@ -56,7 +56,9 @@ const Navigation = ({ widthSize, setActivePage }) => {
 					</span>
 				</li>
 				<li>
-					<span>Projects </span>
+					<span id="dashboard" onClick={(e) => navigate('/projects')}>
+						Projects
+					</span>
 					<ul>
 						<li>
 							<span>Project 1</span>
@@ -76,7 +78,9 @@ const Navigation = ({ widthSize, setActivePage }) => {
 					<span>Tickets</span>
 				</li>
 				<li>
-					<span>Settings </span>
+					<span id="dashboard" onClick={(e) => navigate('/settings')}>
+						Settings
+					</span>
 					<ul>
 						<li>
 							<span>General</span>
