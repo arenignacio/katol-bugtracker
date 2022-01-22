@@ -54,7 +54,7 @@ const App = () => {
 		},
 	];
 
-	const navLinks = ['dashboard', 'projects', 'settings'];
+	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
 
 	const [currentUser, setCurrentUser] = useState(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(
