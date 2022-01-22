@@ -44,56 +44,23 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Navigation = ({ widthSize, setActivePage }) => {
+const Navigation = ({ widthSize, navLinks }) => {
 	const navigate = useNavigate();
+
+	const renderLinks = (navLinks) =>
+		navLinks.map((name) => {
+			return (
+				<li>
+					<span id={name} onClick={(e) => navigate(`/${name}`)}>
+						{name[0].toUpperCase() + name.substring(1)}
+					</span>
+				</li>
+			);
+		});
 
 	return (
 		<Wrapper widthSize={widthSize}>
-			<ul id="nav-menu">
-				<li>
-					<span id="dashboard" onClick={(e) => navigate('/dashboard')}>
-						Dashboard
-					</span>
-				</li>
-				<li>
-					<span id="dashboard" onClick={(e) => navigate('/projects')}>
-						Projects
-					</span>
-					<ul>
-						<li>
-							<span>Project 1</span>
-						</li>
-						<li>
-							<span>Project 2</span>
-						</li>
-						<li>
-							<span>Project 3</span>
-						</li>
-						<li>
-							<span>Project 4</span>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<span>Tickets</span>
-				</li>
-				<li>
-					<span id="dashboard" onClick={(e) => navigate('/settings')}>
-						Settings
-					</span>
-					<ul>
-						<li>
-							<span>General</span>
-						</li>
-						<li>
-							<span>Style</span>
-						</li>
-						<li>
-							<span>FAQ</span>
-						</li>
-					</ul>
-				</li>
-			</ul>
+			<ul>{renderLinks(navLinks)}</ul>
 		</Wrapper>
 	);
 };

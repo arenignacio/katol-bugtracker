@@ -54,6 +54,8 @@ const App = () => {
 		},
 	];
 
+	const navLinks = ['dashboard', 'projects', 'settings'];
+
 	const [currentUser, setCurrentUser] = useState(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(
 		JSON.parse(localStorage.getItem('isLoggedIn'))
@@ -119,7 +121,10 @@ const App = () => {
 							{navHidden ? (
 								''
 							) : (
-								<Navigation widthSize="10%"></Navigation>
+								<Navigation
+									navLinks={navLinks}
+									widthSize="10%"
+								></Navigation>
 							)}
 
 							<div id="body-content">
