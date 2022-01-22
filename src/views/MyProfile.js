@@ -176,6 +176,8 @@ const Wrapper = styled.div`
 					padding: 0px;
 
 					.btn {
+						text-decoration: underline;
+
 						&:hover {
 							cursor: pointer;
 							color: rgba(0,0,0, 0.6);

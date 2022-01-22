@@ -36,6 +36,8 @@ mongoose.connect(process.env.DB_URL, (err) => {
 	}
 });
 
+console.log('time of: ' + time({ hours: 24 }));
+
 //#middleware
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));

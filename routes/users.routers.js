@@ -11,6 +11,7 @@ const users = express.Router();
 
 //#middlewares
 const registerUser = require('../utils/middleware/registerUser');
+const verifyLogin = require('../utils/middleware/verifyLogin');
 
 //#utility functions
 
@@ -67,36 +68,7 @@ users.route('/login').post(
 	passport.authenticate('local', {
 		failureFlash: true,
 	}),
-
-	(req, res) => {
-		if (req.user && req.session.passport) {
-			console.log('successfully logged in');
-			const {
-				firstname,
-				username,
-				lastname,
-				email,
-				phone,
-				location,
-				aboutme,
-			} = req.user;
-
-			res.status(200).json({
-				username,
-				firstname,
-				lastname,
-				email,
-				phone,
-				location,
-				aboutme,
-			});
-		} else {
-			console.log('user login fail');
-			res.status(401).json('bad');
-		}
-		console.log(`safety net ran: ` + req.session);
-		res.end();
-	}
+	verifyLogin
 );
 
 users.route('/logout').get((req, res) => {
@@ -112,36 +84,9 @@ users.route('/amIloggedIn').get((req, res) => {
 	else res.json(false);
 });
 
-users.route('/myinfo').get((req, res) => {
+users.route('/myinfo').get((req, res, next) => {
 	console.log('my info executes');
-
-	if (req.user) {
-		const { firstname, username, lastname, email, phone, location, aboutme } =
-			req.user;
-
-		console.log(
-			'user is ' +
-				{
-					username,
-					firstname,
-					lastname,
-					email,
-					phone,
-					location,
-					aboutme,
-				}
-		);
-
-		res.status(200).json({
-			username,
-			firstname,
-			lastname,
-			email,
-			phone,
-			location,
-			aboutme,
-		});
-	} else res.status(401).json('no user found');
-});
+	next();
+}, verifyLogin);
 
 module.exports = users;
