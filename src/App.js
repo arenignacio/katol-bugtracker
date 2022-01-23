@@ -33,9 +33,14 @@ const BodyWrapper = styled.div`
 		min-height: 100%;
 		box-sizing: border-box;
 		background: rgba(0, 0, 0, 0.1);
-		padding: 20px 35px;
 		margin-left: 15%;
+		width: 85%;
 		z-index: 1;
+	}
+
+	#right-sidebar {
+		width: 15%;
+		background: green;
 	}
 `;
 
@@ -129,9 +134,8 @@ const App = () => {
 
 							<div id="body-content">
 								<Outlet></Outlet>
-
-								{/* renderActivePage(activePage) */}
 							</div>
+							<div id="right-sidebar">This is the sidebar</div>
 						</BodyWrapper>
 					</Container>
 				</UserContext.Provider>

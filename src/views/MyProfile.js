@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 	height: 100%;
 	background: background: rgba(0, 0, 0, 0.1);
 	z-index: 1;
+	padding: 25px 30px;
 
 	#layer1 {
 		display: flex;

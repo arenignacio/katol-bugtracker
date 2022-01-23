@@ -4,10 +4,10 @@ const projectSchema = mongoose.Schema({
 	name: { type: String, required: true },
 	description: String,
 	project_manager: {
-		id: { type: String, required: true },
+		username: { type: String, required: true },
 		name: { type: String, required: true },
 	},
-	members: [{ id: String, name: String }],
+	members: [{ _id: false, username: String, name: String }],
 	completed: { type: Boolean, default: false },
 });
 
