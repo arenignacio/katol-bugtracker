@@ -30,7 +30,7 @@ const Wrapper = styled.div`
 		width: 90%;
 
 		#account-details { 
-			width: 40%;
+			width: 42%;
 			min-width: 400px;
 			min-height: 75%;
 			box-sizing: border-box;
@@ -100,6 +100,7 @@ const Wrapper = styled.div`
 						border-radius: 3px;
 						background: rgba(0,0,0, 0.1);
 						font-size: 0.7rem;
+						font-family: 
 					}
 				}
 			}

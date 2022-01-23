@@ -1,3 +1,5 @@
+//TODO: FIX SIDEBAR or REMOVE IT
+
 //#dependencies
 import { createContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -29,24 +31,50 @@ const BodyWrapper = styled.div`
 
 	#body-content {
 		boxsizing: border-box;
-		width: ${({ navHidden }) => (navHidden ? '100%' : '85%')};
 		min-height: 100%;
+		min-width: ${({ sideBarHidden }) => {
+			return sideBarHidden ? '84.05vw' : '75.56vw';
+		}};
 		box-sizing: border-box;
 		background: rgba(0, 0, 0, 0.1);
 		margin-left: 15%;
-		width: 85%;
 		z-index: 1;
 	}
 
-	#right-sidebar {
-		width: 15%;
+	.sidebar-container {
+		width: 8.5vw;
 		background: green;
+		position: fixed;
+		top: 5%;
+		right: 0;
+		height: 100%;
+
+		.toggle-sidebar {
+			height: 100%;
+			width: 5px;
+			display: block;
+			transition: display 0.5s;
+
+			&.hidden {
+				display: none;
+			}
+
+			span {
+				transform: rotate(90deg);
+			}
+		}
+
+		.sidebar {
+			transition: width 0.5s;
+
+			&.hidden {
+				width: 0%;
+			}
+		}
 	}
 `;
 
 const App = () => {
-	const navHidden = false;
-
 	const dropdownLinks = [
 		{
 			to: '/profile',
@@ -65,6 +93,8 @@ const App = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(
 		JSON.parse(localStorage.getItem('isLoggedIn'))
 	);
+	const [navHidden, setNavHidden] = useState(false);
+	const [sideBarHidden, setSideBardHidden] = useState(false);
 
 	useEffect(() => {
 		console.log('checkloginstatus is running...');
@@ -122,7 +152,7 @@ const App = () => {
 								fixed={true}
 							></HeaderBar>
 						</div>
-						<BodyWrapper>
+						<BodyWrapper sideBarHidden={sideBarHidden}>
 							{navHidden ? (
 								''
 							) : (
@@ -135,7 +165,31 @@ const App = () => {
 							<div id="body-content">
 								<Outlet></Outlet>
 							</div>
-							<div id="right-sidebar">This is the sidebar</div>
+
+							<div></div>
+							<div className="sidebar-container">
+								<div
+									className={`toggle-sidebar ${
+										sideBarHidden ? '' : 'hidden'
+									}`}
+									onClick={() => {
+										setSideBardHidden(!sideBarHidden);
+										console.log('clicked ', sideBarHidden);
+									}}
+								>
+									{'<'}
+								</div>
+								<div
+									className={`sidebar ${
+										sideBarHidden ? 'hidden' : ''
+									}`}
+									onClick={() => {
+										setSideBardHidden(!sideBarHidden);
+										console.log('clicked ', sideBarHidden);
+									}}
+								></div>
+								This is the sidebar
+							</div>
 						</BodyWrapper>
 					</Container>
 				</UserContext.Provider>
