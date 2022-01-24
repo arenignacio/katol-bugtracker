@@ -86,7 +86,11 @@ const MenuDropdown = ({ linksArr, currentUser }) => {
 			{' '}
 			<div className="dropdown">
 				<div className="dropbtn">
-					<span id="username">{`${currentUser.firstname} ${currentUser.lastname}`}</span>
+					<span id="username">{`${
+						currentUser
+							? `${currentUser.firstname} ${currentUser.lastname}`
+							: ''
+					}`}</span>
 					<MyProfile id="profile-svg" width={30} height={30}></MyProfile>
 				</div>
 
