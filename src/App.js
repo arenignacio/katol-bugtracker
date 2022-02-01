@@ -26,16 +26,16 @@ const BodyWrapper = styled.div`
 	display: flex;
 	flex-direction: ${({ navHidden }) => (navHidden ? 'column' : 'row')};
 	box-sizing: border-box;
-	height: 95%;
+	height: 95vh;
 	width: 100%;
 
 	#body-content {
 		boxsizing: border-box;
-		width: 100%;
+		width: 90vw;
 		min-height: 100%;
 		box-sizing: border-box;
 		background: rgba(0, 0, 0, 0.1);
-		margin-left: 15%;
+		margin-left: 10vw;
 		z-index: 1;
 	}
 `;
@@ -105,7 +105,11 @@ const App = () => {
 				>
 					<Container>
 						<div
-							style={{ position: 'relative', height: '5%', zIndex: '2' }}
+							style={{
+								position: 'relative',
+								height: '5vh',
+								zIndex: '2',
+							}}
 						>
 							<HeaderBar
 								headerLinksArr={dropdownLinks}

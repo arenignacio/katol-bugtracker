@@ -9,17 +9,14 @@ const Wrapper = styled.div`
 		align-items: center;
 		boxsizing: border-box;
 		min-height: 50%;
+		background: background: rgba(0, 0, 0, 0.1);
 
-		background: lightgreen;
+		&:first-of-type {
+			justify-content: center;
+		}
 	}
 
-	.title {
-		display: flex;
-		justify-content: center;
-		width: 100%;
-		margin: 20px 0px;
-		font-size: 2rem;
-	}
+
 
 	.cards-container {
 		display: flex;
@@ -28,8 +25,8 @@ const Wrapper = styled.div`
 	}
 
 	.card {
-		height: 250px;
-		width: 300px;
+		height: 200px;
+		width: 350px;
 		background: pink;
 
 		.card-name {
@@ -40,8 +37,12 @@ const Wrapper = styled.div`
 		}
 
 		.card-content {
+			display: flex;
+			justify-content: center;
+			align-items: center;
 			height: 90%;
 			background: brown;
+			font-size: 10rem;
 		}
 	}
 
@@ -72,19 +73,18 @@ const Dashboard = () => {
 	return (
 		<Wrapper>
 			<div>
-				<div className="title">Dashboard</div>
 				<div className="cards-container">
 					<div className="card">
 						<div className="card-name">Completed</div>
-						<div className="card-content"></div>
+						<div className="card-content">12</div>
 					</div>
 					<div className="card">
 						<div className="card-name">In Progress</div>
-						<div className="card-content"></div>
+						<div className="card-content">3</div>
 					</div>
 					<div className="card">
 						<div className="card-name">Past Due</div>
-						<div className="card-content"></div>
+						<div className="card-content">0</div>
 					</div>
 				</div>
 			</div>

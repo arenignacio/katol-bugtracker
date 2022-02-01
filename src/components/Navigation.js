@@ -7,8 +7,8 @@ const Wrapper = styled.div`
 	background: white;
 	box-sizing: border-box;
 	height: 95%;
-	width: 15%;
-	min-width: 200px;
+	width: 10vw;
+	min-width: fit-content;
 	padding: 30px;
 	font-size: 0.9rem;
 	z-index: 2;
@@ -55,7 +55,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Navigation = ({ widthSize, navLinks }) => {
+const Navigation = ({ navLinks }) => {
 	const navigate = useNavigate();
 	const [activeBtn, setActiveBtn] = useState();
 
@@ -79,7 +79,7 @@ const Navigation = ({ widthSize, navLinks }) => {
 		});
 
 	return (
-		<Wrapper widthSize={widthSize}>
+		<Wrapper>
 			<ul id="nav-menu">{renderLinks(navLinks)}</ul>
 		</Wrapper>
 	);
