@@ -26,49 +26,16 @@ const BodyWrapper = styled.div`
 	display: flex;
 	flex-direction: ${({ navHidden }) => (navHidden ? 'column' : 'row')};
 	box-sizing: border-box;
-	min-height: 100%;
+	min-height: 95%;
 	width: 100%;
 
 	#body-content {
 		boxsizing: border-box;
-		min-height: 100%;
 		width: 100%;
 		box-sizing: border-box;
 		background: rgba(0, 0, 0, 0.1);
 		margin-left: 15%;
 		z-index: 1;
-	}
-
-	.sidebar-container {
-		width: 8.5vw;
-		background: green;
-		position: fixed;
-		top: 5%;
-		right: 0;
-		height: 100%;
-
-		.toggle-sidebar {
-			height: 100%;
-			width: 5px;
-			display: block;
-			transition: display 0.5s;
-
-			&.hidden {
-				display: none;
-			}
-
-			span {
-				transform: rotate(90deg);
-			}
-		}
-
-		.sidebar {
-			transition: width 0.5s;
-
-			&.hidden {
-				width: 0%;
-			}
-		}
 	}
 `;
 

@@ -6,7 +6,7 @@ const Wrapper = styled.div`
 	position: fixed;
 	background: white;
 	box-sizing: border-box;
-	height: 100%;
+	height: 95%;
 	width: 15%;
 	min-width: 200px;
 	padding: 30px;
