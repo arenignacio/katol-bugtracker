@@ -35,10 +35,24 @@ const Wrapper = styled.div`
 
 		.ticket-body {
 			width: 65%;
+			padding: 0px 25px;
+			box-sizing: border-box;
 
 			&-l1,
 			&-l2 {
 				display: flex;
+				height: 50%;
+
+				div {
+					display: flex;
+					flex-direction: column;
+					margin-right: 50px;
+					font-size: 0.9rem;
+
+					span {
+						font-size: 0.8rem;
+					}
+				}
 			}
 		}
 	}
@@ -142,10 +156,21 @@ const Projects = () => {
 					<div className="ticket-body">
 						<div className="ticket-body-l1">
 							<div className="ticket-id">Ticket ID</div>
-							<div className="ticket-description">Description</div>
+							<div className="ticket-description">
+								Description{' '}
+								<span>
+									Lorem ipsum dolor sit amet, consectetur adipisicing
+									elit. Exercitationem, corrupti debitis! Commodi aut
+									et eligendi quas, corrupti, sapiente corporis
+									delectus soluta animi hic qui! Saepe inventore minima
+									in asperiores iste.
+								</span>
+							</div>
 						</div>
 						<div className="ticket-body-l2">
-							<div className="ticket-author">Submitted By</div>
+							<div className="ticket-author">
+								Submitted By <span>Aren Ignacio</span>
+							</div>
 							<div className="ticket-assignee">Assigned to</div>
 							<div className="ticket-status">Status</div>
 						</div>

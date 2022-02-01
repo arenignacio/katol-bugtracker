@@ -2,6 +2,7 @@
 
 //#dependencies
 import { createContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 //#components
@@ -41,6 +42,14 @@ const BodyWrapper = styled.div`
 `;
 
 const App = () => {
+	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
+	const navigate = useNavigate();
+
+	const [currentUser, setCurrentUser] = useState(null);
+	const [isLoggedIn, setIsLoggedIn] = useState(
+		JSON.parse(localStorage.getItem('isLoggedIn'))
+	);
+
 	const dropdownLinks = [
 		{
 			to: '/profile',
@@ -52,13 +61,6 @@ const App = () => {
 			handler: handleLogout,
 		},
 	];
-
-	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
-
-	const [currentUser, setCurrentUser] = useState(null);
-	const [isLoggedIn, setIsLoggedIn] = useState(
-		JSON.parse(localStorage.getItem('isLoggedIn'))
-	);
 
 	//verify login status
 	useEffect(() => {
@@ -97,6 +99,7 @@ const App = () => {
 					handleLogin={(val) => {
 						if (val) setIsLoggedIn(true);
 						setCurrentUser(val);
+						navigate('dashboard');
 					}}
 				/>
 			) : (
