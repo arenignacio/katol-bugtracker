@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 	#layer2 {
 		display: flex;
 		justify-content: space-evenly;
-		width: 90%;
+		width: 80%;
 
 		#account-details { 
 			width: 42%;

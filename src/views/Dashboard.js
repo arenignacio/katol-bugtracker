@@ -43,6 +43,7 @@ const Wrapper = styled.div`
 			height: 90%;
 			background: brown;
 			font-size: 10rem;
+		
 		}
 	}
 
@@ -54,6 +55,11 @@ const Wrapper = styled.div`
 		th,
 		td {
 			padding: 5px 10px;
+		}
+
+		th {
+			background: gray;
+			color: white;
 		}
 	}
 
