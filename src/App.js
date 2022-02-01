@@ -26,12 +26,13 @@ const BodyWrapper = styled.div`
 	display: flex;
 	flex-direction: ${({ navHidden }) => (navHidden ? 'column' : 'row')};
 	box-sizing: border-box;
-	min-height: 95%;
+	height: 95%;
 	width: 100%;
 
 	#body-content {
 		boxsizing: border-box;
 		width: 100%;
+		min-height: 100%;
 		box-sizing: border-box;
 		background: rgba(0, 0, 0, 0.1);
 		margin-left: 15%;
