@@ -25,6 +25,7 @@ const Wrapper = styled.div`
 				display: flex;
 				height: 1rem;
 				justify-content: center;
+				align-items: center;
 				width: ${({ colsize }) => 100 / colsize}%;
 				padding: 2px;
 				white-space: nowrap;
@@ -37,7 +38,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const List = ({ colsize, headersArr, content }) => {
+const List = ({ colsize, headers, content }) => {
 	const renderHeaders = (arr) => {
 		console.log(arr);
 		return arr.map((el) => {
@@ -49,25 +50,29 @@ const List = ({ colsize, headersArr, content }) => {
 		console.log(arr);
 
 		return arr.map((el) => {
-			console.log(el.assigned_to.name);
-
 			return (
-				<div className="list-item" key={el._id}>
-					<div>{el._id}</div>
-					<div>{el.description}</div>
-					<div>{el.assigned_to.name}</div>
+				<div
+					className="list-item"
+					key={el[0]}
+					onClick={() => {
+						console.log(`${el[0]} clicked`);
+					}}
+				>
+					<div>{el[0]}</div>
+					<div>{el[1]}</div>
+					<div>{el[2]}</div>
 				</div>
 			);
 		});
 	};
 
 	return (
-		<Wrapper colsize={colsize}>
+		<Wrapper colsize={headers ? headers.length : ''}>
 			<div className="list-header">
-				{headersArr ? renderHeaders(headersArr) : ''}
+				{headers ? renderHeaders(headers) : ''}
 			</div>
 			<div className="list-content">
-				{content ? renderContent(content) : ''}
+				{content ? renderContent(content) : 'Loading..'}
 			</div>
 		</Wrapper>
 	);

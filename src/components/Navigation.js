@@ -60,9 +60,9 @@ const Navigation = ({ navLinks }) => {
 	const [activeBtn, setActiveBtn] = useState();
 
 	const renderLinks = (navLinks) =>
-		navLinks.map((name) => {
+		navLinks.map((name, idx) => {
 			return (
-				<li>
+				<li key={name + idx}>
 					<span
 						id={name}
 						className={activeBtn === name ? 'active' : ''}

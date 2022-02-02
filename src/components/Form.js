@@ -186,15 +186,14 @@ const Form = ({ options, handleErrorMsg }) => {
 			}
 
 			return (
-				<div className="field">
-					<label for={key}>{label}</label>
+				<div key={`key-${key}`} className="field">
+					<label htmlFor={key}>{label}</label>
 					<input
 						type={type}
 						id={key}
 						placeholder={placeholder}
 						onChange={handleInputChange}
 						value={formValues[key]}
-						key={`key-${key}`}
 						autoComplete="on"
 					/>
 				</div>

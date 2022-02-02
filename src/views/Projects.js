@@ -85,25 +85,28 @@ const Projects = () => {
 		getTicket();
 	}, []);
 
+	const sortTickets = (tickets) => {
+		return tickets.reduce((acc, cur) => {
+			acc.push([cur._id, cur.description, cur.assigned_to.name]);
+
+			return acc;
+		}, []);
+	};
+
 	return (
 		<Wrapper>
 			<span className="project-name">Project 1</span>
 			<div>
-				<List colsize={3}>
-					<div className="list-header">
-						<div>name</div>
-						<div>phone</div>
-						<div>e-mail</div>
-					</div>
-					<div className="list-content">
-						<div className="list-item">
-							<div>Aren Ignacio</div>
-							<div>(123) 457-9999</div>
-							<div>aign123@email.com</div>
-						</div>
-					</div>
-				</List>
-				<List colsize={3} headersArr={ticketheaders} content={tickets} />
+				<List
+					colsize={3}
+					headers={['Name', 'Phone', 'E-mail']}
+					content={[['Aren', '(123) 457-9999', 'aign123@email.com']]}
+				/>
+				<List
+					colsize={3}
+					headers={ticketheaders}
+					content={tickets ? sortTickets(tickets) : ''}
+				/>
 			</div>
 			<div>
 				<div className="selected-ticket">

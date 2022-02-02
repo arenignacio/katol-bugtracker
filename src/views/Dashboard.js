@@ -97,94 +97,98 @@ const Dashboard = () => {
 			<div>
 				<table className="recent-activity">
 					<thead>
-						<th className="action-col">Action</th>
-						<th className="author-col">Author</th>
-						<th className="date-col">Date</th>
+						<tr>
+							<th className="action-col">Action</th>
+							<th className="author-col">Author</th>
+							<th className="date-col">Date</th>
+						</tr>
 					</thead>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
-					<tr>
-						<td className="action-col">
-							Changed ticket123 status to completed
-						</td>
-						<td className="author-col">edsign</td>
-						<td className="date-col">1/31/2022</td>
-					</tr>
+					<tbody>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+						<tr>
+							<td className="action-col">
+								Changed ticket123 status to completed
+							</td>
+							<td className="author-col">edsign</td>
+							<td className="date-col">1/31/2022</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</Wrapper>
