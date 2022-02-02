@@ -31,54 +31,43 @@ const Wrapper = styled.div`
 				text-overflow: ellipsis;
 			}
 		}
+		&-item {
+			font-size: 0.7rem;
+		}
 	}
 `;
 
-const renderHeaders = (arr) => {
-	console.log(arr);
+const List = ({ colsize, headersArr, content }) => {
+	const renderHeaders = (arr) => {
+		console.log(arr);
+		return arr.map((el) => {
+			return <div key={`key-${el}`}>{el}</div>;
+		});
+	};
 
-	return arr.map((el) => {
-		console.log(el);
+	const renderContent = (arr) => {
+		console.log(arr);
 
-		return <div>{el}</div>;
-	});
-};
+		return arr.map((el) => {
+			console.log(el.assigned_to.name);
 
-const List = ({ colsize, headersArr }) => {
+			return (
+				<div className="list-item" key={el._id}>
+					<div>{el._id}</div>
+					<div>{el.description}</div>
+					<div>{el.assigned_to.name}</div>
+				</div>
+			);
+		});
+	};
+
 	return (
 		<Wrapper colsize={colsize}>
-			<div className="list-header">{renderHeaders(headersArr)}</div>
+			<div className="list-header">
+				{headersArr ? renderHeaders(headersArr) : ''}
+			</div>
 			<div className="list-content">
-				<div className="list-item">
-					<div>0u1j2dni892</div>
-					<div>There's a snake in my boot 1231412</div>
-					<div>aign123</div>
-				</div>
-				<div className="list-item">
-					<div>0u1j2dni892</div>
-					<div>There's a snake in my boot 1231412</div>
-					<div>aign123</div>
-				</div>
-				<div className="list-item">
-					<div>0u1j2dni892</div>
-					<div>There's a snake in my boot 1231412</div>
-					<div>aign123</div>
-				</div>
-				<div className="list-item">
-					<div>0u1j2dni892</div>
-					<div>There's a snake in my boot 1231412</div>
-					<div>aign123</div>
-				</div>
-				<div className="list-item">
-					<div>0u1j2dni892</div>
-					<div>There's a snake in my boot 1231412</div>
-					<div>aign123</div>
-				</div>
-				<div className="list-item">
-					<div>0u1j2dni892</div>
-					<div>There's a snake in my boot 1231412</div>
-					<div>aign123</div>
-				</div>
+				{content ? renderContent(content) : ''}
 			</div>
 		</Wrapper>
 	);

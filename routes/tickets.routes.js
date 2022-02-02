@@ -91,11 +91,22 @@ Router.route('/:id').delete((req, res) => {
 });
 
 //find tickets
-Router.route('/query').get(async (req, res) => {
-	const { body } = req;
+Router.route('/query*').get(async (req, res) => {
+	const params = req.url.split('&');
+	const query = params.reduce((acc, cur) => {
+		if (!cur.includes('=')) return acc;
+
+		cur = cur.split('=');
+		acc[cur[0]] = cur[1];
+		return acc;
+	}, {});
+
+	console.log(query);
+
 	let result = null;
+
 	try {
-		result = await Ticket.where(body);
+		result = await Ticket.where(query);
 	} catch (err) {
 		result = err.message;
 	}

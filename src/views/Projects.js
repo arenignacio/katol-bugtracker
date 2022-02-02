@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { API_BASEURL } from '../utils/constants';
 
 //#components
 import List from '../../src/components/List';
@@ -62,6 +64,27 @@ const Wrapper = styled.div`
 `;
 
 const Projects = () => {
+	//#immutables
+	const ticketheaders = ['Ticket ID', 'Description', 'Assigned To'];
+
+	//#states
+	const [tickets, setTickets] = useState(null);
+	const [project, setProject] = useState(null);
+
+	useEffect(() => {
+		const getTicket = async () => {
+			const result = await fetch(
+				`${API_BASEURL}/ticket/query&project=61ed05ec878f129f1a51e196`
+			);
+
+			const data = await result.json();
+
+			setTickets(data);
+		};
+
+		getTicket();
+	}, []);
+
 	return (
 		<Wrapper>
 			<span className="project-name">Project 1</span>
@@ -80,10 +103,7 @@ const Projects = () => {
 						</div>
 					</div>
 				</List>
-				<List
-					colsize={3}
-					headersArr={['Ticket ID', 'Description', 'Assigned To']}
-				/>
+				<List colsize={3} headersArr={ticketheaders} content={tickets} />
 			</div>
 			<div>
 				<div className="selected-ticket">
