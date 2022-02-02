@@ -93,6 +93,10 @@ const Projects = () => {
 		}, []);
 	};
 
+	const selectTicket = (e) => {
+		console.log('selected ' + e.target.id);
+	};
+
 	return (
 		<Wrapper>
 			<span className="project-name">Project 1</span>
@@ -101,11 +105,14 @@ const Projects = () => {
 					colsize={3}
 					headers={['Name', 'Phone', 'E-mail']}
 					content={[['Aren', '(123) 457-9999', 'aign123@email.com']]}
+					attributes={{ isSelectable: true, isHoverable: true }}
 				/>
 				<List
 					colsize={3}
 					headers={ticketheaders}
 					content={tickets ? sortTickets(tickets) : ''}
+					attributes={{ isSelectable: true, isHoverable: true }}
+					handleClick={selectTicket}
 				/>
 			</div>
 			<div>

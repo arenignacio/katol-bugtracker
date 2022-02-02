@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -11,10 +12,6 @@ const Wrapper = styled.div`
 	.list {
 		&-header {
 			background: lightgreen;
-		}
-
-		&-item:nth-of-type(odd) {
-			background: rgba(0, 0, 0, 0.4);
 		}
 
 		&-header,
@@ -34,11 +31,47 @@ const Wrapper = styled.div`
 		}
 		&-item {
 			font-size: 0.7rem;
+
+			&:nth-of-type(odd) {
+				background: rgba(0, 0, 0, 0.2);
+
+				&.active {
+					background: rgba(0, 0, 70, 0.3);
+				}
+			}
+
+			${({ isHoverable }) => {
+				if (isHoverable)
+					return `&:hover {
+						cursor: pointer;
+						background: rgba(0, 0, 70, 0.1);
+					}`;
+			}}
+
+			${({ isSelectable }) => {
+				if (isSelectable)
+					return `&:active {
+				background: rgba(0, 0, 70, 0.4);
+				}`;
+			}}
 		}
+	}
+
+	.active {
+		background: rgba(0, 0, 70, 0.3);
 	}
 `;
 
-const List = ({ colsize, headers, content }) => {
+const List = ({
+	colsize,
+	headers,
+	content,
+	attributes = { isSelectable: false, isHoverable: false },
+	handleClick,
+}) => {
+	//#states
+	const [activeItem, setActiveItem] = useState();
+
 	const renderHeaders = (arr) => {
 		console.log(arr);
 		return arr.map((el) => {
@@ -52,10 +85,13 @@ const List = ({ colsize, headers, content }) => {
 		return arr.map((el) => {
 			return (
 				<div
-					className="list-item"
+					className={`list-item ${activeItem === el[0] ? 'active' : ''}`}
+					id={el[0]}
 					key={el[0]}
-					onClick={() => {
+					onClick={(e) => {
 						console.log(`${el[0]} clicked`);
+						if (attributes.isSelectable) setActiveItem(el[0]);
+						if (handleClick) handleClick(e);
 					}}
 				>
 					<div>{el[0]}</div>
@@ -67,7 +103,11 @@ const List = ({ colsize, headers, content }) => {
 	};
 
 	return (
-		<Wrapper colsize={headers ? headers.length : ''}>
+		<Wrapper
+			colsize={headers ? headers.length : ''}
+			isSelectable={attributes.isSelectable}
+			isHoverable={attributes.isHoverable}
+		>
 			<div className="list-header">
 				{headers ? renderHeaders(headers) : ''}
 			</div>
