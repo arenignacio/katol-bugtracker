@@ -15,12 +15,16 @@ const ticketSchema = mongoose.Schema({
 			content: { type: String, required: true },
 		},
 	],
+	project: {
+		type: String,
+		required: true,
+	},
 	initiated_by: {
-		id: { type: String, required: true, immutable: true },
+		username: { type: String, required: true, immutable: true },
 		name: { type: String, required: true, immutable: true },
 	},
 	assigned_to: {
-		id: { type: String /* , required: true  */ },
+		username: { type: String /* , required: true  */ },
 		name: { type: String /* , required: true  */ },
 		default: {},
 	},

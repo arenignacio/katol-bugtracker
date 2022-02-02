@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+//#components
+import List from '../../src/components/List';
+
 const Wrapper = styled.div`
 	box-sizing: border-box;
 	width: 100%;
@@ -31,12 +34,12 @@ const Wrapper = styled.div`
 
 	.selected-ticket {
 		display: flex;
-		padding: 15px;
 
 		.ticket-body {
 			width: 65%;
-			padding: 0px 25px;
+			padding: 15px 25px;
 			box-sizing: border-box;
+			background: lightblue;
 
 			&-l1,
 			&-l2 {
@@ -53,40 +56,6 @@ const Wrapper = styled.div`
 						font-size: 0.8rem;
 					}
 				}
-			}
-		}
-	}
-`;
-
-const List = styled.div`
-	box-sizing: border-box;
-	border: 1px solid black;
-	width: 40%;
-	min-width: 500px;
-	height: 250px;
-	margin-left: 15px;
-
-	.list {
-		&-header {
-			background: lightgreen;
-		}
-
-		&-item:nth-of-type(odd) {
-			background: rgba(0, 0, 0, 0.4);
-		}
-
-		&-header,
-		&-item {
-			display: flex;
-
-			div {
-				display: flex;
-				height: 1rem;
-				justify-content: center;
-				width: ${({ colsize }) => 100 / colsize}%;
-				padding: 2px;
-				white-space: nowrap;
-				text-overflow: ellipsis;
 			}
 		}
 	}
@@ -111,45 +80,10 @@ const Projects = () => {
 						</div>
 					</div>
 				</List>
-				<List colsize={3}>
-					<div className="list-header">
-						<div>ticket id</div>
-						<div>description</div>
-						<div>assigned to</div>
-					</div>
-					<div className="list-content">
-						<div className="list-item">
-							<div>0u1j2dni892</div>
-							<div>There's a snake in my boot 1231412</div>
-							<div>aign123</div>
-						</div>
-						<div className="list-item">
-							<div>0u1j2dni892</div>
-							<div>There's a snake in my boot 1231412</div>
-							<div>aign123</div>
-						</div>
-						<div className="list-item">
-							<div>0u1j2dni892</div>
-							<div>There's a snake in my boot 1231412</div>
-							<div>aign123</div>
-						</div>
-						<div className="list-item">
-							<div>0u1j2dni892</div>
-							<div>There's a snake in my boot 1231412</div>
-							<div>aign123</div>
-						</div>
-						<div className="list-item">
-							<div>0u1j2dni892</div>
-							<div>There's a snake in my boot 1231412</div>
-							<div>aign123</div>
-						</div>
-						<div className="list-item">
-							<div>0u1j2dni892</div>
-							<div>There's a snake in my boot 1231412</div>
-							<div>aign123</div>
-						</div>
-					</div>
-				</List>
+				<List
+					colsize={3}
+					headersArr={['Ticket ID', 'Description', 'Assigned To']}
+				/>
 			</div>
 			<div>
 				<div className="selected-ticket">

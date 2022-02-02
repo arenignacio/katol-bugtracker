@@ -8,17 +8,8 @@ const Router = express.Router();
 
 //new ticket
 Router.route('/create-ticket').post(
-	body('initiated_by.id', 'id must be an email')
-		.isEmail()
-		.trim()
-		.escape()
-		.toLowerCase(),
-	body('assigned_to.id', 'id must be an email')
-		.optional()
-		.isEmail()
-		.trim()
-		.escape()
-		.toLowerCase(),
+	body('initiated_by.username').trim().escape().toLowerCase(),
+	body('assigned_to.id').optional().trim().escape().toLowerCase(),
 	body('subject').trim().escape(),
 	body('description').trim().escape(),
 	body('assigned_to.name').optional().trim().escape().toLowerCase(),
