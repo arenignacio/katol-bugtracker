@@ -4,6 +4,7 @@ import { API_BASEURL } from '../utils/constants';
 
 //#components
 import List from '../../src/components/List';
+import SelectedTicket from './SelectedTicket';
 
 const Wrapper = styled.div`
 	box-sizing: border-box;
@@ -28,47 +29,20 @@ const Wrapper = styled.div`
 		margin: 40px 15px;
 	}
 
-	.selected-ticket {
+	.selected-ticket-container {
 		max-height: 95%;
 		width: 90%;
 		border: 1px solid black;
-	}
-
-	.selected-ticket {
-		display: flex;
-
-		.ticket-body {
-			width: 65%;
-			padding: 15px 25px;
-			box-sizing: border-box;
-			background: lightblue;
-
-			&-l1,
-			&-l2 {
-				display: flex;
-				height: 50%;
-
-				div {
-					display: flex;
-					flex-direction: column;
-					margin-right: 50px;
-					font-size: 0.9rem;
-
-					span {
-						font-size: 0.8rem;
-					}
-				}
-			}
-		}
 	}
 `;
 
 const Projects = () => {
 	//#immutables
-	const ticketheaders = ['Ticket ID', 'Description', 'Assigned To'];
+	const ticketheaders = ['Ticket ID', 'Subject', 'Assigned To'];
 
 	//#states
 	const [tickets, setTickets] = useState(null);
+	const [selectedTicket, setSelectedTicket] = useState(null);
 	const [project, setProject] = useState(null);
 
 	useEffect(() => {
@@ -78,7 +52,6 @@ const Projects = () => {
 			);
 
 			const data = await result.json();
-
 			setTickets(data);
 		};
 
@@ -87,14 +60,18 @@ const Projects = () => {
 
 	const sortTickets = (tickets) => {
 		return tickets.reduce((acc, cur) => {
-			acc.push([cur._id, cur.description, cur.assigned_to.name]);
+			acc.push([cur._id, cur.subject, cur.assigned_to.name]);
 
 			return acc;
 		}, []);
 	};
 
-	const selectTicket = (e) => {
-		console.log('selected ' + e.target.id);
+	const selectTicket = async (e) => {
+		const row = e.target.parentNode;
+		const result = await fetch(`${API_BASEURL}/ticket/${row.id}`);
+		const data = await result.json();
+		console.log(data);
+		setSelectedTicket(data[0]);
 	};
 
 	return (
@@ -105,7 +82,7 @@ const Projects = () => {
 					colsize={3}
 					headers={['Name', 'Phone', 'E-mail']}
 					content={[['Aren', '(123) 457-9999', 'aign123@email.com']]}
-					attributes={{ isSelectable: true, isHoverable: true }}
+					attributes={{ isSelectable: false, isHoverable: true }}
 				/>
 				<List
 					colsize={3}
@@ -116,32 +93,8 @@ const Projects = () => {
 				/>
 			</div>
 			<div>
-				<div className="selected-ticket">
-					<div className="ticket-body">
-						<div className="ticket-body-l1">
-							<div className="ticket-id">Ticket ID</div>
-							<div className="ticket-description">
-								Description{' '}
-								<span>
-									Lorem ipsum dolor sit amet, consectetur adipisicing
-									elit. Exercitationem, corrupti debitis! Commodi aut
-									et eligendi quas, corrupti, sapiente corporis
-									delectus soluta animi hic qui! Saepe inventore minima
-									in asperiores iste.
-								</span>
-							</div>
-						</div>
-						<div className="ticket-body-l2">
-							<div className="ticket-author">
-								Submitted By <span>Aren Ignacio</span>
-							</div>
-							<div className="ticket-assignee">Assigned to</div>
-							<div className="ticket-status">Status</div>
-						</div>
-					</div>
-					<div className="ticket-comments">
-						<div className="comments">Comments</div>
-					</div>
+				<div className="selected-ticket-container">
+					<SelectedTicket ticket={selectedTicket} />
 				</div>
 			</div>
 		</Wrapper>

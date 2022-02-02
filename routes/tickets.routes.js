@@ -114,4 +114,17 @@ Router.route('/query*').get(async (req, res) => {
 	res.json(result);
 });
 
+//get individual ticket
+Router.route('/:id').get(async (req, res) => {
+	console.log('get individual ticket executed');
+
+	try {
+		const id = req.params.id;
+		const ticket = await Ticket.where({ _id: id });
+		res.json(ticket);
+	} catch (err) {
+		res.status(201).json('Ticket does not exist');
+	}
+});
+
 module.exports = Router;

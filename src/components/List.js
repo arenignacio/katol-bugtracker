@@ -73,15 +73,12 @@ const List = ({
 	const [activeItem, setActiveItem] = useState();
 
 	const renderHeaders = (arr) => {
-		console.log(arr);
 		return arr.map((el) => {
 			return <div key={`key-${el}`}>{el}</div>;
 		});
 	};
 
 	const renderContent = (arr) => {
-		console.log(arr);
-
 		return arr.map((el) => {
 			return (
 				<div
