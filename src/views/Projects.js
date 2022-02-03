@@ -20,10 +20,9 @@ const Wrapper = styled.div`
 	overflow-y: scroll;
 
 	> div {
-		box-sizing: border-box;
-
 		display: flex;
 		justify-content: space-evenly;
+		box-sizing: border-box;
 		height: 44%;
 		width: 100%;
 	}
@@ -34,6 +33,14 @@ const Wrapper = styled.div`
 		height: 10%;
 		margin: 10px 15px;
 		padding-left: 50px;
+	}
+
+	.members {
+		width: 30%;
+	}
+
+	.tickets {
+		width: 45%;
 	}
 
 	.selected-ticket-container {
@@ -88,19 +95,29 @@ const Projects = () => {
 		<Wrapper selectedTicket={selectedTicket}>
 			<span className="project-name">Project 1</span>
 			<div>
-				<List
-					colsize={3}
-					headers={['Name', 'Phone', 'E-mail']}
-					content={[['Aren', '(123) 457-9999', 'aign123@email.com']]}
-					attributes={{ isSelectable: false, isHoverable: true }}
-				/>
-				<List
-					colsize={3}
-					headers={ticketheaders}
-					content={tickets ? sortTickets(tickets) : ''}
-					attributes={{ isSelectable: true, isHoverable: true }}
-					handleClick={selectTicket}
-				/>
+				<div className="members">
+					<List
+						colsize={3}
+						headers={['Name', 'Phone', 'E-mail']}
+						content={[
+							[
+								'Aren Ignacio',
+								'(123) 457-9999',
+								'business.arenignacio@email.com',
+							],
+						]}
+						attributes={{ isSelectable: false, isHoverable: true }}
+					/>
+				</div>
+				<div className="tickets">
+					<List
+						colsize={3}
+						headers={ticketheaders}
+						content={tickets ? sortTickets(tickets) : ''}
+						attributes={{ isSelectable: true, isHoverable: true }}
+						handleClick={selectTicket}
+					/>
+				</div>
 			</div>
 			<div>
 				<div className="selected-ticket-container">

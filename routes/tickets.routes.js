@@ -95,6 +95,8 @@ Router.route('/query*').get(async (req, res) => {
 	const urlStart = req.url.indexOf('?') + 1;
 	const url = req.url.substring(urlStart);
 	const params = url.split('&');
+
+	//make object containing params to be passed into query
 	const query = params.reduce((acc, cur) => {
 		if (!cur.includes('=')) return acc;
 

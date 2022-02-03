@@ -4,8 +4,8 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
 	box-sizing: border-box;
 	border: 1px solid black;
-	width: 40%;
-	min-width: 500px;
+	width: 100%;
+	min-width: 400px;
 	height: 250px;
 	margin-left: 15px;
 
@@ -20,14 +20,15 @@ const Wrapper = styled.div`
 			display: flex;
 
 			div {
-				display: flex;
 				height: 1rem;
-				justify-content: center;
-				align-items: center;
+				text-align: center;
 				width: ${({ colsize }) => 100 / colsize}%;
 				padding: 2px;
+				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
+
+				&: ;
 			}
 		}
 		&-item {
