@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { API_BASEURL } from '../utils/constants';
 
+/* 
+todo: fetch project data 
+todo: make selected ticket collapsable
+*/
+
 //#components
 import List from '../../src/components/List';
 import SelectedTicket from './SelectedTicket';
@@ -16,10 +21,10 @@ const Wrapper = styled.div`
 
 	> div {
 		box-sizing: border-box;
-		padding: 15px;
+
 		display: flex;
 		justify-content: space-evenly;
-		height: 45%;
+		height: 46%;
 		width: 100%;
 	}
 
@@ -30,8 +35,11 @@ const Wrapper = styled.div`
 	}
 
 	.selected-ticket-container {
-		max-height: 95%;
-		width: 90%;
+		height: ${({ selectedTicket }) => {
+			if (selectedTicket) return '90';
+			else return '10';
+		}}%;
+		width: 80%;
 		border: 1px solid black;
 	}
 `;
@@ -75,7 +83,7 @@ const Projects = () => {
 	};
 
 	return (
-		<Wrapper>
+		<Wrapper selectedTicket={selectedTicket}>
 			<span className="project-name">Project 1</span>
 			<div>
 				<List

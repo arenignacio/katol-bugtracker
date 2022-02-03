@@ -1,64 +1,59 @@
 import styled from 'styled-components';
 
+//todo: Make collapsable when no ticket is selected or pick default ticket.
+
 const Wrapper = styled.div`
-	display: flex;
 	height: 100%;
 	width: 100%;
 
-	.ticket-body {
-		width: 65%;
-		padding: 15px 25px;
-		box-sizing: border-box;
-		background: lightblue;
+	.header {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 15%;
+		font-size: 1.3rem;
+		background: white;
+	}
 
-		&-l1,
-		&-l2 {
-			display: flex;
-			height: 50%;
+	.body {
+		display: flex;
+		height: 85%;
+		width: 100%;
+		background: pink;
 
-			div {
-				display: flex;
-				flex-direction: column;
-				margin-right: 50px;
-				font-size: 0.9rem;
-
-				span {
-					font-size: 0.8rem;
-				}
-			}
+		&.hidden {
+			display: none;
 		}
+	}
+
+	.ticket-details {
+		width: 60%;
+		background: lightgreen;
+
+		> div {
+			height: 50%;
+			box-sizing: border-box;
+		}
+	}
+
+	.comments {
+		width: 40%;
+		background: lightblue;
 	}
 `;
 
 const SelectedTicket = ({ ticket }) => {
 	return (
 		<Wrapper>
+			<div className="header">Selected Ticket</div>
 			{ticket ? (
 				<>
-					<div className="ticket-body">
-						<div className="ticket-body-l1">
-							<div className="ticket-id">
-								Ticket ID <span>{ticket._id}</span>
-							</div>
-							<div className="ticket-description">
-								Description <span>{ticket.description}</span>
-							</div>
+					<div className="body ">
+						<div className="ticket-details">
+							<div></div>
+							<div></div>
 						</div>
-						<div className="ticket-body-l2">
-							<div className="ticket-author">
-								Submitted By <span>{ticket.initiated_by.name}</span>
-							</div>
-							<div className="ticket-assignee">
-								Assigned to <span>{ticket.assigned_to.name}</span>
-							</div>
-							<div className="ticket-status">
-								Status
-								<span>{ticket.status}</span>
-							</div>
-						</div>
-					</div>
-					<div className="ticket-comments">
-						<div className="comments">Comments</div>
+						<div className="comments"></div>
 					</div>
 				</>
 			) : (

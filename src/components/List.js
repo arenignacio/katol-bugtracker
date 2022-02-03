@@ -12,6 +12,7 @@ const Wrapper = styled.div`
 	.list {
 		&-header {
 			background: lightgreen;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 		}
 
 		&-header,
