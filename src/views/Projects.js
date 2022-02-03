@@ -111,15 +111,50 @@ const Projects = () => {
 								'business.arenignacio@email.com',
 							],
 						]}
-						attributes={{ isSelectable: false, isHoverable: true }}
+						attributes={{
+							isSelectable: false,
+							isHoverable: true,
+							isScrollable: true,
+						}}
 					/>
 				</div>
 				<div className="tickets">
 					<List
 						colsize={3}
 						headers={ticketheaders}
-						content={tickets ? sortTickets(tickets) : ''}
-						attributes={{ isSelectable: true, isHoverable: true }}
+						content={
+							tickets
+								? [
+										...sortTickets([...tickets]),
+										['1'],
+										['2'],
+										['3'],
+										['4'],
+										['5'],
+										['6'],
+										['7'],
+										['8'],
+										['9'],
+										['10'],
+										['11'],
+										['12'],
+										['13'],
+										['14'],
+										['15'],
+										['16'],
+										['17'],
+										['18'],
+										['19'],
+										['20'],
+								  ]
+								: ''
+						}
+						attributes={{
+							isSelectable: true,
+							isScrollable: true,
+							isHoverable: true,
+						}}
+						overflowBoundary={10}
 						handleClick={selectTicket}
 					/>
 				</div>

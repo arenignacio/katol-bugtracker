@@ -8,17 +8,22 @@ const Wrapper = styled.div`
 	border: 1px solid black;
 	width: 100%;
 	min-width: 400px;
+	overflow: hidden;
 	max-height: 100%;
 
 	.list {
 		&-header {
+			height: 5%;
 			background: lightgreen;
 			border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 		}
 
 		&-content {
 			overflow-y: auto;
-			max-height: ${24 * 15}px;
+			max-height: ${({ overflowBoundary }) => {
+				if (overflowBoundary > 10) overflowBoundary = 10;
+				return overflowBoundary * 20;
+			}}px;
 
 			&::-webkit-scrollbar {
 				width: 5px;
@@ -38,12 +43,14 @@ const Wrapper = styled.div`
 		&-header,
 		&-item {
 			display: flex;
+			align-items: center;
 
-			div {
+			div,
+			span {
 				height: 1rem;
 				text-align: center;
 				width: ${({ colsize }) => 100 / colsize}%;
-				padding: 2px;
+				padding: 4px 0px 0px 0px;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
@@ -85,8 +92,12 @@ const Wrapper = styled.div`
 const List = ({
 	headers,
 	content,
-	attributes = { isSelectable: false, isHoverable: false },
+	attributes = {
+		isSelectable: false,
+		isHoverable: false,
+	},
 	handleClick,
+	overflowBoundary,
 }) => {
 	//#states
 	const [activeItem, setActiveItem] = useState();
@@ -100,10 +111,8 @@ const List = ({
 	const renderRows = (arr) => {
 		return arr.map((row) => {
 			const contents = row.map((col) => {
-				return <div>{col}</div>;
+				return <span>{col}</span>;
 			});
-
-			let fillers = '';
 
 			return (
 				<div
@@ -139,6 +148,7 @@ const List = ({
 			colsize={headers ? headers.length : ''}
 			isSelectable={attributes.isSelectable}
 			isHoverable={attributes.isHoverable}
+			overflowBoundary={overflowBoundary}
 		>
 			<div className="list-header">
 				{headers ? renderHeaders(headers) : ''}
