@@ -92,7 +92,9 @@ Router.route('/:id').delete((req, res) => {
 
 //find tickets
 Router.route('/query*').get(async (req, res) => {
-	const params = req.url.split('&');
+	const urlStart = req.url.indexOf('?') + 1;
+	const url = req.url.substring(urlStart);
+	const params = url.split('&');
 	const query = params.reduce((acc, cur) => {
 		if (!cur.includes('=')) return acc;
 

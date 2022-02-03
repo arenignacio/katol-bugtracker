@@ -58,7 +58,7 @@ const Projects = () => {
 	useEffect(() => {
 		const getTicket = async () => {
 			const result = await fetch(
-				`${API_BASEURL}/ticket/query&project=61ed05ec878f129f1a51e196`
+				`${API_BASEURL}/ticket/query?project=61ed05ec878f129f1a51e196`
 			);
 
 			const data = await result.json();
