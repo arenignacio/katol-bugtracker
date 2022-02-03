@@ -36,11 +36,16 @@ const Wrapper = styled.div`
 	}
 
 	.members {
-		width: 30%;
+		width: 25%;
 	}
 
 	.tickets {
 		width: 45%;
+	}
+
+	.members,
+	.tickets {
+		height: 250px;
 	}
 
 	.selected-ticket-container {

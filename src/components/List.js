@@ -1,18 +1,38 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
+//todo: add fillers to rows
+
 const Wrapper = styled.div`
 	box-sizing: border-box;
 	border: 1px solid black;
 	width: 100%;
 	min-width: 400px;
-	height: 250px;
-	margin-left: 15px;
+	max-height: 100%;
 
 	.list {
 		&-header {
 			background: lightgreen;
 			border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+		}
+
+		&-content {
+			overflow-y: auto;
+			max-height: ${24 * 15}px;
+
+			&::-webkit-scrollbar {
+				width: 5px;
+			}
+
+			&::-webkit-scrollbar-track {
+				border-radius: 5px;
+				background: rgba(0, 0, 0, 0.5);
+			}
+
+			&::-webkit-scrollbar-thumb {
+				border-radius: 5px;
+				background: lightblue;
+			}
 		}
 
 		&-header,
@@ -27,8 +47,6 @@ const Wrapper = styled.div`
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
-
-				&: ;
 			}
 		}
 		&-item {
@@ -36,10 +54,6 @@ const Wrapper = styled.div`
 
 			&:nth-of-type(odd) {
 				background: rgba(0, 0, 0, 0.2);
-
-				&.active {
-					background: rgba(0, 0, 70, 0.3);
-				}
 			}
 
 			${({ isHoverable }) => {
@@ -56,6 +70,10 @@ const Wrapper = styled.div`
 				background: rgba(0, 0, 70, 0.4);
 				}`;
 			}}
+
+			&.active {
+				background: rgba(0, 0, 70, 0.3);
+			}
 		}
 	}
 
@@ -65,7 +83,6 @@ const Wrapper = styled.div`
 `;
 
 const List = ({
-	colsize,
 	headers,
 	content,
 	attributes = { isSelectable: false, isHoverable: false },
@@ -80,24 +97,40 @@ const List = ({
 		});
 	};
 
-	const renderContent = (arr) => {
-		return arr.map((el) => {
+	const renderRows = (arr) => {
+		return arr.map((row) => {
+			const contents = row.map((col) => {
+				return <div>{col}</div>;
+			});
+
+			let fillers = '';
+
 			return (
 				<div
-					className={`list-item ${activeItem === el[0] ? 'active' : ''}`}
-					id={el[0]}
-					key={el[0]}
+					className={`list-item ${activeItem === row[0] ? 'active' : ''}`}
+					id={row[0]}
+					key={row[0]}
 					onClick={(e) => {
-						console.log(`${el[0]} clicked`);
-						if (attributes.isSelectable) setActiveItem(el[0]);
+						console.log(`${row[0]} clicked`);
+						if (attributes.isSelectable) setActiveItem(row[0]);
 						if (handleClick) handleClick(e);
 					}}
 				>
-					<div>{el[0]}</div>
-					<div>{el[1]}</div>
-					<div>{el[2]}</div>
+					{contents}
 				</div>
 			);
+		});
+	};
+
+	const fillRows = (arr, number) => {
+		if (arr.length >= number) {
+			return;
+		}
+
+		let fillerRows = new Array(number - arr.length);
+		console.log(fillerRows.length);
+		return fillerRows.map(() => {
+			return <div className="list-item"></div>;
 		});
 	};
 
@@ -111,7 +144,8 @@ const List = ({
 				{headers ? renderHeaders(headers) : ''}
 			</div>
 			<div className="list-content">
-				{content ? renderContent(content) : 'Loading..'}
+				{content ? renderRows(content) : 'Loading..'}
+				{content ? fillRows(content, 15) : ''}
 			</div>
 		</Wrapper>
 	);
