@@ -47,7 +47,8 @@ const Wrapper = styled.div`
 		display: none;
 		text-align: left;
 		position: absolute;
-		width: 100%;
+		min-width: 120px;
+		max-width: 120px;
 		top: 100%;
 		z-index: 1;
 
