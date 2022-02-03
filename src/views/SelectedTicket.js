@@ -8,11 +8,12 @@ const Wrapper = styled.div`
 
 	.header {
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 		height: 15%;
 		font-size: 1.3rem;
 		background: white;
+		padding: 0px 20px;
 	}
 
 	.body {
@@ -45,7 +46,9 @@ const Wrapper = styled.div`
 const SelectedTicket = ({ ticket }) => {
 	return (
 		<Wrapper>
-			<div className="header">Selected Ticket</div>
+			<div className="header">
+				Selected Ticket <span>{ticket ? ticket.subject : ''}</span>
+			</div>
 			{ticket ? (
 				<>
 					<div className="body ">

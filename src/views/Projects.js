@@ -24,14 +24,16 @@ const Wrapper = styled.div`
 
 		display: flex;
 		justify-content: space-evenly;
-		height: 46%;
+		height: 44%;
 		width: 100%;
 	}
 
 	.project-name {
+		display: flex;
 		font-size: 2.7rem;
 		height: 10%;
-		margin: 40px 15px;
+		margin: 10px 15px;
+		padding-left: 50px;
 	}
 
 	.selected-ticket-container {
