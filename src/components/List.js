@@ -5,18 +5,9 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
 	width: 100%;
-	min-width: 400px;
+	min-width: 300px;
 	overflow: hidden;
 	max-height: 100%;
-
-	.title {
-		display: flex;
-		align-items: center;
-		padding: 2px;
-		padding-left: 15px;
-		background: white;
-		font-size: 1.3rem;
-	}
 
 	.list {
 		&-header {
@@ -57,16 +48,15 @@ const Wrapper = styled.div`
 			div,
 			span {
 				height: 1rem;
-				text-align: center;
 				width: ${({ colsize }) => 100 / colsize}%;
-				padding: 2px;
+				padding: 2px 2px 2px 10px;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
 
 			span {
-				padding: 4px 0px 0px 0px;
+				padding: 4px 0px 0px 10px;
 			}
 		}
 		&-item {
@@ -160,7 +150,6 @@ const List = ({
 			isHoverable={attributes.isHoverable}
 			viewableRows={viewableRows}
 		>
-			<div className="title">Title</div>
 			<div className="list-header">
 				{headers ? renderHeaders(headers) : ''}
 			</div>

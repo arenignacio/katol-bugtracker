@@ -47,11 +47,22 @@ const Wrapper = styled.div`
 	.members,
 	.tickets {
 		height: 250px;
+		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
 	}
 
 	.selected-ticket-container {
+		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
 		height: fit-content;
 		width: 80%;
+	}
+
+	.title {
+		display: flex;
+		align-items: center;
+		padding: 2px;
+		padding-left: 15px;
+		background: white;
+		font-size: 1.3rem;
 	}
 
 	.rounded {
@@ -70,6 +81,7 @@ const Projects = () => {
 	//#immutables
 	const ticketheaders = ['Ticket ID', 'Subject', 'Status'];
 	const API = requests(API_BASEURL);
+	const currentProject = '61ed05ec878f129f1a51e196';
 
 	//#states
 	const [tickets, setTickets] = useState(null);
@@ -78,9 +90,7 @@ const Projects = () => {
 
 	useEffect(() => {
 		const getTicket = async () => {
-			const data = await API.get(
-				'ticket/query?project=61ed05ec878f129f1a51e196'
-			);
+			const data = await API.get(`ticket/query?project=${currentProject}`);
 			setTickets(data);
 		};
 
@@ -107,7 +117,9 @@ const Projects = () => {
 			<span className="project-name">Project 1</span>
 			<div>
 				<div className="members border-solid rounded">
+					<div className="title">Members</div>
 					<List
+						subject={'Members'}
 						colsize={3}
 						headers={['Name', 'Phone', 'E-mail']}
 						content={[
@@ -125,7 +137,9 @@ const Projects = () => {
 					/>
 				</div>
 				<div className="tickets border-solid rounded">
+					<div className="title">Tickets</div>
 					<List
+						subject={'Tickets'}
 						colsize={3}
 						headers={ticketheaders}
 						content={
