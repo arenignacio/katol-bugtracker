@@ -37,6 +37,7 @@ const Wrapper = styled.div`
 			border-radius: 5px;
 			background: white;
 			box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
+			border: 1px solid rgba(0,0,0, 0.3);
 			overflow: hidden;
 
 			#header {

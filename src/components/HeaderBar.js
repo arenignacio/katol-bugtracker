@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	box-sizing: border-box;
-	border-bottom: 0.5px solid rgba(0, 0, 0, 0.5);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 	width: 100%;
 	background: #fff;
 	height: 5%;

@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 	}
 
 	.members {
-		width: 33%;
+		width: 25%;
 	}
 
 	.tickets {
@@ -72,7 +72,7 @@ const Wrapper = styled.div`
 
 	.border {
 		&-solid {
-			border: 1px solid black;
+			border: 1px solid rgba(0, 0, 0, 0.3);
 		}
 	}
 `;
@@ -116,19 +116,13 @@ const Projects = () => {
 		<Wrapper selectedTicket={selectedTicket}>
 			<span className="project-name">Project 1</span>
 			<div>
-				<div className="members rounded">
+				<div className="members border-solid rounded">
 					<div className="title">Members</div>
 					<List
 						subject={'Members'}
 						colsize={3}
-						headers={['Name', 'Phone', 'E-mail']}
-						content={[
-							[
-								'Aren Ignacio',
-								'(123) 457-9999',
-								'business.arenignacio@email.com',
-							],
-						]}
+						headers={['Name', 'E-mail']}
+						content={[['Aren Ignacio', 'business.arenignacio@email.com']]}
 						attributes={{
 							isSelectable: false,
 							isHoverable: true,
@@ -136,7 +130,7 @@ const Projects = () => {
 						}}
 					/>
 				</div>
-				<div className="tickets rounded">
+				<div className="tickets border-solid rounded">
 					<div className="title">Tickets</div>
 					<List
 						subject={'Tickets'}
@@ -165,7 +159,7 @@ const Projects = () => {
 				</div>
 			</div>
 			<div>
-				<div className="selected-ticket-container rounded">
+				<div className="selected-ticket-container border-solid rounded">
 					<SelectedTicket ticket={selectedTicket} />
 				</div>
 			</div>

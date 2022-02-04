@@ -21,6 +21,15 @@ export const UserContext = createContext();
 const Container = styled.div`
 	color: rgba(0, 0, 0, 0.8);
 	height: 100vh;
+
+	.header-container {
+		height: 5vh;
+		z-index: 2;
+	}
+
+	.navigation-container {
+		z-index: 1;
+	}
 `;
 
 const BodyWrapper = styled.div`
@@ -107,13 +116,7 @@ const App = () => {
 					value={[currentUser, setCurrentUser, setIsLoggedIn]}
 				>
 					<Container>
-						<div
-							style={{
-								position: 'relative',
-								height: '5vh',
-								zIndex: '2',
-							}}
-						>
+						<div className="header-container">
 							<HeaderBar
 								headerLinksArr={dropdownLinks}
 								currentUser={currentUser}
@@ -121,10 +124,12 @@ const App = () => {
 							></HeaderBar>
 						</div>
 						<BodyWrapper>
-							<Navigation
-								navLinks={navLinks}
-								widthSize="10%"
-							></Navigation>
+							<div className="navigation-container">
+								<Navigation
+									navLinks={navLinks}
+									widthSize="10%"
+								></Navigation>
+							</div>
 
 							<div id="body-content">
 								<Outlet></Outlet>

@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 	.list {
 		&-header {
 			height: 5%;
-			background: lightgreen;
+			background: gray;
 			border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 		}
 
@@ -49,7 +49,7 @@ const Wrapper = styled.div`
 			span {
 				height: 1rem;
 				width: ${({ colsize }) => 100 / colsize}%;
-				padding: 2px 2px 2px 10px;
+				padding: 2px 0px 2px 10px;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;

@@ -85,8 +85,12 @@ const Wrapper = styled.div`
 				span {
 					max-width: 100%;
 					font-size: 0.8rem;
-					color: rgba(0,0,0, 0.6);
+					color: rgba(0,0,0, 0.5);
 					margin-top: 2px;
+
+					&.high-priority {						
+						color: rgba(225, 0, 0, 1);
+					}
 				}
 			}
 		}
@@ -114,7 +118,7 @@ const SelectedTicket = ({ ticket }) => {
 			<div className="header">
 				<div>{(ticket && ticket.subject) || 'Selected Ticket'}</div>
 				<div>
-					{(ticket && 'Last Updated: ' + ticket.last_updated) || ''}
+					{(ticket && 'Last Updated: ' + date(ticket.last_updated)) || ''}
 					&nbsp;
 					<span
 						style={{ display: ticket ? 'block' : 'none' }}
@@ -152,7 +156,16 @@ const SelectedTicket = ({ ticket }) => {
 							Status <span>{(ticket && ticket.status) || ''}</span>
 						</div>
 						<div>
-							Priority <span>{(ticket && ticket.priority) || ''}</span>
+							Priority{' '}
+							<span
+								className={
+									ticket && ticket.priority === 'high'
+										? 'high-priority'
+										: ''
+								}
+							>
+								{(ticket && ticket.priority) || ''}
+							</span>
 						</div>
 						<div>
 							Type <span>{(ticket && ticket.type) || ''}</span>
