@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { API_BASEURL } from '../utils/constants';
+import requests from '../utils/requests';
 
 /* 
 todo: fetch project data 
@@ -9,7 +10,7 @@ todo: make selected ticket collapsable
 
 //#components
 import List from '../../src/components/List';
-import SelectedTicket from './SelectedTicket';
+import SelectedTicket from '../components/SelectedTicket';
 
 const Wrapper = styled.div`
 	box-sizing: border-box;
@@ -49,6 +50,7 @@ const Wrapper = styled.div`
 	}
 
 	.selected-ticket-container {
+		height: fit-content;
 		width: 80%;
 	}
 
@@ -67,6 +69,7 @@ const Wrapper = styled.div`
 const Projects = () => {
 	//#immutables
 	const ticketheaders = ['Ticket ID', 'Subject', 'Status'];
+	const API = requests(API_BASEURL);
 
 	//#states
 	const [tickets, setTickets] = useState(null);
@@ -75,11 +78,9 @@ const Projects = () => {
 
 	useEffect(() => {
 		const getTicket = async () => {
-			const result = await fetch(
-				`${API_BASEURL}/ticket/query?project=61ed05ec878f129f1a51e196`
+			const data = await API.get(
+				'ticket/query?project=61ed05ec878f129f1a51e196'
 			);
-
-			const data = await result.json();
 			setTickets(data);
 		};
 
@@ -96,8 +97,7 @@ const Projects = () => {
 
 	const selectTicket = async (e) => {
 		const row = e.target.parentNode;
-		const result = await fetch(`${API_BASEURL}/ticket/${row.id}`);
-		const data = await result.json();
+		const data = await API.get(`ticket/${row.id}`);
 		console.log(data);
 		setSelectedTicket(data[0]);
 	};
