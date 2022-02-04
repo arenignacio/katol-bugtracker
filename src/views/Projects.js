@@ -116,7 +116,7 @@ const Projects = () => {
 		<Wrapper selectedTicket={selectedTicket}>
 			<span className="project-name">Project 1</span>
 			<div>
-				<div className="members border-solid rounded">
+				<div className="members rounded">
 					<div className="title">Members</div>
 					<List
 						subject={'Members'}
@@ -136,7 +136,7 @@ const Projects = () => {
 						}}
 					/>
 				</div>
-				<div className="tickets border-solid rounded">
+				<div className="tickets rounded">
 					<div className="title">Tickets</div>
 					<List
 						subject={'Tickets'}
@@ -165,7 +165,7 @@ const Projects = () => {
 				</div>
 			</div>
 			<div>
-				<div className="selected-ticket-container border-solid rounded">
+				<div className="selected-ticket-container rounded">
 					<SelectedTicket ticket={selectedTicket} />
 				</div>
 			</div>
