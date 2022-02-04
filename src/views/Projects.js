@@ -136,18 +136,7 @@ const Projects = () => {
 						subject={'Tickets'}
 						colsize={3}
 						headers={ticketheaders}
-						content={
-							tickets
-								? [
-										...sortTickets([...tickets]),
-										['1'],
-										['2'],
-										['3'],
-										['4'],
-										['5'],
-								  ]
-								: ''
-						}
+						content={tickets ? sortTickets([...tickets]) : ''}
 						attributes={{
 							isSelectable: true,
 							isScrollable: true,
