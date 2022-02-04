@@ -1,10 +1,10 @@
 const requests = (baseURL) => {
 	const get = async (subURL) => {
 		console.log('attempting to get data..');
-		const res = await fetch(`${baseURL}/${subURL}`);
+		const data = await fetch(`${baseURL}/${subURL}`);
 
-		if (res.ok) {
-			return await res.json();
+		if (data.ok) {
+			return await data.json();
 		} else {
 			console.log('data fetch failed');
 		}
@@ -34,7 +34,7 @@ const requests = (baseURL) => {
 		});
 
 		if (data.ok) {
-			console.log('data sucessfully updated');
+			return await data.json();
 		} else {
 			console.log('data update failed');
 		}

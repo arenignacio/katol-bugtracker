@@ -17,7 +17,7 @@ const cors = require('cors');
 //const mongodb = require('./database/db');
 const authenticate = require('./auth/passport-config');
 const ticketRoute = require('./routes/tickets.routes');
-const userRoute = require('./routes/users.routers');
+const userRoute = require('./routes/users.routes');
 const projectRoute = require('./routes/projects.routes');
 const User = require('./models/User');
 

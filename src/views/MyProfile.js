@@ -204,7 +204,7 @@ const MyProfile = () => {
 	const [formValues, setFormValues] = useState();
 
 	const req = requests(API_BASEURL);
-	const updateDB = req.update;
+	const updateDB = req.put;
 
 	//#update form everytime user changes
 	useEffect(() => {
@@ -245,7 +245,7 @@ const MyProfile = () => {
 		};
 
 		if (isFormUpdated()) {
-			updateDB('/user/update', formValues);
+			updateDB('user/update', formValues);
 			setUser(formValues);
 		}
 
