@@ -28,13 +28,15 @@ const Wrapper = styled.div`
 	}
 
 	.ticket-details {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
 		width: 60%;
 		background: lightgreen;
 		padding: 15px;
 
 		> div {
 			display: flex;
-			height: 50%;
 			box-sizing: border-box;
 
 			div {
@@ -91,6 +93,9 @@ const SelectedTicket = ({ ticket }) => {
 							</div>
 							<div>
 								<div>
+									Status <span>{ticket.status}</span>
+								</div>
+								<div>
 									{' '}
 									Initiated By
 									<span>{ticket.initiated_by.name}</span>
@@ -100,8 +105,17 @@ const SelectedTicket = ({ ticket }) => {
 									Assigned To
 									<span>{ticket.assigned_to.name}</span>
 								</div>
+							</div>
+
+							<div>
 								<div>
-									<span></span>
+									Test<span>test</span>
+								</div>
+								<div>
+									stat<span>test</span>
+								</div>
+								<div>
+									stat<span>test</span>
 								</div>
 							</div>
 						</div>

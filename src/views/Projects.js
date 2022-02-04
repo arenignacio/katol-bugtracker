@@ -49,10 +49,6 @@ const Wrapper = styled.div`
 	}
 
 	.selected-ticket-container {
-		height: ${({ selectedTicket }) => {
-			if (selectedTicket) return '90';
-			else return '10';
-		}}%;
 		width: 80%;
 	}
 
