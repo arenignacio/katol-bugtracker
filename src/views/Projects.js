@@ -154,7 +154,6 @@ const Projects = () => {
 							isScrollable: true,
 							isHoverable: true,
 						}}
-						overflowBoundary={10}
 						handleClick={selectTicket}
 					/>
 				</div>

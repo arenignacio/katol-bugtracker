@@ -9,6 +9,7 @@ const Wrapper = styled.div`
 	width: 100%;
 	min-width: 400px;
 	overflow: hidden;
+	min-height: 
 	max-height: 100%;
 
 	.list {
@@ -20,9 +21,14 @@ const Wrapper = styled.div`
 
 		&-content {
 			overflow-y: auto;
-			max-height: ${({ overflowBoundary }) => {
-				if (overflowBoundary > 10) overflowBoundary = 10;
-				return overflowBoundary * 20;
+			max-height: ${({ viewableRows }) => {
+				let rowSize = 20; //pixels
+				let total = 10 * rowSize;
+
+				if (viewableRows)
+					total = viewableRows < 10 ? viewableRows * rowSize : total;
+
+				return total;
 			}}px;
 
 			&::-webkit-scrollbar {
@@ -79,14 +85,11 @@ const Wrapper = styled.div`
 			}}
 
 			&.active {
-				background: rgba(0, 0, 70, 0.3);
+				background: lightblue;
 			}
 		}
 	}
 
-	.active {
-		background: rgba(0, 0, 70, 0.3);
-	}
 `;
 
 const List = ({
@@ -97,7 +100,7 @@ const List = ({
 		isHoverable: false,
 	},
 	handleClick,
-	overflowBoundary,
+	viewableRows,
 }) => {
 	//#states
 	const [activeItem, setActiveItem] = useState();
@@ -148,7 +151,7 @@ const List = ({
 			colsize={headers ? headers.length : ''}
 			isSelectable={attributes.isSelectable}
 			isHoverable={attributes.isHoverable}
-			overflowBoundary={overflowBoundary}
+			viewableRows={viewableRows}
 		>
 			<div className="list-header">
 				{headers ? renderHeaders(headers) : ''}
