@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 	.comments {
 		box-sizing: border-box;
 		width: 100%;
-		height: 70%;
+		height: fit-content;
 		border: 1px solid rgba(0, 0, 0, 0.5);
 		background: white;
 
@@ -25,7 +25,6 @@ const Wrapper = styled.div`
 
 	.comment-box {
 		width: 100%;
-		height: 30%;
 		border: 1px solid rgba(250, 0, 0, 0.5);
 	}
 `;
