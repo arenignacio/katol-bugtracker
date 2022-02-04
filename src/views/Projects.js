@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 	}
 
 	.members {
-		width: 25%;
+		width: 33%;
 	}
 
 	.tickets {
@@ -54,13 +54,23 @@ const Wrapper = styled.div`
 			else return '10';
 		}}%;
 		width: 80%;
-		border: 1px solid black;
+	}
+
+	.rounded {
+		border-radius: 5px;
+		overflow: hidden;
+	}
+
+	.border {
+		&-solid {
+			border: 1px solid black;
+		}
 	}
 `;
 
 const Projects = () => {
 	//#immutables
-	const ticketheaders = ['Ticket ID', 'Subject', 'Assigned To'];
+	const ticketheaders = ['Ticket ID', 'Subject', 'Status'];
 
 	//#states
 	const [tickets, setTickets] = useState(null);
@@ -82,7 +92,7 @@ const Projects = () => {
 
 	const sortTickets = (tickets) => {
 		return tickets.reduce((acc, cur) => {
-			acc.push([cur._id, cur.subject, cur.assigned_to.name]);
+			acc.push([cur._id, cur.subject, cur.status]);
 
 			return acc;
 		}, []);
@@ -100,7 +110,7 @@ const Projects = () => {
 		<Wrapper selectedTicket={selectedTicket}>
 			<span className="project-name">Project 1</span>
 			<div>
-				<div className="members">
+				<div className="members border-solid rounded">
 					<List
 						colsize={3}
 						headers={['Name', 'Phone', 'E-mail']}
@@ -118,7 +128,7 @@ const Projects = () => {
 						}}
 					/>
 				</div>
-				<div className="tickets">
+				<div className="tickets border-solid rounded">
 					<List
 						colsize={3}
 						headers={ticketheaders}
@@ -131,21 +141,6 @@ const Projects = () => {
 										['3'],
 										['4'],
 										['5'],
-										['6'],
-										['7'],
-										['8'],
-										['9'],
-										['10'],
-										['11'],
-										['12'],
-										['13'],
-										['14'],
-										['15'],
-										['16'],
-										['17'],
-										['18'],
-										['19'],
-										['20'],
 								  ]
 								: ''
 						}
@@ -155,11 +150,12 @@ const Projects = () => {
 							isHoverable: true,
 						}}
 						handleClick={selectTicket}
+						viewableRows={10}
 					/>
 				</div>
 			</div>
 			<div>
-				<div className="selected-ticket-container">
+				<div className="selected-ticket-container border-solid rounded">
 					<SelectedTicket ticket={selectedTicket} />
 				</div>
 			</div>

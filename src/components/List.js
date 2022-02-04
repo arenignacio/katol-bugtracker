@@ -4,13 +4,19 @@ import styled from 'styled-components';
 //todo: add fillers to rows
 
 const Wrapper = styled.div`
-	box-sizing: border-box;
-	border: 1px solid black;
 	width: 100%;
 	min-width: 400px;
 	overflow: hidden;
-	min-height: 
 	max-height: 100%;
+
+	.title {
+		display: flex;
+		align-items: center;
+		padding: 2px;
+		padding-left: 15px;
+		background: white;
+		font-size: 1.3rem;
+	}
 
 	.list {
 		&-header {
@@ -21,12 +27,9 @@ const Wrapper = styled.div`
 
 		&-content {
 			overflow-y: auto;
-			max-height: ${({ viewableRows }) => {
+			height: ${({ viewableRows }) => {
 				let rowSize = 20; //pixels
-				let total = 10 * rowSize;
-
-				if (viewableRows)
-					total = viewableRows < 10 ? viewableRows * rowSize : total;
+				let total = ((viewableRows < 10 && viewableRows) || 10) * rowSize;
 
 				return total;
 			}}px;
@@ -56,14 +59,19 @@ const Wrapper = styled.div`
 				height: 1rem;
 				text-align: center;
 				width: ${({ colsize }) => 100 / colsize}%;
-				padding: 4px 0px 0px 0px;
+				padding: 2px;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
+
+			span {
+				padding: 4px 0px 0px 0px;
+			}
 		}
 		&-item {
 			font-size: 0.7rem;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
 			&:nth-of-type(odd) {
 				background: rgba(0, 0, 0, 0.2);
@@ -89,7 +97,6 @@ const Wrapper = styled.div`
 			}
 		}
 	}
-
 `;
 
 const List = ({
@@ -153,6 +160,7 @@ const List = ({
 			isHoverable={attributes.isHoverable}
 			viewableRows={viewableRows}
 		>
+			<div className="title">Title</div>
 			<div className="list-header">
 				{headers ? renderHeaders(headers) : ''}
 			</div>
