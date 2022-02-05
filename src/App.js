@@ -58,6 +58,7 @@ const App = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(
 		JSON.parse(localStorage.getItem('isLoggedIn'))
 	);
+	const [activeBtn, setActiveBtn] = useState();
 
 	const dropdownLinks = [
 		{
@@ -127,7 +128,8 @@ const App = () => {
 							<div className="navigation-container">
 								<Navigation
 									navLinks={navLinks}
-									widthSize="10%"
+									activeBtn={activeBtn}
+									setActiveBtn={setActiveBtn}
 								></Navigation>
 							</div>
 

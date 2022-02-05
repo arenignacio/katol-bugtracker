@@ -15,6 +15,7 @@ const verifyLogin = require('../utils/middleware/verifyLogin');
 
 //#utility functions
 
+//new user
 users
 	.route('/register')
 	.post(
@@ -23,6 +24,7 @@ users
 		registerUser
 	);
 
+//update user
 users.route('/update').put((req, res) => {
 	const { _id } = req.user;
 	const { body } = req;
@@ -37,6 +39,7 @@ users.route('/update').put((req, res) => {
 	});
 });
 
+//delete user
 users.route('/:id').delete((req, res) => {
 	const { id } = req.params;
 	let confirmation = 'User successfully deleted';
@@ -53,6 +56,7 @@ users.route('/:id').delete((req, res) => {
 	}
 });
 
+//find user
 users.route('/query').get(async (req, res) => {
 	const { body } = req;
 	let result = await User.where(body);
@@ -60,6 +64,7 @@ users.route('/query').get(async (req, res) => {
 	res.json(result);
 });
 
+//login
 users.route('/login').post(
 	(req, res, next) => {
 		console.log('logging in...');
@@ -71,6 +76,7 @@ users.route('/login').post(
 	verifyLogin
 );
 
+//logout
 users.route('/logout').get((req, res) => {
 	req.logout();
 	console.log('loging out. user is now ' + req.user);

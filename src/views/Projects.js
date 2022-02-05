@@ -97,6 +97,7 @@ const Projects = () => {
 		getTicket();
 	}, []);
 
+	//sort ticket data to be fed into list
 	const sortTickets = (tickets) => {
 		return tickets.reduce((acc, cur) => {
 			acc.push([cur._id, cur.subject, cur.status]);
@@ -105,6 +106,7 @@ const Projects = () => {
 		}, []);
 	};
 
+	//select ticket handler
 	const selectTicket = async (e) => {
 		const row = e.target.parentNode;
 		const data = await API.get(`ticket/${row.id}`);

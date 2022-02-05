@@ -55,9 +55,8 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Navigation = ({ navLinks }) => {
+const Navigation = ({ navLinks, activeBtn, setActiveBtn }) => {
 	const navigate = useNavigate();
-	const [activeBtn, setActiveBtn] = useState();
 
 	const renderLinks = (navLinks) =>
 		navLinks.map((name, idx) => {
