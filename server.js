@@ -55,8 +55,6 @@ app.use(
 app.use(express.static(path.join(__dirname + '/build')));
 
 //#authentication
-app.use(passport.initialize());
-app.use(passport.session());
 passport.use(new LocalStrategy({ usernameField: 'email' }, authenticate));
 
 passport.serializeUser((user, done) => {
@@ -66,6 +64,9 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) =>
 	User.findById(id, (err, user) => done(err, user))
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 //#routes
 app.use('/ticket', ticketRoute);

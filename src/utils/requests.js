@@ -18,11 +18,11 @@ const requests = (baseURL) => {
 			body: JSON.stringify(values),
 		});
 
-		if (data.ok) {
+		/* 		if (data.ok) {
 			return await data.json();
 		} else {
 			console.log('data post failed');
-		}
+		} */
 	};
 
 	const put = async (subURL, values) => {

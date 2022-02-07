@@ -30,7 +30,9 @@ Router.route('/:id?')
 	.put(async (req, res) => {
 		const id = req.params.id;
 		const body = req.body;
-		/* const { email } = req.user; */
+		/* const { email } = req.user;  
+			#needs req.user access
+		*/
 		let result;
 
 		try {

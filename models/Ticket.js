@@ -9,7 +9,7 @@ const ticketSchema = mongoose.Schema({
 	comments: [
 		{
 			_id: { type: String, default: new mongoose.Types.ObjectId() },
-			author_id: { type: String, required: true },
+			author_email: { type: String, required: true },
 			author: { type: String, required: true },
 			date: { type: Date, default: new Date() },
 			content: { type: String, required: true },

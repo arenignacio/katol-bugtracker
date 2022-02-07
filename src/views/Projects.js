@@ -91,6 +91,13 @@ const Projects = () => {
 	useEffect(() => {
 		const getTicket = async () => {
 			const data = await API.get(`ticket/query?project=${currentProject}`);
+			console.log('testing112345');
+			//comment test
+			/* await API.post(`ticket/61c265c096a7d556d5a875a6/comments`, {
+				content: 'Hello!!123',
+				author: 'John Doe',
+				author_email: 'johdoe1213@email.com',
+			}); */
 			setTickets(data);
 		};
 

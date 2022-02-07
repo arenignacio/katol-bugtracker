@@ -191,7 +191,19 @@ const SelectedTicket = ({ ticket }) => {
 					</div>
 				</div>
 				<div className="comments-container">
-					<Comments />
+					<Comments
+						comments={
+							ticket
+								? ticket.comments.map((el) => [
+										<>
+											{el.content +
+												'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, ad porro in modi voluptatum id! Quasi, quibusdam? Repudiandae quos sint consectetur tenetur debitis id, labore, asperiores, sunt ipsum natus beatae?'}{' '}
+											by {el.author} - {date(el.date)}
+										</>,
+								  ])
+								: console.log('no')
+						}
+					/>
 				</div>
 			</div>
 		</Wrapper>

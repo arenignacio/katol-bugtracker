@@ -29,26 +29,32 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Comments = () => {
+const Comments = ({ comments }) => {
+	console.log(comments);
+
 	return (
 		<Wrapper>
 			<div className="comments">
 				<List
 					headers={['COMMENTS']}
-					content={[
-						[<div style={{ color: 'blue' }}>Hello</div>],
-						['2'],
-						['3'],
-						['4'],
-						['5'],
-						['6'],
-						['7'],
-						['8'],
-						['9'],
-						['10'],
-						['11'],
-						['12'],
-					]}
+					content={
+						comments
+							? comments
+							: [
+									[<div style={{ color: 'blue' }}>{'hello'}</div>],
+									['2'],
+									['3'],
+									['4'],
+									['5'],
+									['6'],
+									['7'],
+									['8'],
+									['9'],
+									['10'],
+									['11'],
+									['12'],
+							  ]
+					}
 					viewableRows={6}
 				/>
 			</div>

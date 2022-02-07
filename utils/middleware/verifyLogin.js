@@ -3,6 +3,7 @@ const verifyLogin = (req, res) => {
 		console.log('successfully logged in');
 		const { firstname, username, lastname, email, phone, location, aboutme } =
 			req.user;
+		console.log(req.session);
 
 		res.status(200).json({
 			username,
