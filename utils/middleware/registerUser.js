@@ -9,6 +9,7 @@ const User = require('../../models/User');
 const registerUser = async (req, res, next) => {
 	const { body } = req;
 	const errors = validationResult(req);
+	body.email = body.email.toLowerCase();
 
 	console.log('registering..');
 

@@ -68,6 +68,7 @@ users.route('/query').get(async (req, res) => {
 users.route('/login').post(
 	(req, res, next) => {
 		console.log('logging in...');
+		req.body.email = req.body.email.toLowerCase();
 		next();
 	},
 	passport.authenticate('local', {

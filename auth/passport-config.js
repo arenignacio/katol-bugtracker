@@ -6,7 +6,7 @@ const authenticateUser = async (email, password, done) => {
 	//passport looks for fields username and password to pass as an argument into this callback and also passes a done function  as callback. (done already comes packaged in passport)
 
 	//check if email exists in User collection
-	User.findOne({ email: email }, (err, user) => {
+	User.findOne({ email: email.toLowerCase() }, (err, user) => {
 		//if error
 		if (err) {
 			//done catches error

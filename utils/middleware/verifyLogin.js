@@ -9,7 +9,7 @@ const verifyLogin = (req, res) => {
 			username,
 			firstname,
 			lastname,
-			email,
+			email: email.toLowerCase(),
 			phone,
 			location,
 			aboutme,
