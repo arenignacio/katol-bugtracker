@@ -19,6 +19,7 @@ const Wrapper = styled.div`
 		}
 
 		div.list-item {
+			width: 100%;
 			justify-content: start;
 		}
 	}
@@ -27,19 +28,62 @@ const Wrapper = styled.div`
 		width: 100%;
 		border: 1px solid rgba(250, 0, 0, 0.5);
 	}
+
+	.comment {
+		display: flex;
+		width: 100%;
+		font-size: 0.8rem;
+		margin-bottom: 10px;
+
+		span.content {
+			width: 70%;
+		}
+
+		span.author {
+			width: 30%;
+			padding-top: 1px;
+			font-size: 0.7rem;
+			font-weight: bold;
+		}
+	}
 `;
 
 const Comments = ({ comments }) => {
 	console.log(comments);
 
+	const date = (dateStr) => {
+		const date = new Date(dateStr);
+
+		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
+	};
+
+	const renderComments = (comments) => {
+		return comments.map((comment) => {
+			return [
+				<div className="comment">
+					<span className="content">
+						{comment.content +
+							' Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla, animi sequi perspiciatis possimus '}
+					</span>
+					<br />
+					<span className="author">
+						{comment.author}
+						<br />
+						<span>{date(comment.date)}</span>
+					</span>
+				</div>,
+			];
+		});
+	};
+
 	return (
-		<Wrapper>
+		<Wrapper comments={comments}>
 			<div className="comments">
 				<List
 					headers={['COMMENTS']}
 					content={
 						comments
-							? comments
+							? renderComments(comments)
 							: [
 									[<div style={{ color: 'blue' }}>{'hello'}</div>],
 									['2'],
@@ -55,6 +99,7 @@ const Comments = ({ comments }) => {
 									['12'],
 							  ]
 					}
+					attributes={{ isExpandable: true }}
 					viewableRows={6}
 				/>
 			</div>

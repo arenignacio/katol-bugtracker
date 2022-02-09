@@ -45,17 +45,20 @@ const Wrapper = styled.div`
 			display: flex;
 			align-items: center;
 
-			div,
-			span {
-				height: 1rem;
+			div.row,
+			span.col {
 				width: ${({ colsize }) => 100 / colsize}%;
 				padding: 2px 0px 2px 10px;
-				overflow: hidden;
+				${({ isExpandable }) =>
+					!isExpandable
+						? `height: 1rem;
+						overflow: hidden;
 				white-space: nowrap;
-				text-overflow: ellipsis;
+				text-overflow: ellipsis;`
+						: 'min-height: 1rem;'}
 			}
 
-			span {
+			span.col {
 				padding: 4px 0px 0px 10px;
 			}
 		}
@@ -95,6 +98,7 @@ const List = ({
 	attributes = {
 		isSelectable: false,
 		isHoverable: false,
+		isExpandable: false,
 	},
 	handleClick,
 	viewableRows,
@@ -111,12 +115,14 @@ const List = ({
 	const renderRows = (arr) => {
 		return arr.map((row) => {
 			const contents = row.map((col) => {
-				return <span>{col}</span>;
+				return <span className="col">{col}</span>;
 			});
 
 			return (
 				<div
-					className={`list-item ${activeItem === row[0] ? 'active' : ''}`}
+					className={`list-item row ${
+						activeItem === row[0] ? 'active' : ''
+					}`}
 					id={row[0]}
 					key={row[0]}
 					onClick={(e) => {
@@ -148,6 +154,7 @@ const List = ({
 			colsize={headers ? headers.length : ''}
 			isSelectable={attributes.isSelectable}
 			isHoverable={attributes.isHoverable}
+			isExpandable={attributes.isExpandable}
 			viewableRows={viewableRows}
 		>
 			<div className="list-header">
