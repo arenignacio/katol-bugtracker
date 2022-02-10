@@ -77,12 +77,18 @@ const Wrapper = styled.div`
 				align-items: center;
 				border-radius: 5px;
 				border: 1px solid rgba(0, 0, 0, 0.5);
+				background: hsla(200, 50%, 70%, 1);
 				width: 12%;
 				height: 30%;
 
 				&:hover {
 					cursor: pointer;
-					background: lightgreen;
+					background: hsla(200, 70%, 50%, 1);
+				}
+
+				&:active {
+					background: hsla(200, 100%, 50%, 1);
+					transform: translatey(1px) translatex(1px) scale(0.95);
 				}
 			}
 		}
@@ -123,17 +129,15 @@ const Comments = ({ origin, comments }) => {
 		const data = await API.post('ticket/' + origin + '/comments', {
 			content: textArea.current.value,
 		});
-		console.log('posted', data);
+		textArea.current.value = '';
+		setNewComments(data.reverse());
 	};
 
 	const renderComments = (comments) => {
 		return comments.map((comment) => {
 			return [
 				<div className="comment">
-					<span className="content">
-						{comment.content +
-							' Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla, animi sequi perspiciatis possimus '}
-					</span>
+					<span className="content">{comment.content}</span>
 					<br />
 					<span className="author">
 						{comment.author}
