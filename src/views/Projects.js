@@ -46,7 +46,7 @@ const Wrapper = styled.div`
 
 	.members,
 	.tickets {
-		height: 250px;
+		height: fit-content;
 		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
 	}
 
@@ -152,7 +152,7 @@ const Projects = () => {
 							isHoverable: true,
 						}}
 						handleClick={selectTicket}
-						viewableRows={10}
+						viewableRows={11}
 					/>
 				</div>
 			</div>

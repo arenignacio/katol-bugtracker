@@ -108,7 +108,11 @@ const List = ({
 
 	const renderHeaders = (arr) => {
 		return arr.map((el) => {
-			return <div key={`key-${el}`}>{el}</div>;
+			return (
+				<div className="row" key={`key-${el}`}>
+					{el}
+				</div>
+			);
 		});
 	};
 

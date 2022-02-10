@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 	.comments {
 		box-sizing: border-box;
 		width: 100%;
-		height: fit-content;
+		height: 50%;
 		border: 1px solid rgba(0, 0, 0, 0.5);
 		background: white;
 
@@ -25,8 +25,48 @@ const Wrapper = styled.div`
 	}
 
 	.comment-box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 50%;
 		width: 100%;
 		border: 1px solid rgba(250, 0, 0, 0.5);
+
+		form {
+			display: flex;
+			align-items: center;
+			justify-content: space-evenly;
+			height: 60%;
+			width: 80%;
+
+			textarea {
+				width: 80%;
+				height: 50%;
+				border-radius: 5px;
+				border: 1px solid gray;
+				padding: 10px;
+				font-size: 0.8rem;
+				font-family: 'times new roman';
+				box-sizing: border-box;
+				resize: none;
+
+				&:focus {
+					outline: none;
+				}
+			}
+
+			button {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 12%;
+				height: 50%;
+
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
 	}
 
 	.comment {
@@ -100,10 +140,16 @@ const Comments = ({ comments }) => {
 							  ]
 					}
 					attributes={{ isExpandable: true }}
-					viewableRows={6}
+					viewableRows={5}
 				/>
 			</div>
-			<div className="comment-box">box</div>
+			<div className="comment-box">
+				{' '}
+				<form>
+					<textarea className="comment-input" type="text" name="" id="" />
+					<button type="submit">Post</button>
+				</form>{' '}
+			</div>
 		</Wrapper>
 	);
 };
