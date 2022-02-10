@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 //components
@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 			display: flex;
 			align-items: center;
 			justify-content: space-evenly;
-			height: 60%;
+			height: 100%;
 			width: 80%;
 
 			textarea {
@@ -53,6 +53,20 @@ const Wrapper = styled.div`
 				&:focus {
 					outline: none;
 				}
+
+				&::-webkit-scrollbar {
+					width: 5px;
+				}
+
+				&::-webkit-scrollbar-track {
+					border-radius: 5px;
+					background: rgba(0, 0, 0, 0.5);
+				}
+
+				&::-webkit-scrollbar-thumb {
+					border-radius: 5px;
+					background: pink;
+				}
 			}
 
 			button {
@@ -62,7 +76,7 @@ const Wrapper = styled.div`
 				border-radius: 5px;
 				border: 1px solid rgba(0, 0, 0, 0.5);
 				width: 12%;
-				height: 50%;
+				height: 30%;
 
 				&:hover {
 					cursor: pointer;
@@ -92,6 +106,7 @@ const Wrapper = styled.div`
 `;
 
 const Comments = ({ comments }) => {
+	const textArea = useRef();
 	const [newComments, setNewComments] = useState();
 
 	const date = (dateStr) => {
@@ -128,7 +143,7 @@ const Comments = ({ comments }) => {
 			console.log('comments executed: ', comments);
 			return renderComments(comments);
 		}
-		return [[['123'], ['12321']]];
+		return [['123', '12321']];
 	};
 
 	return (
@@ -143,8 +158,13 @@ const Comments = ({ comments }) => {
 			</div>
 			<div className="comment-box">
 				{' '}
-				<form>
-					<textarea className="comment-input" type="text" name="" id="" />
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						console.log(e.target.id, textArea.current.value);
+					}}
+				>
+					<textarea ref={textArea} className="comment-input" type="text" />
 					<button type="submit">Post</button>
 				</form>{' '}
 			</div>

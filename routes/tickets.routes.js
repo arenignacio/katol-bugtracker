@@ -79,11 +79,11 @@ Router.route('/:id/comments')
 			//if user is authenticated
 			if (req.isAuthenticated()) {
 				const { id } = req.params;
-				const { email, firstname: fname, lastname: lname } = req.user;
+				const { email, firstname, lastname } = req.user;
 				const body = {
-					...req.body,
+					content: req.body.content,
 					author_email: email,
-					author: `${fname} ${lname}`,
+					author: `${firstname} ${lastname}`,
 				};
 				const tickets = await Ticket.where({ _id: id });
 				const ticket = tickets[0];
@@ -99,7 +99,7 @@ Router.route('/:id/comments')
 		res.json(result);
 	});
 
-//edit existing ticket
+//get, edit, delete existing ticket
 Router.route('/:id')
 	.all((req, res, next) => {
 		console.log('ticket executed');
@@ -152,7 +152,7 @@ Router.route('/:id')
 						doc.save();
 					}
 
-					res.send(confirmation);
+					res.json(confirmation);
 				});
 			}
 		}

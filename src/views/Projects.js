@@ -91,18 +91,6 @@ const Projects = () => {
 	useEffect(() => {
 		const getTicket = async () => {
 			const data = await API.get(`ticket/query?project=${currentProject}`);
-			console.log('testing112345');
-			const contentFiller = new Date().getMilliseconds();
-			const data2 = await API.post(
-				`ticket/61c265c096a7d556d5a875a6/comments`,
-				{
-					content: 'New Comment' + contentFiller,
-					author: 'John Doe',
-					author_email: 'johdoe1213@email.com',
-				}
-			);
-			console.log('attempting to get data2');
-			console.log(data2);
 			setTickets(data);
 		};
 
@@ -122,7 +110,6 @@ const Projects = () => {
 	const selectTicket = async (e) => {
 		const row = e.target.parentNode;
 		const data = await API.get(`ticket/${row.id}`);
-		console.log(data);
 		setSelectedTicket(data[0]);
 	};
 

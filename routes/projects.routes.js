@@ -38,7 +38,7 @@ Router.route('/:id?')
 		try {
 			const selectedProject = await Project.findById(id);
 			const isAuthorized = selectedProject.project_manager.some(
-				(el) => el.email === 'johdoe1213@email.com'
+				(el) => el.email === req.user.email
 			);
 
 			if (isAuthorized) {
