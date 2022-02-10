@@ -32,17 +32,19 @@ const Wrapper = styled.div`
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				color: rgba(150, 0, 0, 0.6);
 				font-size: 1.5rem;
 				font-weight: bold;
-				border: 1px solid rgba(0, 0, 0, 0.5);
+				border: 1px solid rgba(0, 0, 0, 0.3);
 				height: 13px;
 				width: 15px;
 				margin-left: 5px;
 
 				&:hover {
-					color: rgba(0, 0, 0, 0.6);
 					cursor: pointer;
+				}
+
+				&:active {
+					border: 1px solid rgba(0, 0, 0, 1);
 				}
 			}
 		}
