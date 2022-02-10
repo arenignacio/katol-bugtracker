@@ -65,8 +65,46 @@ Router.route('/query*').get(async (req, res) => {
 	res.json(result);
 });
 
+//add, fetch comment
+Router.route('/:id/comments')
+	.all((req, res, next) => {
+		console.log('comments executed');
+		next();
+	})
+	.post(async (req, res) => {
+		console.log('post comment executed');
+		let result;
+
+		try {
+			//if user is authenticated
+			if (req.isAuthenticated()) {
+				const { id } = req.params;
+				const { email, firstname: fname, lastname: lname } = req.user;
+				const body = {
+					...req.body,
+					author_email: email,
+					author: `${fname} ${lname}`,
+				};
+				const tickets = await Ticket.where({ _id: id });
+				const ticket = tickets[0];
+				ticket.comments.push(body);
+				await ticket.save();
+				result = ticket.comments;
+			}
+		} catch (err) {
+			result = { err };
+		}
+
+		console.log(result);
+		res.json(result);
+	});
+
 //edit existing ticket
 Router.route('/:id')
+	.all((req, res, next) => {
+		console.log('ticket executed');
+		next();
+	})
 	.get(async (req, res) => {
 		console.log('getting individual ticket');
 
@@ -128,46 +166,6 @@ Router.route('/:id')
 
 			res.send(confirmation);
 		});
-	});
-
-//add, fetch comment
-Router.route('/:id/comments')
-	.all((req, res, next) => {
-		console.log('comments executed');
-		next();
-	})
-	.get((req, res) => {
-		const { id } = req.params;
-
-		try {
-			const ticket = Ticket.where({ _id: id });
-		} catch (err) {}
-
-		res.json();
-	})
-	.post(async (req, res) => {
-		console.log('post comment executed');
-
-		try {
-			//if user is authenticated
-			if (req.isAuthenticated()) {
-				const { id } = req.params;
-				const { email, firstname: fname, lastname: lname } = req.user;
-				const body = {
-					...req.body,
-					author_email: email,
-					author: `${fname} ${lname}`,
-				};
-				const tickets = await Ticket.where({ _id: id });
-				const ticket = tickets[0];
-				ticket.comments.push(body);
-				ticket.save();
-			}
-		} catch (err) {
-			console.log(err);
-		}
-
-		res.json('success');
 	});
 
 module.exports = Router;

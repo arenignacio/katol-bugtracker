@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 //components
@@ -30,7 +31,6 @@ const Wrapper = styled.div`
 		align-items: center;
 		height: 50%;
 		width: 100%;
-		border: 1px solid rgba(250, 0, 0, 0.5);
 
 		form {
 			display: flex;
@@ -59,11 +59,14 @@ const Wrapper = styled.div`
 				display: flex;
 				justify-content: center;
 				align-items: center;
+				border-radius: 5px;
+				border: 1px solid rgba(0, 0, 0, 0.5);
 				width: 12%;
 				height: 50%;
 
 				&:hover {
 					cursor: pointer;
+					background: lightgreen;
 				}
 			}
 		}
@@ -89,7 +92,7 @@ const Wrapper = styled.div`
 `;
 
 const Comments = ({ comments }) => {
-	console.log(comments);
+	const [newComments, setNewComments] = useState();
 
 	const date = (dateStr) => {
 		const date = new Date(dateStr);
@@ -116,29 +119,24 @@ const Comments = ({ comments }) => {
 		});
 	};
 
+	const getComments = () => {
+		if (newComments) {
+			console.log('newComments executed');
+			return renderComments(newComments);
+		}
+		if (comments) {
+			console.log('comments executed: ', comments);
+			return renderComments(comments);
+		}
+		return [[['123'], ['12321']]];
+	};
+
 	return (
 		<Wrapper comments={comments}>
 			<div className="comments">
 				<List
 					headers={['COMMENTS']}
-					content={
-						comments
-							? renderComments(comments)
-							: [
-									[<div style={{ color: 'blue' }}>{'hello'}</div>],
-									['2'],
-									['3'],
-									['4'],
-									['5'],
-									['6'],
-									['7'],
-									['8'],
-									['9'],
-									['10'],
-									['11'],
-									['12'],
-							  ]
-					}
+					content={getComments()}
 					attributes={{ isExpandable: true }}
 					viewableRows={5}
 				/>

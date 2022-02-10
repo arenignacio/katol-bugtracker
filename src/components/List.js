@@ -107,9 +107,9 @@ const List = ({
 	const [activeItem, setActiveItem] = useState();
 
 	const renderHeaders = (arr) => {
-		return arr.map((el) => {
+		return arr.map((el, idx) => {
 			return (
-				<div className="row" key={`key-${el}`}>
+				<div className="row" key={el + idx}>
 					{el}
 				</div>
 			);
@@ -117,9 +117,13 @@ const List = ({
 	};
 
 	const renderRows = (arr) => {
-		return arr.map((row) => {
-			const contents = row.map((col) => {
-				return <span className="col">{col}</span>;
+		return arr.map((row, idx) => {
+			const contents = row.map((col, idx) => {
+				return (
+					<span key={col + idx} className="col">
+						{col}
+					</span>
+				);
 			});
 
 			return (
@@ -128,7 +132,7 @@ const List = ({
 						activeItem === row[0] ? 'active' : ''
 					}`}
 					id={row[0]}
-					key={row[0]}
+					key={row[0] + idx}
 					onClick={(e) => {
 						console.log(`${row[0]} clicked`);
 						if (attributes.isSelectable) setActiveItem(row[0]);

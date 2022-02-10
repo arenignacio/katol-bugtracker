@@ -100,7 +100,6 @@ const Wrapper = styled.div`
 		box-sizing: border-box;
 		font-size: 0.9rem;
 		width: 40%;
-		background: lightblue;
 	}
 `;
 
@@ -192,7 +191,13 @@ const SelectedTicket = ({ ticket }) => {
 				</div>
 				<div className="comments-container">
 					<Comments
-						comments={ticket ? ticket.comments : console.log('no')}
+						comments={
+							ticket
+								? [...ticket.comments].sort((a, b) => {
+										return new Date(b.date) - new Date(a.date);
+								  })
+								: ''
+						}
 					/>
 				</div>
 			</div>

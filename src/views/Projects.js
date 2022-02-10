@@ -92,12 +92,17 @@ const Projects = () => {
 		const getTicket = async () => {
 			const data = await API.get(`ticket/query?project=${currentProject}`);
 			console.log('testing112345');
-			//comment test
-			/* await API.post(`ticket/61c265c096a7d556d5a875a6/comments`, {
-				content: 'Hello!!123',
-				author: 'John Doe',
-				author_email: 'johdoe1213@email.com',
-			}); */
+			const contentFiller = new Date().getMilliseconds();
+			const data2 = await API.post(
+				`ticket/61c265c096a7d556d5a875a6/comments`,
+				{
+					content: 'New Comment' + contentFiller,
+					author: 'John Doe',
+					author_email: 'johdoe1213@email.com',
+				}
+			);
+			console.log('attempting to get data2');
+			console.log(data2);
 			setTickets(data);
 		};
 
