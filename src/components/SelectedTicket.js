@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { ReactComponent as Edit } from '../assets/img/pencil-sharp.svg';
+
 import Comments from './Comments';
 
 //todo: Make collapsable when no ticket is selected or pick default ticket.
@@ -17,30 +20,32 @@ const Wrapper = styled.div`
 		padding: 0px 20px;
 
 		div {
-			display:flex;
+			display: flex;
 			justify-content: space-evenly;
 			align-items: center;
 
-		&:last-of-type {			
-			font-size: 1rem;
-		}
-		
-		> span {
-			display: flex:
-			align-items: center;
-			color: rgba(150, 0, 0, 0.6);
-			padding: 2.5px;
-			font-size: 0.8rem;
-			font-weight: bold;
-			letter-spacing: 0.5px;
-			margin-left: 25px;
-			
-
-			&:hover {
-			color: rgba(0, 0, 0, 0.6);
-				cursor: pointer;
+			&:last-of-type {
+				font-size: 1rem;
 			}
-		}}
+
+			> span {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: rgba(150, 0, 0, 0.6);
+				font-size: 1.5rem;
+				font-weight: bold;
+				border: 1px solid rgba(0, 0, 0, 0.5);
+				height: 13px;
+				width: 15px;
+				margin-left: 5px;
+
+				&:hover {
+					color: rgba(0, 0, 0, 0.6);
+					cursor: pointer;
+				}
+			}
+		}
 	}
 
 	.body {
@@ -61,7 +66,7 @@ const Wrapper = styled.div`
 		flex-direction: column;
 		justify-content: space-around;
 		width: 60%;
-		background: rgba(0,0,0, 0.1);
+		background: rgba(0, 0, 0, 0.1);
 		padding: 15px;
 		border-right: 1px solid black;
 
@@ -85,10 +90,10 @@ const Wrapper = styled.div`
 				span {
 					max-width: 100%;
 					font-size: 0.8rem;
-					color: rgba(0,0,0, 0.5);
+					color: rgba(0, 0, 0, 0.5);
 					margin-top: 2px;
 
-					&.high-priority {						
+					&.high-priority {
 						color: rgba(225, 0, 0, 1);
 					}
 				}
@@ -120,12 +125,18 @@ const SelectedTicket = ({ ticket }) => {
 					{(ticket && 'Last Updated: ' + date(ticket.last_updated)) || ''}
 					&nbsp;
 					<span
-						style={{ display: ticket ? 'block' : 'none' }}
+						onClick={() => {
+							console.log('turn edit on');
+						}}
+					>
+						<Edit width={15} />
+					</span>
+					<span
 						onClick={() => {
 							if (ticket) setIsHidden(!isHidden);
 						}}
 					>
-						toggle
+						-
 					</span>
 				</div>
 			</div>
