@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
+import { API_BASEURL } from '../utils/constants';
 import styled from 'styled-components';
+import requests from '../utils/requests';
 
 //components
 import List from './List';
@@ -105,14 +107,23 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Comments = ({ comments }) => {
+const Comments = ({ origin, comments }) => {
 	const textArea = useRef();
 	const [newComments, setNewComments] = useState();
+	const API = requests(API_BASEURL);
 
 	const date = (dateStr) => {
 		const date = new Date(dateStr);
 
 		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
+	};
+
+	const handlePost = async (e) => {
+		e.preventDefault();
+		const data = await API.post('ticket/' + origin + '/comments', {
+			content: textArea.current.value,
+		});
+		console.log('posted', data);
 	};
 
 	const renderComments = (comments) => {
@@ -136,11 +147,9 @@ const Comments = ({ comments }) => {
 
 	const getComments = () => {
 		if (newComments) {
-			console.log('newComments executed');
 			return renderComments(newComments);
 		}
 		if (comments) {
-			console.log('comments executed: ', comments);
 			return renderComments(comments);
 		}
 		return [['123', '12321']];
@@ -158,12 +167,7 @@ const Comments = ({ comments }) => {
 			</div>
 			<div className="comment-box">
 				{' '}
-				<form
-					onSubmit={(e) => {
-						e.preventDefault();
-						console.log(e.target.id, textArea.current.value);
-					}}
-				>
+				<form onSubmit={handlePost}>
 					<textarea ref={textArea} className="comment-input" type="text" />
 					<button type="submit">Post</button>
 				</form>{' '}

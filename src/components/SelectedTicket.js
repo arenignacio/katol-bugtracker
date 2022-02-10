@@ -191,13 +191,8 @@ const SelectedTicket = ({ ticket }) => {
 				</div>
 				<div className="comments-container">
 					<Comments
-						comments={
-							ticket
-								? [...ticket.comments].sort((a, b) => {
-										return new Date(b.date) - new Date(a.date);
-								  })
-								: ''
-						}
+						origin={ticket ? ticket._id : ''}
+						comments={ticket ? [...ticket.comments].reverse() : ''}
 					/>
 				</div>
 			</div>
