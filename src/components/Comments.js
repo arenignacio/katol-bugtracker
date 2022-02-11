@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { API_BASEURL } from '../utils/constants';
 import styled from 'styled-components';
 import requests from '../utils/requests';
@@ -119,6 +119,15 @@ const Comments = ({ origin, comments }) => {
 	const [newComments, setNewComments] = useState();
 	const API = requests(API_BASEURL);
 
+	useEffect(() => {
+		setNewComments(comments);
+	}, [comments]);
+
+	useEffect(() => {
+		if (newComments) console.log(newComments);
+		else console.log('newComments not set');
+	}, [newComments]);
+
 	const date = (dateStr) => {
 		const date = new Date(dateStr);
 
@@ -127,6 +136,7 @@ const Comments = ({ origin, comments }) => {
 
 	const handlePost = async (e) => {
 		e.preventDefault();
+		console.log('ticket/' + origin + '/comments');
 		const data = await API.post('ticket/' + origin + '/comments', {
 			content: textArea.current.value,
 		});

@@ -51,19 +51,23 @@ const BodyWrapper = styled.div`
 `;
 
 const App = () => {
-	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
 	const navigate = useNavigate();
 
 	const [currentUser, setCurrentUser] = useState(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(
 		JSON.parse(localStorage.getItem('isLoggedIn'))
 	);
-	const [activeBtn, setActiveBtn] = useState();
+	const [activeBtn, setActiveBtn] = useState('dashboard');
 
+	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
 	const dropdownLinks = [
 		{
-			to: '/profile',
 			name: 'My Profile',
+			handler: () => {
+				console.log('active button set');
+				setActiveBtn(null);
+				navigate('profile');
+			},
 		},
 		{
 			to: '/',
