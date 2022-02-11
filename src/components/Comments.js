@@ -183,7 +183,12 @@ const Comments = ({ origin, comments }) => {
 			<div className="comment-box">
 				{' '}
 				<form onSubmit={handlePost}>
-					<textarea ref={textArea} className="comment-input" type="text" />
+					<textarea
+						maxlength="150"
+						ref={textArea}
+						className="comment-input"
+						type="text"
+					/>
 					<button type="submit">Post</button>
 				</form>{' '}
 			</div>
