@@ -216,23 +216,24 @@ const MyProfile = () => {
 		if (formValues) setCharsLeft(200 - formValues.aboutme.length);
 	}, [formValues]);
 
+	//#toggle edit mode
 	const toggleEdit = async () => {
 		await setEditMode(!editMode);
 	};
 
+	//#reset form. response for save and cancel buttons
 	const resetForm = async () => {
 		await setFormValues(user);
 		toggleEdit();
 	};
 
+	//#update formValues state
 	const handleInputChange = async (e) => {
 		const { name, value } = e.target;
 
 		await setFormValues((prevVal) => {
 			return { ...prevVal, [name]: value };
 		});
-
-		console.log(formValues);
 	};
 
 	const updateUser = async (formValues) => {

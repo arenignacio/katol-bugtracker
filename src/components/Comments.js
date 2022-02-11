@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 	.comments {
 		box-sizing: border-box;
 		width: 100%;
-		height: 50%;
+		height: 60%;
 		border: 1px solid rgba(0, 0, 0, 0.5);
 		background: white;
 
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: 50%;
+		height: 40%;
 		width: 100%;
 
 		form {
@@ -109,6 +109,7 @@ const Wrapper = styled.div`
 			padding-top: 1px;
 			font-size: 0.7rem;
 			font-weight: bold;
+			margin-left: 15px;
 		}
 	}
 `;
@@ -166,7 +167,7 @@ const Comments = ({ origin, comments }) => {
 					headers={['COMMENTS']}
 					content={getComments()}
 					attributes={{ isExpandable: true }}
-					viewableRows={5}
+					viewableRows={6}
 				/>
 			</div>
 			<div className="comment-box">
