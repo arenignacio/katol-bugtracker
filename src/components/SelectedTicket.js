@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 				font-size: 1rem;
 			}
 
-			> span {
+			span {
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -108,6 +108,19 @@ const Wrapper = styled.div`
 		font-size: 0.9rem;
 		width: 40%;
 	}
+
+	div span.disabled {
+		color: rgba(0, 0, 0, 0.3);
+		fill: rgba(0, 0, 0, 0.3);
+
+		&:hover {
+			cursor: default;
+		}
+
+		&:active {
+			border: 1px solid rgba(0, 0, 0, 0.3);
+		}
+	}
 `;
 
 const SelectedTicket = ({ ticket }) => {
@@ -127,6 +140,7 @@ const SelectedTicket = ({ ticket }) => {
 					{(ticket && 'Last Updated: ' + date(ticket.last_updated)) || ''}
 					&nbsp;
 					<span
+						className={ticket ? '' : 'disabled'}
 						onClick={() => {
 							console.log('turn edit on');
 						}}
@@ -134,6 +148,7 @@ const SelectedTicket = ({ ticket }) => {
 						<Edit width={15} />
 					</span>
 					<span
+						className={ticket ? '' : 'disabled'}
 						onClick={() => {
 							if (ticket) setIsHidden(!isHidden);
 						}}

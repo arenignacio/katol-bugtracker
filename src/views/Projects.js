@@ -5,7 +5,6 @@ import requests from '../utils/requests';
 
 /* 
 todo: fetch project data 
-todo: make selected ticket collapsable
 */
 
 //#components
@@ -131,7 +130,7 @@ const Projects = () => {
 		getTicket();
 	}, []);
 
-	//#sort ticket data to be fed into list
+	//#sort ticket data to be fed into List
 	const sortTickets = (tickets) => {
 		return tickets.reduce((acc, cur) => {
 			acc.push([cur._id, cur.subject, cur.status]);
