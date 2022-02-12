@@ -101,7 +101,10 @@ const Modal = styled.div`
 	z-index: 4;
 
 	.container {
-		height: 70%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: fit-content;
 		width: 30%;
 		box-sizing: border-box;
 		padding: 25px;
@@ -110,6 +113,13 @@ const Modal = styled.div`
 		border: 1px solid rgba(0, 0, 0, 0.3);
 		border-radius: 2.5px;
 		z-index: 5;
+
+		.modal-header {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 30px;
+			font-size: 1.5rem;
+		}
 	}
 
 	&.hidden {
@@ -156,7 +166,7 @@ const Projects = () => {
 	};
 
 	//#sample form options
-	const loginOptions = {
+	const ticketOptions = {
 		fetchData: {
 			url: `${API_BASEURL}/user/login`,
 			options: {
@@ -167,16 +177,21 @@ const Projects = () => {
 		},
 		fields: [
 			{
-				email: '',
-				password: '',
+				Subject: '',
+				Status: '',
+				Priority: '',
+				Type: '',
+				Assigned_to: '',
+				Description: '',
 			},
 			['Enter your email', 'Enter your password'],
 		],
 		buttons: [
 			{
-				name: 'Login',
-				handler: () => console.log('button'),
+				name: 'Save',
+				handler: () => console.log('save clicked'),
 			},
+			{ name: 'Cancel', handle: () => console.log('cancel clicked') },
 		],
 	};
 
@@ -193,7 +208,7 @@ const Projects = () => {
 			>
 				<div className="container">
 					<div className="modal-header">Ticket</div>
-					<Form options={loginOptions}></Form>
+					<Form options={ticketOptions}></Form>
 				</div>
 			</Modal>
 			<Wrapper>

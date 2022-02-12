@@ -131,7 +131,7 @@ const Form = ({ options, handleErrorMsg }) => {
 	//#states
 	const [formValues, setFormValues] = useState(fields);
 
-	//#handlers
+	//#handle input change in forms
 	const handleInputChange = (e) => {
 		const { id, value } = e.target;
 		setFormValues((prevState) => {
@@ -139,6 +139,7 @@ const Form = ({ options, handleErrorMsg }) => {
 		});
 	};
 
+	//#handle form submit
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
 		let res;
@@ -168,11 +169,11 @@ const Form = ({ options, handleErrorMsg }) => {
 		const fieldsArr = Object.entries(fields);
 
 		return fieldsArr.map((field, idx) => {
-			let type = 'text';
 			const [key] = field;
 			const placeholder =
 				placeholders.length > 0 ? placeholders[idx] : field[0];
-			const label = key[0].toUpperCase() + key.substr(1).toLowerCase();
+			let label = key[0].toUpperCase() + key.substring(1).toLowerCase();
+			let type = 'text';
 
 			switch (key) {
 				case 'password':
@@ -184,6 +185,16 @@ const Form = ({ options, handleErrorMsg }) => {
 				default:
 					break;
 			}
+
+			if (key.includes('_'))
+				label = key
+					.split('_')
+					.map((word) => {
+						return (
+							word[0].toUpperCase() + word.substring(1).toLowerCase()
+						);
+					})
+					.join(' ');
 
 			return (
 				<div key={`key-${key}`} className="field">

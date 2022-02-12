@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 	align-items: center;
 	box-sizing: border-box;
 	height: 100%;
-	background: background: rgba(0, 0, 0, 0.1);
+	background: rgba(0, 0, 0, 0.1);
 	z-index: 1;
 	padding: 25px 30px;
 
@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 		justify-content: space-evenly;
 		width: 80%;
 
-		#account-details { 
+		#account-details {
 			width: 42%;
 			min-width: 400px;
 			min-height: 75%;
@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 			border-radius: 5px;
 			background: white;
 			box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
-			border: 1px solid rgba(0,0,0, 0.3);
+			border: 1px solid rgba(0, 0, 0, 0.3);
 			overflow: hidden;
 
 			#header {
@@ -46,8 +46,7 @@ const Wrapper = styled.div`
 				align-items: center;
 				width: 100%;
 				height: 120px;
-				background: rgba(0,0,0, 0.2);
-
+				background: rgba(0, 0, 0, 0.2);
 
 				#profile-pic {
 					display: flex;
@@ -66,8 +65,6 @@ const Wrapper = styled.div`
 					font-size: 5rem;
 					background: hsla(20, 50%, 50%, 1);
 				}
-
-				
 			}
 
 			#personal-info {
@@ -75,7 +72,6 @@ const Wrapper = styled.div`
 				justify-content: space-evenly;
 				flex-wrap: wrap;
 				margin-top: 100px;
-
 
 				div {
 					display: flex;
@@ -97,11 +93,11 @@ const Wrapper = styled.div`
 						width: 110px;
 						height: 14px;
 						outline: none;
-						border: 1px solid rgba(0,0,0, 0.2);
+						border: 1px solid rgba(0, 0, 0, 0.2);
 						border-radius: 3px;
-						background: rgba(0,0,0, 0.1);
+						background: rgba(0, 0, 0, 0.1);
 						font-size: 0.7rem;
-						font-family: 
+						font-family: ;
 					}
 				}
 			}
@@ -115,22 +111,22 @@ const Wrapper = styled.div`
 
 				#textarea-grp {
 					min-width: 95%;
-					max-width: 95%; 
+					max-width: 95%;
 
 					textarea {
-					box-sizing: border-box;
-					text-align: left;
-					min-width: 100%;
-					max-width: 100%;
-					min-height: 95px;
-					outline: none;
-					border: 1px solid rgba(0,0,0, 0.2);
-					border-radius: 3px;
-					background: rgba(0,0,0, 0.1);
-					font-size: 0.8rem;
-					padding: 0.5rem;
-					color: rgba(0,0,0, 0.8);
-					font-family: 'Time New Roman', Serif;
+						box-sizing: border-box;
+						text-align: left;
+						min-width: 100%;
+						max-width: 100%;
+						min-height: 95px;
+						outline: none;
+						border: 1px solid rgba(0, 0, 0, 0.2);
+						border-radius: 3px;
+						background: rgba(0, 0, 0, 0.1);
+						font-size: 0.8rem;
+						padding: 0.5rem;
+						color: rgba(0, 0, 0, 0.8);
+						font-family: 'Time New Roman', Serif;
 					}
 
 					div:last-of-type {
@@ -139,7 +135,7 @@ const Wrapper = styled.div`
 						font-size: 0.7rem;
 					}
 				}
-	
+
 				#about-me-label {
 					display: flex;
 					justify-content: center;
@@ -151,13 +147,10 @@ const Wrapper = styled.div`
 					text-align: left;
 					width: 100%;
 					min-height: 50px;
-					color: rgba(0,0,0, 0.6);
+					color: rgba(0, 0, 0, 0.6);
 					word-break: break-all;
 				}
-
-			
 			}
-
 
 			#btn-grp {
 				display: flex;
@@ -166,7 +159,8 @@ const Wrapper = styled.div`
 				margin: 15px 0px;
 				font-weight: bold;
 
-				div, input {
+				div,
+				input {
 					display: flex;
 					justify-content: space-evenly;
 					height: fit-content;
@@ -183,17 +177,16 @@ const Wrapper = styled.div`
 
 						&:hover {
 							cursor: pointer;
-							color: rgba(0,0,0, 0.6);
+							color: rgba(0, 0, 0, 0.6);
 						}
 
 						&:active {
-							color: rgba(0,0,0, 0.4);
+							color: rgba(0, 0, 0, 0.4);
 						}
 					}
 				}
 			}
 		}
-
 	}
 `;
 
