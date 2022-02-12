@@ -40,7 +40,7 @@ const Wrapper = styled.div`
 				height: fit-content;
 				border-radius: 2.5px;
 				padding: 7px 10px;
-				transition: box-shadow 0.5s ease-in-out;
+				transition: box-shadow 0.3s ease-in-out;
 
 				&:hover {
 					cursor: pointer;
