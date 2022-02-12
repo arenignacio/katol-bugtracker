@@ -161,7 +161,7 @@ const Projects = () => {
 
 	//
 	useEffect(() => {
-		//todo: needs url
+		//todo: needs url and a way to populate fields initial value with selected ticket data
 		const ticketOptions = {
 			fetchData: {
 				url: ``,
@@ -172,8 +172,20 @@ const Projects = () => {
 				},
 			},
 			fields: [
-				new field('Subject', 'subject', ' '),
-				new field('Status', 'status', ' '),
+				new field(
+					'Subject',
+					'subject',
+					' ',
+					'text',
+					'This feature is being worked at.'
+				),
+				new field(
+					'Status',
+					'status',
+					' ',
+					'text',
+					'This form is currently non functional'
+				),
 				new field('Priority', 'priority', ' ', 'select', 'normal', [
 					'normal',
 					'high',
