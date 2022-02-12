@@ -10,7 +10,8 @@ todo: fetch project data
 //#components
 import List from '../../src/components/List';
 import SelectedTicket from '../components/SelectedTicket';
-import Form from '../components/Form';
+import Form, { field } from '../components/Form';
+import Modal from '../components/Modal';
 
 const Wrapper = styled.div`
 	box-sizing: border-box;
@@ -26,6 +27,10 @@ const Wrapper = styled.div`
 		box-sizing: border-box;
 		height: 44%;
 		width: 100%;
+
+		&:not(:first-of-type) {
+			min-height: 40%;
+		}
 
 		&.project-name-container {
 			justify-content: flex-start;
@@ -89,7 +94,7 @@ const Wrapper = styled.div`
 		}
 	}
 `;
-
+/* 
 const Modal = styled.div`
 	position: absolute;
 	display: flex;
@@ -125,7 +130,7 @@ const Modal = styled.div`
 	&.hidden {
 		display: none;
 	}
-`;
+`; */
 
 const Projects = () => {
 	//#immutables
@@ -156,7 +161,7 @@ const Projects = () => {
 
 	//
 	useEffect(() => {
-		//
+		//todo: needs url
 		const ticketOptions = {
 			fetchData: {
 				url: ``,
@@ -167,16 +172,17 @@ const Projects = () => {
 				},
 			},
 			fields: [
-				{
-					/* { } */
-					subject: '',
-					status: '',
-					priority: '',
-					type: '',
-					assigned_to: '',
-					description: '',
-				},
-				['Enter your email', 'Enter your password'],
+				new field('Subject', 'subject', ' '),
+				new field('Status', 'status', ' '),
+				new field('Priority', 'priority', ' ', 'select', 'normal', [
+					'normal',
+					'high',
+				]),
+				new field('Type', 'type', ' '),
+				new field('Assigned To', 'assigned_to', ' '),
+				new field('Description', 'description', ' ', 'textarea', 'desc', {
+					maxLength: '200',
+				}),
 			],
 			buttons: [
 				{
@@ -194,9 +200,10 @@ const Projects = () => {
 		};
 
 		if (editMode === 'ticket') {
+			console.log('edit mode set to ticket');
 			setFormOptions(ticketOptions);
 		}
-	}, [editMode, projectOptions]);
+	}, [editMode]);
 
 	//#sort ticket data to be fed into List
 	const sortTickets = (tickets) => {
@@ -218,22 +225,14 @@ const Projects = () => {
 		<>
 			<Modal
 				options={formOptions}
-				className={`background ${editMode ? '' : 'hidden'}`}
-				onClick={(e) => {
+				editMode={editMode}
+				onClickHandler={(e) => {
 					if (e.target.className.includes('background')) {
 						e.target.classList.toggle('hidden');
 						setEditMode(null);
 					}
 				}}
-			>
-				<div className="container">
-					<div className="modal-header">Ticket</div>
-					{/* <Form
-						options={formOptions}
-						handleErrorMsg={(input) => console.log(input)}
-					></Form> */}
-				</div>
-			</Modal>
+			/>
 			<Wrapper>
 				<div className="project-name-container">
 					<div className="project-name"> Project 1</div>

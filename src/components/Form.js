@@ -1,7 +1,7 @@
 /* takes in  object with the following data
 {
 	fetchData: object, 
-	fields: array, 
+	fields: array, //of fields object 
 	buttons: array
 }
 
@@ -10,13 +10,13 @@ fetchData {
 	options: options object {method, header, and body}
 } 
 
-fields [Fields object with key and value, array of placeholders]
+fields [fields object]
 
 buttons [submit button: object, other buttons: object..]
 each button object must contain {name: string, handler: callback}
 */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -38,19 +38,26 @@ const Wrapper = styled.div`
 
 		input[type='text'],
 		input[type='password'],
-		input[type='email'] {
+		input[type='email'], .dropdown,
+		textarea {
 			width: 225px;
 			height: 1.5rem;
 			margin-bottom: 10px;
 			border-radius: 5px;
 			outline: none;
 			padding: 0px 10px;
+			font-family: serif;
 			font-size: 0.7rem;
 			border: 1px solid rgba(0, 0, 0, 0.3);
 
 			&::placeholder {
 				color: rgba(0,0,0, 0.4);
 			}
+		}
+
+		textarea {
+			padding: 10px;
+
 		}
 
 		#buttons {
@@ -113,6 +120,7 @@ const Wrapper = styled.div`
 					}
 				}
 			}
+
 		}
 	}
 `;
@@ -124,11 +132,20 @@ options {
 */
 
 export class field {
-	constructor(label, name, placeholder, type = 'text') {
+	constructor(
+		label,
+		name,
+		placeholder,
+		type = 'text',
+		value = '',
+		options = null
+	) {
 		this.label = label;
 		this.name = name;
 		this.placeholder = placeholder || name;
+		this.value = value;
 		this.type = type;
+		this.options = options;
 	}
 }
 
@@ -139,7 +156,19 @@ const Form = ({ options, handleErrorMsg }) => {
 	const [submitBtn, ...buttons] = options.buttons;
 
 	//#states
-	const [formValues, setFormValues] = useState(fields);
+	const [formValues, setFormValues] = useState(null);
+
+	useEffect(() => {
+		const initialFormValues = fields.reduce((acc, field) => {
+			acc[field.name] = field.value;
+
+			return acc;
+		}, {});
+
+		console.log(initialFormValues);
+
+		setFormValues(initialFormValues);
+	}, []);
 
 	//#handle input change in forms
 	const handleInputChange = (e) => {
@@ -175,58 +204,45 @@ const Form = ({ options, handleErrorMsg }) => {
 		}
 	};
 
-	/* const renderFields = (fields, placeholders = []) => {
-		const fieldsArr = Object.entries(fields);
-
-		return fieldsArr.map((field, idx) => {
-			const [key] = field;
-			const placeholder =
-				placeholders.length > 0 ? placeholders[idx] : field[0];
-			let label = key[0].toUpperCase() + key.substring(1).toLowerCase();
-			let type = 'text';
-
-			switch (key) {
-				case 'password':
-					type = 'password';
-					break;
-				case 'email':
-					type = 'email';
-					break;
-				default:
-					break;
-			}
-
-			if (key.includes('_'))
-				label = key
-					.split('_')
-					.map((word) => {
-						return (
-							word[0].toUpperCase() + word.substring(1).toLowerCase()
-						);
-					})
-					.join(' ');
-
-			return (
-				<div key={`key-${key}`} className="field">
-					<label htmlFor={key}>{label}</label>
-					<input
-						type={type}
-						id={key}
-						placeholder={placeholder}
-						onChange={handleInputChange}
-						value={formValues[key]}
-						autoComplete="on"
-					/>
-				</div>
-			);
-		});
-	}; */
-
 	const renderFields = (fields) => {
 		return fields.map((field, idx) => {
-			console.log(field);
+			console.log(typeof field);
 
 			const { label, name: key, placeholder, type } = field;
+
+			if (type === 'textarea') {
+				const options = field.options;
+
+				return (
+					<div key={`key-${key + idx}`} className="field">
+						<label htmlFor={key}>{label}</label>
+						<textarea
+							type={type}
+							id={key}
+							placeholder={placeholder}
+							onChange={handleInputChange}
+							value={formValues[key]}
+							maxLength={options.maxLength ? options.maxLength : ''}
+							autoComplete="on"
+						/>
+					</div>
+				);
+			}
+
+			if (type === 'select') {
+				return (
+					<div key={`key-${key + idx}`} className="field">
+						<label htmlFor={key}>{label}</label>
+						<div className="dropdown" id={key} autoComplete="on">
+							{' '}
+							{formValues[key]}
+							{field.options.map((option) => {
+								return <div>{option}</div>;
+							})}
+						</div>
+					</div>
+				);
+			}
 
 			return (
 				<div key={`key-${key + idx}`} className="field">
@@ -260,10 +276,10 @@ const Form = ({ options, handleErrorMsg }) => {
 		});
 	};
 
-	return (
+	return formValues ? (
 		<Wrapper buttons={buttons}>
 			<form onSubmit={onSubmitHandler}>
-				{renderFields(fields)}
+				{fields ? renderFields(fields) : ''}
 				<div id="buttons">
 					{' '}
 					<input
@@ -274,6 +290,8 @@ const Form = ({ options, handleErrorMsg }) => {
 				</div>
 			</form>
 		</Wrapper>
+	) : (
+		''
 	);
 };
 

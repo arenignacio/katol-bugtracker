@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Form from './Form';
 
 const Wrapper = styled.div`
 	position: absolute;
@@ -15,7 +16,7 @@ const Wrapper = styled.div`
 		flex-direction: column;
 		justify-content: center;
 		height: fit-content;
-		width: 30%;
+		width: 25%;
 		box-sizing: border-box;
 		padding: 25px;
 		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
@@ -32,13 +33,38 @@ const Wrapper = styled.div`
 		}
 	}
 
+	.field > textarea {
+		resize: none;
+		min-height: 90px;
+		max-height: 90px;
+	}
+
 	&.hidden {
 		display: none;
 	}
 `;
 
-const Modal = () => {
-	return <Wrapper></Wrapper>;
+const Modal = ({ options, editMode, onClickHandler }) => {
+	console.log(options);
+
+	return (
+		<Wrapper
+			className={`background ${editMode ? '' : 'hidden'}`}
+			onClick={onClickHandler}
+		>
+			<div className="container">
+				<div className="modal-header">Ticket</div>
+				{options ? (
+					<Form
+						options={options}
+						handleErrorMsg={(input) => console.log(input)}
+					></Form>
+				) : (
+					''
+				)}
+			</div>
+		</Wrapper>
+	);
 };
 
 export default Modal;
