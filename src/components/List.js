@@ -134,7 +134,6 @@ const List = ({
 					id={row[0]}
 					key={row[0] + idx}
 					onClick={(e) => {
-						console.log(`${row[0]} clicked`);
 						if (attributes.isSelectable) setActiveItem(row[0]);
 						if (handleClick) handleClick(e);
 					}}
@@ -170,7 +169,7 @@ const List = ({
 			</div>
 			<div className="list-content">
 				{content ? renderRows(content) : 'Loading..'}
-				{content ? fillRows(content, 15) : ''}
+				{content ? fillRows(content, viewableRows) : ''}
 			</div>
 		</Wrapper>
 	);
