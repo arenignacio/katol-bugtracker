@@ -57,7 +57,7 @@ const Wrapper = styled.div`
 		.logo-container {
 			display: flex;
 			flex-direction: ${({ isLoginForm }) => {
-				return isLoginForm ? 'column' : 'row';
+				return isLoginForm ? 'column' : 'row; justify-content: center;';
 			}};
 			align-items: center;
 			border-bottom: 1.5px solid rgba(0, 0, 0, 0.5);

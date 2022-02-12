@@ -168,7 +168,7 @@ const Projects = () => {
 	//#sample form options
 	const ticketOptions = {
 		fetchData: {
-			url: `${API_BASEURL}/user/login`,
+			url: ``,
 			options: {
 				method: 'Post',
 				headers: { 'Content-type': 'application/json; charset=UTF-8' },
@@ -191,7 +191,13 @@ const Projects = () => {
 				name: 'Save',
 				handler: () => console.log('save clicked'),
 			},
-			{ name: 'Cancel', handle: () => console.log('cancel clicked') },
+			{
+				name: 'Cancel',
+				handler: () => {
+					console.log('cancel button clicked');
+					setEditMode(null);
+				},
+			},
 		],
 	};
 
@@ -208,7 +214,10 @@ const Projects = () => {
 			>
 				<div className="container">
 					<div className="modal-header">Ticket</div>
-					<Form options={ticketOptions}></Form>
+					<Form
+						options={ticketOptions}
+						handleErrorMsg={(input) => console.log(input)}
+					></Form>
 				</div>
 			</Modal>
 			<Wrapper>
