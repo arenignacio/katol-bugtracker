@@ -51,6 +51,8 @@ const BodyWrapper = styled.div`
 `;
 
 const App = () => {
+	console.log(`base url is: ${API_BASEURL}`);
+
 	const navigate = useNavigate();
 
 	const [currentUser, setCurrentUser] = useState(null);
