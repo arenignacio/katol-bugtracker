@@ -38,6 +38,7 @@ const Wrapper = styled.div`
 				height: 13px;
 				width: 15px;
 				margin-left: 5px;
+				user-select: none;
 
 				&:hover {
 					cursor: pointer;
@@ -123,7 +124,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const SelectedTicket = ({ ticket }) => {
+const SelectedTicket = ({ handleEdit, ticket }) => {
 	const [isHidden, setIsHidden] = useState(false);
 
 	const date = (dateStr) => {
@@ -142,7 +143,8 @@ const SelectedTicket = ({ ticket }) => {
 					<span
 						className={ticket ? '' : 'disabled'}
 						onClick={() => {
-							console.log('turn edit on');
+							console.log('edit mode set to hello');
+							handleEdit('ticket');
 						}}
 					>
 						<Edit width={15} />

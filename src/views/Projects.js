@@ -101,11 +101,19 @@ const Modal = styled.div`
 	z-index: 4;
 
 	.container {
-		height: 50%;
-		width: 60%;
+		height: 70%;
+		width: 30%;
+		box-sizing: border-box;
+		padding: 25px;
+		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
 		background: white;
+		border: 1px solid rgba(0, 0, 0, 0.3);
 		border-radius: 2.5px;
 		z-index: 5;
+	}
+
+	&.hidden {
+		display: none;
 	}
 `;
 
@@ -118,6 +126,7 @@ const Projects = () => {
 	//#states
 	const [tickets, setTickets] = useState(null);
 	const [selectedTicket, setSelectedTicket] = useState(null);
+	const [editMode, setEditMode] = useState(null);
 	const [project, setProject] = useState(null);
 
 	//#get tickets on first render
@@ -174,16 +183,16 @@ const Projects = () => {
 	return (
 		<>
 			<Modal
-				className="background"
+				className={`background ${editMode ? '' : 'hidden'}`}
 				onClick={(e) => {
-					console.log(e.target.className);
-
 					if (e.target.className.includes('background')) {
-						e.target.style.display = 'none';
+						e.target.classList.toggle('hidden');
+						setEditMode(null);
 					}
 				}}
 			>
 				<div className="container">
+					<div className="modal-header">Ticket</div>
 					<Form options={loginOptions}></Form>
 				</div>
 			</Modal>
@@ -227,7 +236,10 @@ const Projects = () => {
 				</div>
 				<div>
 					<div className="selected-ticket-container border-solid rounded">
-						<SelectedTicket ticket={selectedTicket} />
+						<SelectedTicket
+							handleEdit={setEditMode}
+							ticket={selectedTicket}
+						/>
 					</div>
 				</div>
 			</Wrapper>
