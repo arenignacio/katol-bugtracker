@@ -6,7 +6,7 @@ import { API_BASEURL } from '../utils/constants';
 import loginBg from '../assets/img/bubbles.jpg';
 import { ReactComponent as Logo } from '../assets/img/spiral.svg';
 
-import Form from '../components/Form';
+import Form, { field } from '../components/Form';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -82,6 +82,9 @@ const Wrapper = styled.div`
 `;
 
 const Login = ({ handleLogin }) => {
+	const testfield = new field('E-mail', 'email');
+	console.log(testfield);
+
 	//#states
 	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [errorMsg, setErrorMsg] = useState(null);
@@ -101,11 +104,8 @@ const Login = ({ handleLogin }) => {
 			},
 		},
 		fields: [
-			{
-				email: '',
-				password: '',
-			},
-			['Enter your email', 'Enter your password'],
+			new field('E-mail', 'email', 'Enter your e-mail', 'email'),
+			new field('Password', 'password', 'Enter your password', 'password'),
 		],
 		buttons: [
 			{
@@ -125,20 +125,16 @@ const Login = ({ handleLogin }) => {
 			},
 		},
 		fields: [
-			{
-				email: '',
+			new field('E-mail', 'email', 'Enter e-mail', 'email'),
+			new field('Firstname', 'firstname', 'Enter first name'),
+			new field('Lastname', 'lastname', 'Enter last name'),
+			new field('Password', 'password', 'Enter password', 'password'),
+			new field('Phone Number', 'phone', 'Enter phone number'),
+			/* email: '',
 				firstname: '',
 				lastname: '',
 				password: '',
-				phone: '',
-			},
-			[
-				'Enter email',
-				'Enter first name',
-				'Enter last name',
-				'Enter password',
-				'Enter phone number',
-			],
+				phone: '', */
 		],
 		buttons: [{ name: 'Register', handler: login }],
 	};

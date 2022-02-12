@@ -123,11 +123,6 @@ const Comments = ({ origin, comments }) => {
 		setNewComments(comments);
 	}, [comments]);
 
-	useEffect(() => {
-		if (newComments) console.log(newComments);
-		else console.log('newComments not set');
-	}, [newComments]);
-
 	const date = (dateStr) => {
 		const date = new Date(dateStr);
 
@@ -136,7 +131,6 @@ const Comments = ({ origin, comments }) => {
 
 	const handlePost = async (e) => {
 		e.preventDefault();
-		console.log('ticket/' + origin + '/comments');
 		const data = await API.post('ticket/' + origin + '/comments', {
 			content: textArea.current.value,
 		});

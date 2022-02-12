@@ -133,10 +133,15 @@ const Projects = () => {
 	const API = requests(API_BASEURL);
 	const currentProject = '61ed05ec878f129f1a51e196';
 
+	//#sample form options
+
+	const projectOptions = {};
+
 	//#states
 	const [tickets, setTickets] = useState(null);
 	const [selectedTicket, setSelectedTicket] = useState(null);
 	const [editMode, setEditMode] = useState(null);
+	const [formOptions, setFormOptions] = useState(null);
 	const [project, setProject] = useState(null);
 
 	//#get tickets on first render
@@ -148,6 +153,50 @@ const Projects = () => {
 
 		getTicket();
 	}, []);
+
+	//
+	useEffect(() => {
+		//
+		const ticketOptions = {
+			fetchData: {
+				url: ``,
+				options: {
+					method: 'Post',
+					headers: { 'Content-type': 'application/json; charset=UTF-8' },
+					body: '',
+				},
+			},
+			fields: [
+				{
+					/* { } */
+					subject: '',
+					status: '',
+					priority: '',
+					type: '',
+					assigned_to: '',
+					description: '',
+				},
+				['Enter your email', 'Enter your password'],
+			],
+			buttons: [
+				{
+					name: 'Save',
+					handler: () => console.log('save clicked'),
+				},
+				{
+					name: 'Cancel',
+					handler: () => {
+						console.log('cancel button clicked');
+						setEditMode(null);
+					},
+				},
+			],
+		};
+
+		if (editMode === 'ticket') {
+			setFormOptions(ticketOptions);
+		}
+	}, [editMode, projectOptions]);
 
 	//#sort ticket data to be fed into List
 	const sortTickets = (tickets) => {
@@ -165,45 +214,10 @@ const Projects = () => {
 		setSelectedTicket(data[0]);
 	};
 
-	//#sample form options
-	const ticketOptions = {
-		fetchData: {
-			url: ``,
-			options: {
-				method: 'Post',
-				headers: { 'Content-type': 'application/json; charset=UTF-8' },
-				body: '',
-			},
-		},
-		fields: [
-			{
-				Subject: '',
-				Status: '',
-				Priority: '',
-				Type: '',
-				Assigned_to: '',
-				Description: '',
-			},
-			['Enter your email', 'Enter your password'],
-		],
-		buttons: [
-			{
-				name: 'Save',
-				handler: () => console.log('save clicked'),
-			},
-			{
-				name: 'Cancel',
-				handler: () => {
-					console.log('cancel button clicked');
-					setEditMode(null);
-				},
-			},
-		],
-	};
-
 	return (
 		<>
 			<Modal
+				options={formOptions}
 				className={`background ${editMode ? '' : 'hidden'}`}
 				onClick={(e) => {
 					if (e.target.className.includes('background')) {
@@ -214,10 +228,10 @@ const Projects = () => {
 			>
 				<div className="container">
 					<div className="modal-header">Ticket</div>
-					<Form
-						options={ticketOptions}
+					{/* <Form
+						options={formOptions}
 						handleErrorMsg={(input) => console.log(input)}
-					></Form>
+					></Form> */}
 				</div>
 			</Modal>
 			<Wrapper>

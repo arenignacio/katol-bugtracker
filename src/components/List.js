@@ -151,7 +151,6 @@ const List = ({
 
 		let fillerRows = new Array(viewableRows - arr.length).fill('');
 		const rows = fillerRows.map((el, idx) => {
-			console.log(el);
 			return (
 				<div key={`filler-row-${idx}`} className="list-item row">
 					<span className="col"></span>
@@ -159,7 +158,6 @@ const List = ({
 			);
 		});
 
-		console.log(rows);
 		return rows;
 	};
 

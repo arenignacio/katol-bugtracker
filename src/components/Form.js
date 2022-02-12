@@ -122,6 +122,16 @@ options {
 	fetchData, fields, buttons 
 }
 */
+
+export class field {
+	constructor(label, name, placeholder, type = 'text') {
+		this.label = label;
+		this.name = name;
+		this.placeholder = placeholder || name;
+		this.type = type;
+	}
+}
+
 const Form = ({ options, handleErrorMsg }) => {
 	//#constants
 	const fields = options.fields;
@@ -157,7 +167,7 @@ const Form = ({ options, handleErrorMsg }) => {
 			const data = await res.json();
 			if (typeof dataHandler === 'function') dataHandler(data);
 		} else if (res.status === 401) {
-			handleErrorMsg('Invalid email/password');
+			handleErrorMsg('Invalid login');
 		} else {
 			const err = await res.json();
 			console.log(err);
@@ -165,7 +175,7 @@ const Form = ({ options, handleErrorMsg }) => {
 		}
 	};
 
-	const renderFields = (fields, placeholders = []) => {
+	/* const renderFields = (fields, placeholders = []) => {
 		const fieldsArr = Object.entries(fields);
 
 		return fieldsArr.map((field, idx) => {
@@ -210,6 +220,28 @@ const Form = ({ options, handleErrorMsg }) => {
 				</div>
 			);
 		});
+	}; */
+
+	const renderFields = (fields) => {
+		return fields.map((field, idx) => {
+			console.log(field);
+
+			const { label, name: key, placeholder, type } = field;
+
+			return (
+				<div key={`key-${key + idx}`} className="field">
+					<label htmlFor={key}>{label}</label>
+					<input
+						type={type}
+						id={key}
+						placeholder={placeholder}
+						onChange={handleInputChange}
+						value={formValues[key]}
+						autoComplete="on"
+					/>
+				</div>
+			);
+		});
 	};
 
 	const renderButtons = (buttons) => {
@@ -231,7 +263,7 @@ const Form = ({ options, handleErrorMsg }) => {
 	return (
 		<Wrapper buttons={buttons}>
 			<form onSubmit={onSubmitHandler}>
-				{renderFields(fields[0], fields[1])}
+				{renderFields(fields)}
 				<div id="buttons">
 					{' '}
 					<input
