@@ -184,7 +184,7 @@ const Comments = ({ origin, comments }) => {
 				{' '}
 				<form onSubmit={handlePost}>
 					<textarea
-						maxlength="150"
+						maxLength="150"
 						ref={textArea}
 						className="comment-input"
 						type="text"

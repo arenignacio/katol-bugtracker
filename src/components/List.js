@@ -144,16 +144,23 @@ const List = ({
 		});
 	};
 
-	const fillRows = (arr, number) => {
-		if (arr.length >= number) {
+	const fillRows = (arr, viewableRows = 10) => {
+		if (arr.length >= viewableRows) {
 			return;
 		}
 
-		let fillerRows = new Array(number - arr.length);
-		console.log(fillerRows.length);
-		return fillerRows.map(() => {
-			return <div className="list-item"></div>;
+		let fillerRows = new Array(viewableRows - arr.length).fill('');
+		const rows = fillerRows.map((el, idx) => {
+			console.log(el);
+			return (
+				<div key={`filler-row-${idx}`} className="list-item row">
+					<span className="col"></span>
+				</div>
+			);
 		});
+
+		console.log(rows);
+		return rows;
 	};
 
 	return (

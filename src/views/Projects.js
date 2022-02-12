@@ -144,7 +144,7 @@ const Projects = () => {
 							isHoverable: true,
 						}}
 						handleClick={selectTicket}
-						viewableRows={11}
+						viewableRows={10}
 					/>
 				</div>
 			</div>
