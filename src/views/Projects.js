@@ -149,6 +149,14 @@ const Projects = () => {
 	const [formOptions, setFormOptions] = useState(null);
 	const [project, setProject] = useState(null);
 
+	//#get project on first render
+	useEffect(() => {
+		const getProject = async () => {
+			const data = await API.get(`project/`);
+			setTickets(data);
+		};
+	}, []);
+
 	//#get tickets on first render
 	useEffect(() => {
 		const getTicket = async () => {

@@ -28,27 +28,31 @@ const Wrapper = styled.div`
 
 		.field {
 			display: flex;
-			flex-direction: column;
+			flex-direction: column;	
 		}
 
 		label {
+			position: relative;
 			margin: 0px 0px 4px 4px;
 			font-size: 0.8rem;
+			z-index: 1;
 		}
 
 		input[type='text'],
 		input[type='password'],
-		input[type='email'], .dropdown,
+		input[type='email'], .dropdown-container, 
 		textarea {
 			width: 225px;
 			height: 1.5rem;
 			margin-bottom: 10px;
 			border-radius: 5px;
+			box-sizing: border-box;
 			outline: none;
 			padding: 0px 10px;
 			font-family: serif;
 			font-size: 0.7rem;
 			border: 1px solid rgba(0, 0, 0, 0.3);
+			
 
 			&::placeholder {
 				color: rgba(0,0,0, 0.4);
@@ -122,6 +126,88 @@ const Wrapper = styled.div`
 			}
 
 		}
+
+		.dropdown-container {
+			position: relative;
+			padding: 0px;
+			height: fit-content;
+			border-radius: 5px;
+
+			&.active {
+				border-radius: 5px 5px 0px 0px;
+				
+				.option-selected {
+					border-radius: 5px 5px 0px 0px;
+				}
+
+				.dropdown {
+					display: flex;
+				}
+			}
+		}
+
+		.dropdown {
+			background: white;
+			position: absolute;
+			display: none;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+			height: fit-content;
+			z-index: 2;
+			border-radius: 0px 0px 5px 5px;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+		
+
+			&-label {
+				font-size: 1.2rem;
+			}
+		}
+
+		.option-selected, input {
+			overflow: hidden;
+			position: relative;
+			z-index: 1;
+		}
+
+		.option-selected, .option {
+			display: flex;
+			align-items: center;
+			width: 100%;
+			height: 1.5rem;
+			box-sizing: border-box;
+			padding: 0px 10px;
+			background: white;
+		}
+
+		.option{
+			border-left: 1px solid rgba(0, 0, 0, 0.3);
+			border-right: 1px solid rgba(0, 0, 0, 0.2);
+			border-top: 1px solid rgba(0,0,0, 0.2);
+			width: 101%;
+
+			&-selected {
+				border-radius: 5px;
+				display: flex;
+				justify-content: space-between;
+			}
+
+		
+
+			&:hover{ 
+				cursor: pointer;
+
+				span {
+					transform: scale(1.2);
+				}
+			}
+		
+			&:last-of-type) {
+				
+				border-radius: 0px 0px 5px 5px;
+			} 
+		}
+
 	}
 `;
 
@@ -157,6 +243,7 @@ const Form = ({ options, handleErrorMsg }) => {
 
 	//#states
 	const [formValues, setFormValues] = useState(null);
+	const [activeDropdown, setActiveDropdown] = useState(null);
 
 	useEffect(() => {
 		const initialFormValues = fields.reduce((acc, field) => {
@@ -233,12 +320,36 @@ const Form = ({ options, handleErrorMsg }) => {
 				return (
 					<div key={`key-${key + idx}`} className="field">
 						<label htmlFor={key}>{label}</label>
-						<div className="dropdown" id={key} autoComplete="on">
-							{' '}
-							{formValues[key]}
-							{field.options.map((option) => {
-								return <div>{option}</div>;
-							})}
+						<div
+							className={`dropdown-container ${
+								activeDropdown === key ? 'active' : ''
+							}`}
+							id={key}
+							autoComplete="on"
+						>
+							<div className="option-selected">
+								{formValues[key]}
+								<div onClick={() => setActiveDropdown(key)}>open</div>
+							</div>
+							<div className="dropdown">
+								{field.options.map((option) => {
+									if (option === formValues[key]) return '';
+
+									return (
+										<div
+											className="option"
+											onClick={() => {
+												setActiveDropdown(null);
+												setFormValues((prevVal) => {
+													return { ...prevVal, [key]: option };
+												});
+											}}
+										>
+											<span>{option}</span>
+										</div>
+									);
+								})}
+							</div>
 						</div>
 					</div>
 				);

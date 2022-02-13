@@ -8,7 +8,7 @@ const Wrapper = styled.div`
 	align-items: center;
 	width: 90vw;
 	height: 95vh;
-	backdrop-filter: blur(1.5px);
+	backdrop-filter: blur(5px);
 	z-index: 4;
 
 	.container {
@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 		height: fit-content;
 		width: 25%;
 		box-sizing: border-box;
+		margin: 25px;
 		padding: 25px;
 		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
 		background: white;
