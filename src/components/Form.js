@@ -178,6 +178,12 @@ const Wrapper = styled.div`
 			box-sizing: border-box;
 			padding: 0px 10px;
 			background: white;
+
+			.toggle-option {
+				&:hover {
+					cursor: pointer;
+				}
+			}
 		}
 
 		.option{
@@ -207,6 +213,8 @@ const Wrapper = styled.div`
 				border-radius: 0px 0px 5px 5px;
 			} 
 		}
+
+		
 
 	}
 `;
@@ -265,10 +273,18 @@ const Form = ({ options, handleErrorMsg }) => {
 		});
 	};
 
+	//#handle option select for dropdown
+	const handleOptionSelect = (key, option) => {
+		setActiveDropdown(null);
+		setFormValues((prevVal) => {
+			return { ...prevVal, [key]: option };
+		});
+	};
+
 	//#handle form submit
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
-		let res;
+		let res; //response
 		const dataHandler = submitBtn.handler;
 		handleErrorMsg(null);
 
@@ -344,10 +360,7 @@ const Form = ({ options, handleErrorMsg }) => {
 										<div
 											className="option"
 											onClick={() => {
-												setActiveDropdown(null);
-												setFormValues((prevVal) => {
-													return { ...prevVal, [key]: option };
-												});
+												handleOptionSelect(key, option);
 											}}
 										>
 											<span>{option}</span>

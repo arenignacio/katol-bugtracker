@@ -11,12 +11,20 @@ const Wrapper = styled.div`
 	backdrop-filter: blur(5px);
 	z-index: 4;
 
+	.buffer-zone {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 40%;
+		height: 90%;
+	}
+
 	.container {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		height: fit-content;
-		width: 25%;
+		width: fit-content;
 		box-sizing: border-box;
 		margin: 25px;
 		padding: 25px;
@@ -53,16 +61,18 @@ const Modal = ({ options, editMode, onClickHandler }) => {
 			className={`background ${editMode ? '' : 'hidden'}`}
 			onClick={onClickHandler}
 		>
-			<div className="container">
-				<div className="modal-header">Ticket</div>
-				{options ? (
-					<Form
-						options={options}
-						handleErrorMsg={(input) => console.log(input)}
-					></Form>
-				) : (
-					''
-				)}
+			<div className="buffer-zone">
+				<div className="container">
+					<div className="modal-header">Ticket</div>
+					{options ? (
+						<Form
+							options={options}
+							handleErrorMsg={(input) => console.log(input)}
+						></Form>
+					) : (
+						''
+					)}
+				</div>
 			</div>
 		</Wrapper>
 	);

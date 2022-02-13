@@ -146,7 +146,7 @@ const Projects = () => {
 	const [tickets, setTickets] = useState(null);
 	const [selectedTicket, setSelectedTicket] = useState(null);
 	const [editMode, setEditMode] = useState(null);
-	const [formOptions, setFormOptions] = useState(null);
+	const [ticketOptions, setTicketOptions] = useState(null);
 	const [project, setProject] = useState(null);
 
 	//#get project on first render
@@ -169,10 +169,13 @@ const Projects = () => {
 
 	//
 	useEffect(() => {
-		//todo: needs url and a way to populate fields initial value with selected ticket data
-		const ticketOptions = {
+		/////todo: needs url
+		//todoo: populate fields initial value with selected ticket data
+		const options = {
 			fetchData: {
-				url: ``,
+				url: selectedTicket
+					? `${API_BASEURL}/ticket/${selectedTicket._id}`
+					: '',
 				options: {
 					method: 'Post',
 					headers: { 'Content-type': 'application/json; charset=UTF-8' },
@@ -192,16 +195,16 @@ const Projects = () => {
 					'status',
 					' ',
 					'text',
-					'This form is currently non functional'
+					selectedTicket
+						? selectTicket.status
+						: 'This form is currently non functional'
 				),
 				new field('Priority', 'priority', ' ', 'select', 'normal', [
+					'low',
 					'normal',
 					'high',
-					'test',
-					'more',
-					'three',
 				]),
-				new field('Type', 'type', ' '),
+				new field('Type', 'type', ' ', 'select', 'bug', ['bug', 'feature']),
 				new field('Assigned To', 'assigned_to', ' '),
 				new field('Description', 'description', ' ', 'textarea', 'desc', {
 					maxLength: '200',
@@ -222,11 +225,8 @@ const Projects = () => {
 			],
 		};
 
-		if (editMode === 'ticket') {
-			console.log('edit mode set to ticket');
-			setFormOptions(ticketOptions);
-		}
-	}, [editMode]);
+		setTicketOptions(options);
+	}, [selectedTicket]);
 
 	//#sort ticket data to be fed into List
 	const sortTickets = (tickets) => {
@@ -247,7 +247,7 @@ const Projects = () => {
 	return (
 		<>
 			<Modal
-				options={formOptions}
+				options={ticketOptions}
 				editMode={editMode}
 				onClickHandler={(e) => {
 					if (e.target.className.includes('background')) {
