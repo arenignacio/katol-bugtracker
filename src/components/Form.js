@@ -202,7 +202,7 @@ const Wrapper = styled.div`
 				}
 			}
 		
-			&:last-of-type) {
+			&:last-of-type {
 				
 				border-radius: 0px 0px 5px 5px;
 			} 
@@ -329,7 +329,12 @@ const Form = ({ options, handleErrorMsg }) => {
 						>
 							<div className="option-selected">
 								{formValues[key]}
-								<div onClick={() => setActiveDropdown(key)}>open</div>
+								<div
+									className={'toggle-option'}
+									onClick={() => setActiveDropdown(key)}
+								>
+									open
+								</div>
 							</div>
 							<div className="dropdown">
 								{field.options.map((option) => {
@@ -388,7 +393,12 @@ const Form = ({ options, handleErrorMsg }) => {
 	};
 
 	return formValues ? (
-		<Wrapper buttons={buttons}>
+		<Wrapper
+			onClick={(e) => {
+				if (!e.target.className.includes('option')) setActiveDropdown(null);
+			}}
+			buttons={buttons}
+		>
 			<form onSubmit={onSubmitHandler}>
 				{fields ? renderFields(fields) : ''}
 				<div id="buttons">

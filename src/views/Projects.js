@@ -197,6 +197,9 @@ const Projects = () => {
 				new field('Priority', 'priority', ' ', 'select', 'normal', [
 					'normal',
 					'high',
+					'test',
+					'more',
+					'three',
 				]),
 				new field('Type', 'type', ' '),
 				new field('Assigned To', 'assigned_to', ' '),
