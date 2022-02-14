@@ -66,10 +66,14 @@ const Modal = ({ options, onClickHandler }) => {
 				<div className="container">
 					<div className="modal-header">Ticket</div>
 					<div className="error">{errorMsg ? errorMsg : ''}</div>
-					<Form
-						options={options}
-						handleErrorMsg={(input) => setErrorMsg(input)}
-					></Form>
+					{options ? (
+						<Form
+							options={options}
+							handleErrorMsg={(input) => setErrorMsg(input)}
+						></Form>
+					) : (
+						'Loading..'
+					)}
 				</div>
 			</div>
 		</Wrapper>

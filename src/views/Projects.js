@@ -122,16 +122,6 @@ const Projects = () => {
 		};
 	}, []);
 
-	//#get tickets on first render
-	useEffect(() => {
-		const getTicket = async () => {
-			const data = await API.get(`ticket/query?project=${currentProject}`);
-			setTickets(data);
-		};
-
-		getTicket();
-	}, []);
-
 	//
 	useEffect(() => {
 		/////todo: needs url
@@ -153,6 +143,12 @@ const Projects = () => {
 			},
 		];
 
+		//update tickets table
+		const getTicket = async () => {
+			const data = await API.get(`ticket/query?project=${currentProject}`);
+			setTickets(data);
+		};
+
 		const getOptions = async () => {
 			console.log('selected ticket changed', selectedTicket);
 
@@ -167,6 +163,7 @@ const Projects = () => {
 			}
 		};
 
+		getTicket();
 		getOptions();
 	}, [selectedTicket]);
 

@@ -72,28 +72,40 @@ Router.route('/:id/comments')
 	})
 	.post(async (req, res) => {
 		console.log('post comment executed');
+		const { id } = req.params;
+
+		const ticket = await Ticket.findById(id);
+		const project = await Project.findById(ticket.project);
+		const members = project.members;
 		let result;
+
+		console.log(members.find(({ email }) => email === req.user.email));
 
 		try {
 			//if user is authenticated
-			if (req.isAuthenticated()) {
-				const { id } = req.params;
+			if (
+				req.isAuthenticated() &&
+				members.find(({ email }) => email === req.user.email)
+			) {
+				console.log('authenticated and member');
 				const { email, firstname, lastname } = req.user;
 				const body = {
 					content: req.body.content,
 					author_email: email,
 					author: `${firstname} ${lastname}`,
 				};
-				const tickets = await Ticket.where({ _id: id });
-				const ticket = tickets[0];
 				ticket.comments.push(body);
 				await ticket.save();
 				result = ticket.comments;
 			}
+
+			console.log('empty space');
 		} catch (err) {
+			console.log('not authenticated');
 			result = { err };
 		}
 
+		console.log('json reached');
 		res.json(result);
 	});
 
@@ -156,6 +168,12 @@ Router.route('/:id')
 					!pm.find(({ email }) => email === req.user.email) &&
 					ticket.assigned_to.email !== assigned_to
 				) {
+					console.log(
+						pm.find(({ email }) => {
+							console.log(email, req.user.email);
+							return email === req.user.email;
+						})
+					);
 					console.log('not pm');
 					res.status(403).json('unauthorized action');
 				} else {
