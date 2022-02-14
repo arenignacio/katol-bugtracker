@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const { body, validationResult } = require('express-validator');
 const Ticket = require('../models/Ticket');
+const Project = require('../models/Project');
 //const { DateTime } = require('luxon');
 // DateTime.fromJSDate(doc.date_initiated).toLocaleString(DateTime.DATE_MED)  ----returns Mon, DD, YYYY
 
@@ -135,23 +136,32 @@ Router.route('/:id')
 		body('assigned_to.name').optional().trim().escape().toLowerCase(),
 		body('initiated_by.name').trim().escape().optional().toLowerCase(),
 		(req, res) => {
+			console.log('ticket put');
 			const { id } = req.params;
 			const update = req.body;
 			const errors = validationResult(req);
-			update.last_updated = new Date();
+			update.last_updated = { date: new Date(), by: req.user.email };
 
-			if (!errors.isEmpty()) res.json(errors.array());
-			else {
-				Ticket.findByIdAndUpdate(id, update, (err, doc) => {
-					let confirmation = `Document ${id} successfully updated.`;
+			if (!errors.isEmpty()) {
+				console.log('error!!');
+				res.json(errors.array());
+			} else {
+				Ticket.findByIdAndUpdate(id, update, async (err, doc) => {
+					let confirmation = doc;
+					let project = await Project.where({ _id: doc.project });
+					let assignee = project[0].members.filter(
+						(member) => member.email === update.assigned_to
+					)[0];
+					console.log(assignee);
+					doc.assigned_to = assignee;
 
 					if (err) confirmation = err.message;
-
 					if (update.assigned_to && doc.status === 'initiated') {
 						doc.status = 'assigned';
-						doc.save();
 					}
 
+					doc.save();
+					console.log('success');
 					res.json(confirmation);
 				});
 			}

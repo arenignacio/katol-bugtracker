@@ -138,7 +138,8 @@ const SelectedTicket = ({ handleEdit, ticket }) => {
 			<div className="header">
 				<div>{(ticket && ticket.subject) || 'Selected Ticket'}</div>
 				<div>
-					{(ticket && 'Last Updated: ' + date(ticket.last_updated)) || ''}
+					{(ticket && 'Last Updated: ' + date(ticket.last_updated.date)) ||
+						''}
 					&nbsp;
 					<span
 						className={ticket ? '' : 'disabled'}

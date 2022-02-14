@@ -29,7 +29,10 @@ const ticketSchema = mongoose.Schema({
 		default: {},
 	},
 	date_initiated: { type: Date, default: new Date(), immutable: true },
-	last_updated: { type: Date, default: new Date() },
+	last_updated: {
+		date: { type: Date, default: new Date() },
+		by: { type: String },
+	},
 });
 
 module.exports = mongoose.model('Ticket', ticketSchema);

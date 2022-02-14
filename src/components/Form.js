@@ -293,6 +293,7 @@ const Form = ({ options, handleErrorMsg }) => {
 		handleErrorMsg(null);
 
 		//?fetchData is data to be fed into fetch command
+		//add formvalues to options to complete fetch data
 		fetchData.options.body = JSON.stringify(formValues);
 
 		res = await fetch(fetchData.url, fetchData.options);

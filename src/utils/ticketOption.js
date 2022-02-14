@@ -22,7 +22,7 @@ const ticketOptionGenerator = async (ticket, btnArray) => {
 		fetchData: {
 			url: `${API_BASEURL}/ticket/${id}`,
 			options: {
-				method: 'Post',
+				method: 'Put',
 				headers: {
 					'Content-type': 'application/json; charset=UTF-8',
 				},
