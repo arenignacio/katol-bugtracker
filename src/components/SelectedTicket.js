@@ -129,8 +129,53 @@ const SelectedTicket = ({ handleEdit, ticket }) => {
 
 	const date = (dateStr) => {
 		const date = new Date(dateStr);
+		const hours = [
+			'00',
+			'01',
+			'02',
+			'03',
+			'04',
+			'05',
+			'06',
+			'07',
+			'08',
+			'09',
+			'10',
+			'11',
+			'12',
+			'13',
+			'14',
+			'15',
+			'16',
+			'17',
+			'18',
+			'19',
+			'20',
+			'21',
+			'22',
+			'23',
+		];
 
-		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
+		const months = [
+			'Jan',
+			'Feb',
+			'Mar',
+			'Apr',
+			'May',
+			'Jun',
+			'Jul',
+			'Aug',
+			'Sep',
+			'Oct',
+			'Nov',
+			'Dec',
+		];
+
+		return `${
+			months[date.getMonth()]
+		} ${date.getDate()}, ${date.getFullYear()} - ${
+			hours[date.getHours()]
+		}:${date.getMinutes()}`;
 	};
 
 	return (

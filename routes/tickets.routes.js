@@ -152,7 +152,6 @@ Router.route('/:id')
 					let assignee = project[0].members.filter(
 						(member) => member.email === update.assigned_to
 					)[0];
-					console.log(assignee);
 					doc.assigned_to = assignee;
 
 					if (err) confirmation = err.message;
@@ -161,7 +160,7 @@ Router.route('/:id')
 					}
 
 					doc.save();
-					console.log('success');
+					console.log(confirmation);
 					res.json(confirmation);
 				});
 			}
