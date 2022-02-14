@@ -125,6 +125,10 @@ const Wrapper = styled.div`
 `;
 
 const SelectedTicket = ({ handleEdit, ticket }) => {
+	useEffect(() => {
+		console.log('selectedticket.js re/rendered');
+	});
+
 	const [isHidden, setIsHidden] = useState(false);
 
 	const date = (dateStr) => {

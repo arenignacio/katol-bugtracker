@@ -288,6 +288,7 @@ const Form = ({ options, handleErrorMsg }) => {
 	//#handle form submit
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
+		console.log('submit handler activated');
 		let res; //response
 		const dataHandler = submitBtn.handler;
 		handleErrorMsg(null);

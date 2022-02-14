@@ -144,14 +144,18 @@ Router.route('/:id')
 				res.json(errors.array());
 			} else {
 				const ticket = await Ticket.findById(id);
+				const project = await Project.where({ _id: ticket.project });
+				const members = project[0].members;
 
+				if (!members.find(({ email }) => email === req.user.email))
+					res.status(403).json('unauthorized action');
 				ticket.subject = subject;
 				ticket.type = type;
 				ticket.description = description;
+				ticket.priority = priority;
 
 				if (assigned_to !== 'none') {
-					const project = await Project.where({ _id: ticket.project });
-					const assignee = project[0].members.filter(
+					const assignee = members.filter(
 						(member) => member.email === assigned_to
 					)[0];
 

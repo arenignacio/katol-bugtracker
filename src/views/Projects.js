@@ -96,43 +96,6 @@ const Wrapper = styled.div`
 		}
 	}
 `;
-/* 
-const Modal = styled.div`
-	position: absolute;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 90vw;
-	height: 95vh;
-	backdrop-filter: blur(1.5px);
-	z-index: 4;
-
-	.container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		height: fit-content;
-		width: 30%;
-		box-sizing: border-box;
-		padding: 25px;
-		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
-		background: white;
-		border: 1px solid rgba(0, 0, 0, 0.3);
-		border-radius: 2.5px;
-		z-index: 5;
-
-		.modal-header {
-			display: flex;
-			justify-content: center;
-			margin-bottom: 30px;
-			font-size: 1.5rem;
-		}
-	}
-
-	&.hidden {
-		display: none;
-	}
-`; */
 
 const Projects = () => {
 	//#immutables
@@ -173,14 +136,14 @@ const Projects = () => {
 	useEffect(() => {
 		/////todo: needs url
 		/////todoo: populate fields initial value with selected ticket data
+		//todo: need Save button to get data and update selectedTicket
 
 		const buttons = [
 			{
 				name: 'Save',
 				handler: async (data) => {
 					console.log('data from save: ', data);
-					if (editMode === 'ticket') await setSelectedTicket(data);
-					if (editMode === 'project') await setProject(data);
+					setSelectedTicket(data);
 					setEditMode(null);
 				},
 			},
@@ -191,15 +154,15 @@ const Projects = () => {
 		];
 
 		const getOptions = async () => {
+			console.log('selected ticket changed', selectedTicket);
+
 			if (isMounted.current) {
-				console.log('select ticket option assigned');
 				const options = await generateTicketOptions(
 					selectedTicket,
 					buttons
 				);
 				setTicketOptions(options);
 			} else {
-				console.log('select ticket option not assigned');
 				isMounted.current = true;
 			}
 		};
