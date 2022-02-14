@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 30%;
+		width: 35%;
 		height: 90%;
 	}
 
@@ -46,15 +46,9 @@ const Wrapper = styled.div`
 		min-height: 90px;
 		max-height: 90px;
 	}
-
-	&.hidden {
-		display: none;
-	}
 `;
 
-const Modal = ({ options, editMode, onClickHandler }) => {
-	console.log(options);
-
+const Modal = ({ options, onClickHandler }) => {
 	return (
 		<Wrapper className={`background`} onClick={onClickHandler}>
 			<div className="buffer-zone">

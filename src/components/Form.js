@@ -246,7 +246,7 @@ export class field {
 	}
 }
 
-const Form = ({ options, handleErrorMsg, dropdownStateProp }) => {
+const Form = ({ options, handleErrorMsg }) => {
 	//#constants
 	const fields = options.fields;
 	const fetchData = options.fetchData;
@@ -255,12 +255,6 @@ const Form = ({ options, handleErrorMsg, dropdownStateProp }) => {
 	//#states
 	const [formValues, setFormValues] = useState(null);
 	const [activeDropdown, setActiveDropdown] = useState(null);
-
-	useEffect(() => {
-		return () => {
-			setActiveDropdown(null);
-		};
-	}, []);
 
 	useEffect(() => {
 		const initialFormValues = fields.reduce((acc, field) => {
@@ -285,8 +279,7 @@ const Form = ({ options, handleErrorMsg, dropdownStateProp }) => {
 
 	//#handle option select for dropdown
 	const handleOptionSelect = (key, option) => {
-		if (dropdownStateProp) dropdownStateProp[1](key);
-		else setActiveDropdown(null);
+		setActiveDropdown(null);
 		setFormValues((prevVal) => {
 			return { ...prevVal, [key]: option };
 		});
@@ -357,10 +350,11 @@ const Form = ({ options, handleErrorMsg, dropdownStateProp }) => {
 								<div
 									className={`toggle-option ${key}`}
 									onClick={async () => {
-										console.log('toggle option clicked', key);
-										if (dropdownStateProp) dropdownStateProp[1](key);
-										else setActiveDropdown(key);
-										console.log(activeDropdown, key);
+										console.log(activeDropdown === key);
+										if (activeDropdown === key) {
+											console.log('close dropdown');
+											setActiveDropdown(null);
+										} else setActiveDropdown(key);
 									}}
 								>
 									open
@@ -425,7 +419,10 @@ const Form = ({ options, handleErrorMsg, dropdownStateProp }) => {
 				if (activeDropdown && !e.target.className.includes(activeDropdown))
 					setActiveDropdown(null);
 
-				if (e.target.className.includes('toggle-option')) {
+				if (
+					e.target.className.includes('toggle-option') &&
+					!e.target.className.includes(activeDropdown)
+				) {
 					setActiveDropdown(e.target.className.split(' ')[1]);
 				}
 			}}
