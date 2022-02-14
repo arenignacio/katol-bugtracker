@@ -30,8 +30,6 @@ users.route('/update').put((req, res) => {
 	const { body } = req;
 	let confirmation = 'User successfully updated';
 
-	console.log(`id is ${_id}`);
-
 	User.findByIdAndUpdate(_id, body, (err) => {
 		if (err) confirmation = 'Invalid ID';
 

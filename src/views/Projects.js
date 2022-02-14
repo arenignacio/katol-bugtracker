@@ -172,14 +172,16 @@ const Projects = () => {
 	//
 	useEffect(() => {
 		/////todo: needs url
-		//todoo: populate fields initial value with selected ticket data
+		/////todoo: populate fields initial value with selected ticket data
 
 		const buttons = [
 			{
 				name: 'Save',
-				handler: () => {
-					if (editMode === 'ticket') console.log('save clicked on ticket');
-					else console.log('save clicked on project');
+				handler: async (data) => {
+					console.log('data from save: ', data);
+					if (editMode === 'ticket') await setSelectedTicket(data);
+					if (editMode === 'project') await setProject(data);
+					setEditMode(null);
 				},
 			},
 			{

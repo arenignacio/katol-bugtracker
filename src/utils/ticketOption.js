@@ -10,6 +10,7 @@ const ticketOptionGenerator = async (ticket, btnArray) => {
 		status,
 		type,
 		assigned_to,
+		priority,
 		description,
 		project,
 	} = ticket;
@@ -31,14 +32,20 @@ const ticketOptionGenerator = async (ticket, btnArray) => {
 		},
 		fields: [
 			new field('Subject', 'subject', '', 'text', subject),
-			new field('Status', 'status', '', 'text', status),
-			new field('Priority', 'priority', ' ', 'select', 'normal', [
+			new field('Status', 'status', '', 'select', status, [
+				'assigned',
+				'resolved',
+			]),
+			new field('Priority', 'priority', ' ', 'select', priority, [
 				'low',
 				'normal',
 				'high',
 			]),
 			new field('Type', 'type', '', 'select', type, ['bug', 'feature']),
-			new field('Assigned To', 'assigned_to', '', 'select', email, members),
+			new field('Assigned To', 'assigned_to', '', 'select', email, [
+				...members,
+				'none',
+			]),
 			new field('Description', 'description', ' ', 'textarea', description, {
 				maxLength: '200',
 			}),

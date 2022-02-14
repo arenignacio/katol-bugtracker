@@ -58,7 +58,6 @@ app.use(express.static(path.join(__dirname + '/build')));
 passport.use(new LocalStrategy({ usernameField: 'email' }, authenticate));
 
 passport.serializeUser((user, done) => {
-	console.log('user is ' + user);
 	done(null, user._id);
 });
 passport.deserializeUser((id, done) =>

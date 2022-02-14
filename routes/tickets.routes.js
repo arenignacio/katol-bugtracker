@@ -53,8 +53,6 @@ Router.route('/query*').get(async (req, res) => {
 		return acc;
 	}, {});
 
-	console.log(query);
-
 	let result = null;
 
 	try {
@@ -96,7 +94,6 @@ Router.route('/:id/comments')
 			result = { err };
 		}
 
-		console.log(result);
 		res.json(result);
 	});
 
@@ -135,34 +132,38 @@ Router.route('/:id')
 		body('description').trim().escape().optional(),
 		body('assigned_to.name').optional().trim().escape().toLowerCase(),
 		body('initiated_by.name').trim().escape().optional().toLowerCase(),
-		(req, res) => {
+		async (req, res) => {
 			console.log('ticket put');
 			const { id } = req.params;
-			const update = req.body;
+			const { subject, status, type, assigned_to, description, priority } =
+				req.body;
 			const errors = validationResult(req);
-			update.last_updated = { date: new Date(), by: req.user.email };
 
 			if (!errors.isEmpty()) {
 				console.log('error!!');
 				res.json(errors.array());
 			} else {
-				Ticket.findByIdAndUpdate(id, update, async (err, doc) => {
-					let confirmation = doc;
-					let project = await Project.where({ _id: doc.project });
-					let assignee = project[0].members.filter(
-						(member) => member.email === update.assigned_to
+				const ticket = await Ticket.findById(id);
+
+				ticket.subject = subject;
+				ticket.type = type;
+				ticket.description = description;
+
+				if (assigned_to !== 'none') {
+					const project = await Project.where({ _id: ticket.project });
+					const assignee = project[0].members.filter(
+						(member) => member.email === assigned_to
 					)[0];
-					doc.assigned_to = assignee;
 
-					if (err) confirmation = err.message;
-					if (update.assigned_to && doc.status === 'initiated') {
-						doc.status = 'assigned';
-					}
+					ticket.assigned_to = assignee;
+					ticket.status = status !== 'resolved' ? 'assigned' : status;
+				} else {
+					ticket.assigned_to = { email: 'none', name: 'none' };
+					ticket.status = 'unassigned';
+				}
 
-					doc.save();
-					console.log(confirmation);
-					res.json(confirmation);
-				});
+				ticket.last_updated = { date: new Date(), by: req.user.email };
+				ticket.save().then((updatedTicket) => res.json(updatedTicket));
 			}
 		}
 	)
