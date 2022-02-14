@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import Form from './Form';
 
@@ -46,17 +47,28 @@ const Wrapper = styled.div`
 		min-height: 90px;
 		max-height: 90px;
 	}
+
+	.error {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: rgba(250, 0, 0, 0.5);
+		font-size: 1.1rem;
+	}
 `;
 
 const Modal = ({ options, onClickHandler }) => {
+	const [errorMsg, setErrorMsg] = useState(null);
+
 	return (
 		<Wrapper className={`background`} onClick={onClickHandler}>
 			<div className="buffer-zone">
 				<div className="container">
 					<div className="modal-header">Ticket</div>
+					<div className="error">{errorMsg ? errorMsg : ''}</div>
 					<Form
 						options={options}
-						handleErrorMsg={(input) => console.log(input)}
+						handleErrorMsg={(input) => setErrorMsg(input)}
 					></Form>
 				</div>
 			</div>

@@ -139,6 +139,7 @@ Router.route('/:id')
 				req.body;
 			const errors = validationResult(req);
 
+			//check if forms are filled out properly
 			if (!errors.isEmpty()) {
 				console.log('error!!');
 				res.json(errors.array());
@@ -146,28 +147,38 @@ Router.route('/:id')
 				const ticket = await Ticket.findById(id);
 				const project = await Project.where({ _id: ticket.project });
 				const members = project[0].members;
+				const pm = project[0].project_manager;
 
-				if (!members.find(({ email }) => email === req.user.email))
+				if (!members.find(({ email }) => email === req.user.email)) {
+					console.log('not member');
 					res.status(403).json('unauthorized action');
-				ticket.subject = subject;
-				ticket.type = type;
-				ticket.description = description;
-				ticket.priority = priority;
-
-				if (assigned_to !== 'none') {
-					const assignee = members.filter(
-						(member) => member.email === assigned_to
-					)[0];
-
-					ticket.assigned_to = assignee;
-					ticket.status = status !== 'resolved' ? 'assigned' : status;
+				} else if (
+					!pm.find(({ email }) => email === req.user.email) &&
+					ticket.assigned_to.email !== assigned_to
+				) {
+					console.log('not pm');
+					res.status(403).json('unauthorized action');
 				} else {
-					ticket.assigned_to = { email: 'none', name: 'none' };
-					ticket.status = 'unassigned';
-				}
+					ticket.subject = subject;
+					ticket.type = type;
+					ticket.description = description;
+					ticket.priority = priority;
 
-				ticket.last_updated = { date: new Date(), by: req.user.email };
-				ticket.save().then((updatedTicket) => res.json(updatedTicket));
+					if (assigned_to !== 'none') {
+						const assignee = members.filter(
+							(member) => member.email === assigned_to
+						)[0];
+
+						ticket.assigned_to = assignee;
+						ticket.status = status !== 'resolved' ? 'assigned' : status;
+					} else {
+						ticket.assigned_to = { email: 'none', name: 'none' };
+						ticket.status = 'unassigned';
+					}
+
+					ticket.last_updated = { date: new Date(), by: req.user.email };
+					ticket.save().then((updatedTicket) => res.json(updatedTicket));
+				}
 			}
 		}
 	)

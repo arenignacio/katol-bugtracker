@@ -306,6 +306,8 @@ const Form = ({ options, handleErrorMsg }) => {
 			if (typeof dataHandler === 'function') dataHandler(data);
 		} else if (res.status === 401) {
 			handleErrorMsg('Invalid login');
+		} else if (res.status === 403) {
+			handleErrorMsg('Unauthorized action');
 		} else {
 			const err = await res.json();
 			console.log(err);

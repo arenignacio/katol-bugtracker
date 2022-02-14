@@ -175,11 +175,14 @@ const SelectedTicket = ({ handleEdit, ticket }) => {
 			'Dec',
 		];
 
-		return `${
-			months[date.getMonth()]
-		} ${date.getDate()}, ${date.getFullYear()} - ${
-			hours[date.getHours()]
-		}:${date.getMinutes()}`;
+		const month = months[date.getMonth()];
+		const day = date.getDate();
+		const year = date.getFullYear();
+		const hour = hours[date.getHours()];
+		const minutes =
+			date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+
+		return `${month} ${day}, ${year} - ${hour}:${minutes}`;
 	};
 
 	return (
