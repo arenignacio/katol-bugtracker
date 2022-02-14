@@ -263,7 +263,7 @@ const Form = ({ options, handleErrorMsg }) => {
 		console.log(initialFormValues);
 
 		setFormValues(initialFormValues);
-	}, []);
+	}, [fields]);
 
 	//#handle input change in forms
 	const handleInputChange = (e) => {

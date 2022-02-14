@@ -1,7 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { API_BASEURL } from '../utils/constants';
+
+//#utility functions
 import requests from '../utils/requests';
+import generateTicketOptions from '../utils/ticketOption';
 
 /* 
 todo: fetch project data 
@@ -10,7 +13,6 @@ todo: fetch project data
 //#components
 import List from '../../src/components/List';
 import SelectedTicket from '../components/SelectedTicket';
-import Form, { field } from '../components/Form';
 import Modal from '../components/Modal';
 
 const Wrapper = styled.div`
@@ -171,74 +173,24 @@ const Projects = () => {
 	useEffect(() => {
 		/////todo: needs url
 		//todoo: populate fields initial value with selected ticket data
+
+		const buttons = [
+			{
+				name: 'Save',
+				handler: () => {
+					if (editMode === 'ticket') console.log('save clicked on ticket');
+					else console.log('save clicked on project');
+				},
+			},
+			{
+				name: 'Cancel',
+				handler: () => setEditMode(null),
+			},
+		];
+
 		if (isMounted.current) {
 			console.log('select ticket option assigned');
-
-			const options = {
-				fetchData: {
-					url: selectedTicket
-						? `${API_BASEURL}/ticket/${selectedTicket._id}`
-						: '',
-					options: {
-						method: 'Post',
-						headers: {
-							'Content-type': 'application/json; charset=UTF-8',
-						},
-						body: '',
-					},
-				},
-				fields: [
-					new field(
-						'Subject',
-						'subject',
-						'',
-						'text',
-						selectedTicket.subject
-					),
-					new field('Status', 'status', '', 'text', selectedTicket.status),
-					new field('Priority', 'priority', ' ', 'select', 'normal', [
-						'low',
-						'normal',
-						'high',
-					]),
-					new field('Type', 'type', '', 'select', selectedTicket.type, [
-						'bug',
-						'feature',
-					]),
-					new field(
-						'Assigned To',
-						'assigned_to',
-						'',
-						'select',
-						selectedTicket.assigned_to.name,
-						['user1', 'user2', selectedTicket.assigned_to.name]
-					),
-					new field(
-						'Description',
-						'description',
-						' ',
-						'textarea',
-						selectedTicket.description,
-						{
-							maxLength: '200',
-						}
-					),
-				],
-				buttons: [
-					{
-						name: 'Save',
-						handler: () => console.log('save clicked'),
-					},
-					{
-						name: 'Cancel',
-						handler: () => {
-							console.log('cancel button clicked');
-							setEditMode(null);
-						},
-					},
-				],
-			};
-
+			const options = generateTicketOptions(selectedTicket, buttons);
 			setTicketOptions(options);
 		} else {
 			console.log('select ticket option not assigned');
