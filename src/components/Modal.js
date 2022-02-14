@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 40%;
+		width: 30%;
 		height: 90%;
 	}
 
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 		width: fit-content;
 		box-sizing: border-box;
 		margin: 25px;
-		padding: 25px;
+		padding: 25px 0px;
 		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
 		background: white;
 		border: 1px solid rgba(0, 0, 0, 0.3);
@@ -37,7 +37,6 @@ const Wrapper = styled.div`
 		.modal-header {
 			display: flex;
 			justify-content: center;
-			margin-bottom: 30px;
 			font-size: 1.5rem;
 		}
 	}
@@ -57,21 +56,14 @@ const Modal = ({ options, editMode, onClickHandler }) => {
 	console.log(options);
 
 	return (
-		<Wrapper
-			className={`background ${editMode ? '' : 'hidden'}`}
-			onClick={onClickHandler}
-		>
+		<Wrapper className={`background`} onClick={onClickHandler}>
 			<div className="buffer-zone">
 				<div className="container">
 					<div className="modal-header">Ticket</div>
-					{options ? (
-						<Form
-							options={options}
-							handleErrorMsg={(input) => console.log(input)}
-						></Form>
-					) : (
-						''
-					)}
+					<Form
+						options={options}
+						handleErrorMsg={(input) => console.log(input)}
+					></Form>
 				</div>
 			</div>
 		</Wrapper>

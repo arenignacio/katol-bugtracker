@@ -188,14 +188,21 @@ const Projects = () => {
 			},
 		];
 
-		if (isMounted.current) {
-			console.log('select ticket option assigned');
-			const options = generateTicketOptions(selectedTicket, buttons);
-			setTicketOptions(options);
-		} else {
-			console.log('select ticket option not assigned');
-			isMounted.current = true;
-		}
+		const getOptions = async () => {
+			if (isMounted.current) {
+				console.log('select ticket option assigned');
+				const options = await generateTicketOptions(
+					selectedTicket,
+					buttons
+				);
+				setTicketOptions(options);
+			} else {
+				console.log('select ticket option not assigned');
+				isMounted.current = true;
+			}
+		};
+
+		getOptions();
 	}, [selectedTicket]);
 
 	//#sort ticket data to be fed into List
@@ -216,16 +223,19 @@ const Projects = () => {
 
 	return (
 		<>
-			<Modal
-				options={ticketOptions}
-				editMode={editMode}
-				onClickHandler={(e) => {
-					if (e.target.className.includes('background')) {
-						e.target.classList.toggle('hidden');
-						setEditMode(null);
-					}
-				}}
-			/>
+			{editMode ? (
+				<Modal
+					options={ticketOptions}
+					onClickHandler={(e) => {
+						if (e.target.className.includes('background')) {
+							e.target.classList.toggle('hidden');
+							setEditMode(null);
+						}
+					}}
+				/>
+			) : (
+				''
+			)}
 			<Wrapper>
 				<div className="project-name-container">
 					<div className="project-name"> Project 1</div>

@@ -20,6 +20,8 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+	padding: 25px;
+
 	form {
 		display: flex;
 		flex-direction: column;
@@ -173,6 +175,7 @@ const Wrapper = styled.div`
 		.option-selected, .option {
 			display: flex;
 			align-items: center;
+			justify-content: flex-start;
 			width: 100%;
 			height: 1.5rem;
 			box-sizing: border-box;
@@ -204,7 +207,7 @@ const Wrapper = styled.div`
 				cursor: pointer;
 
 				span {
-					transform: scale(1.2);
+					transform: scale(1.1);
 				}
 			}
 		
@@ -243,7 +246,7 @@ export class field {
 	}
 }
 
-const Form = ({ options, handleErrorMsg }) => {
+const Form = ({ options, handleErrorMsg, dropdownStateProp }) => {
 	//#constants
 	const fields = options.fields;
 	const fetchData = options.fetchData;
@@ -254,16 +257,23 @@ const Form = ({ options, handleErrorMsg }) => {
 	const [activeDropdown, setActiveDropdown] = useState(null);
 
 	useEffect(() => {
+		return () => {
+			setActiveDropdown(null);
+		};
+	}, []);
+
+	useEffect(() => {
 		const initialFormValues = fields.reduce((acc, field) => {
 			acc[field.name] = field.value;
 
 			return acc;
 		}, {});
-
-		console.log(initialFormValues);
-
 		setFormValues(initialFormValues);
 	}, [fields]);
+
+	useEffect(() => {
+		console.log('active dropdown is: ', activeDropdown);
+	}, [activeDropdown]);
 
 	//#handle input change in forms
 	const handleInputChange = (e) => {
@@ -275,7 +285,8 @@ const Form = ({ options, handleErrorMsg }) => {
 
 	//#handle option select for dropdown
 	const handleOptionSelect = (key, option) => {
-		setActiveDropdown(null);
+		if (dropdownStateProp) dropdownStateProp[1](key);
+		else setActiveDropdown(null);
 		setFormValues((prevVal) => {
 			return { ...prevVal, [key]: option };
 		});
@@ -309,8 +320,6 @@ const Form = ({ options, handleErrorMsg }) => {
 
 	const renderFields = (fields) => {
 		return fields.map((field, idx) => {
-			console.log(typeof field);
-
 			const { label, name: key, placeholder, type } = field;
 
 			if (type === 'textarea') {
@@ -343,16 +352,21 @@ const Form = ({ options, handleErrorMsg }) => {
 							id={key}
 							autoComplete="on"
 						>
-							<div className="option-selected">
+							<div className={`option-selected`}>
 								{formValues[key]}
 								<div
-									className={'toggle-option'}
-									onClick={() => setActiveDropdown(key)}
+									className={`toggle-option ${key}`}
+									onClick={async () => {
+										console.log('toggle option clicked', key);
+										if (dropdownStateProp) dropdownStateProp[1](key);
+										else setActiveDropdown(key);
+										console.log(activeDropdown, key);
+									}}
 								>
 									open
 								</div>
 							</div>
-							<div className="dropdown">
+							<div className={`dropdown ${key}`}>
 								{field.options.map((option) => {
 									if (option === formValues[key]) return '';
 
@@ -408,7 +422,12 @@ const Form = ({ options, handleErrorMsg }) => {
 	return formValues ? (
 		<Wrapper
 			onClick={(e) => {
-				if (!e.target.className.includes('option')) setActiveDropdown(null);
+				if (activeDropdown && !e.target.className.includes(activeDropdown))
+					setActiveDropdown(null);
+
+				if (e.target.className.includes('toggle-option')) {
+					setActiveDropdown(e.target.className.split(' ')[1]);
+				}
 			}}
 			buttons={buttons}
 		>
