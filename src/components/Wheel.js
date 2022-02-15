@@ -74,7 +74,7 @@ const Wheel = ({ options }) => {
 	//filter selectables to not include already selected
 
 	console.log('wheel options is ', options);
-	const { selected, selectables, saveHandler: handler } = options;
+	const { selected, selectables, saveHandler } = options;
 
 	const [currentSelected, setCurrentSelected] = useState([...selected]);
 	const [currentSelectables, setCurrentSelectables] = useState([
@@ -167,7 +167,15 @@ const Wheel = ({ options }) => {
 					setPayload((prevVal) => [...prevVal, email]);
 				}}
 			/>
-			<div className="button">BUTTON</div>
+			<div
+				className="button"
+				onClick={(e) => {
+					console.log('button clicked');
+					saveHandler(payload);
+				}}
+			>
+				BUTTON
+			</div>
 		</Wrapper>
 	);
 };

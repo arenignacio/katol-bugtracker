@@ -198,10 +198,12 @@ const Projects = () => {
 				} else if (editMode === 'Members') {
 					const allmembers = await API.get('user/query');
 					options = {
+						header: 'add/remove a member',
 						selected: sortMembers(members, true),
 						selectables: sortMembers(allmembers, true),
 						saveHandler: async (newMembers) => {
-							console.log('updated to: ', newMembers);
+							const body = { members: newMembers };
+							console.log(body);
 						},
 					};
 				}
