@@ -17,6 +17,15 @@ const Wrapper = styled.div`
 	.selected {
 		display: flex;
 		justify-content: center;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		font-size: 0.8rem;
+
+		&:hover {
+			cursor: pointer;
+			color: red;
+		}
 
 		&-container {
 			align-items: center;
@@ -57,15 +66,40 @@ const Wrapper = styled.div`
 
 		&-content {
 			height: 275px;
-		}
-	}
 
-	.selected {
-		font-size: 0.8rem;
+			.col {
+				&:hover {
+					color: rgba(0, 100, 0, 0.8);
+					font-weight: bold;
+				}
+			}
+		}
 	}
 
 	.row {
 		padding: 5px 0px;
+	}
+
+	.button-grp {
+		display: flex;
+		justify-content: space-around;
+		margin-top: 10px;
+		color: rgba(0, 0, 0, 0.8);
+
+		.button {
+			&:hover {
+				cursor: pointer;
+				font-weight: bold;
+			}
+
+			&.save:active {
+				color: rgba(0, 150, 0, 0.6);
+			}
+
+			&.cancel:active {
+				color: rgba(150, 0, 0, 0.6);
+			}
+		}
 	}
 `;
 
@@ -74,7 +108,7 @@ const Wheel = ({ options }) => {
 	//filter selectables to not include already selected
 
 	console.log('wheel options is ', options);
-	const { selected, selectables, saveHandler } = options;
+	const { selected, selectables, saveHandler, cancelHandler } = options;
 
 	const [currentSelected, setCurrentSelected] = useState([...selected]);
 	const [currentSelectables, setCurrentSelectables] = useState([
@@ -132,29 +166,12 @@ const Wheel = ({ options }) => {
 			<List
 				colsize={3}
 				headers={['add/remove a member']}
-				content={
-					currentSelectables
-						? [
-								...currentSelectables,
-								['asddsa'],
-								['asddsa'],
-								['asddsa'],
-								['asddsa'],
-								['asddsa'],
-								['asddsa'],
-								['asddsa'],
-								['asddsa'],
-								['asddsa'],
-								['asddsa'],
-								['asddsa'],
-								['end of'],
-						  ]
-						: ''
-				}
+				content={currentSelectables ? currentSelectables : ''}
 				attributes={{
 					isSelectable: false,
 					isHoverable: true,
 					isScrollable: true,
+					isExpandable: false,
 				}}
 				handleClick={(e) => {
 					const email = e.target.parentNode.id;
@@ -167,14 +184,19 @@ const Wheel = ({ options }) => {
 					setPayload((prevVal) => [...prevVal, email]);
 				}}
 			/>
-			<div
-				className="button"
-				onClick={(e) => {
-					console.log('button clicked');
-					saveHandler(payload);
-				}}
-			>
-				BUTTON
+			<div className="button-grp">
+				<div
+					className="button save"
+					onClick={(e) => {
+						console.log('save clicked');
+						saveHandler(payload);
+					}}
+				>
+					save
+				</div>
+				<div className="button cancel" onClick={cancelHandler}>
+					cancel
+				</div>
 			</div>
 		</Wrapper>
 	);

@@ -205,6 +205,9 @@ const Projects = () => {
 							const body = { members: newMembers };
 							console.log(body);
 						},
+						cancelHandler: () => {
+							setEditMode(null);
+						},
 					};
 				}
 
