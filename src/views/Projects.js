@@ -1,10 +1,14 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import { API_BASEURL } from '../utils/constants';
+import { UserContext } from '../App';
 
 //#utility functions
 import requests from '../utils/requests';
-import generateTicketOptions from '../utils/ticketOption';
+import {
+	generateTicketOptions,
+	newticketOptionGenerator,
+} from '../utils/ticketOption';
 
 /* 
 todo: fetch project data 
@@ -56,18 +60,22 @@ const Wrapper = styled.div`
 		}
 	}
 
+	.members,
+	.tickets {
+		height: fit-content;
+		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
+	}
+
 	.members {
 		width: 25%;
 	}
 
 	.tickets {
 		width: 45%;
-	}
 
-	.members,
-	.tickets {
-		height: fit-content;
-		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
+		&:hover .new {
+			opacity: 1;
+		}
 	}
 
 	.selected-ticket-container {
@@ -78,11 +86,25 @@ const Wrapper = styled.div`
 
 	.title {
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
 		padding: 2px;
 		padding-left: 15px;
 		background: white;
 		font-size: 1.3rem;
+
+		.new {
+			font-size: 0.9rem;
+			margin-right: 15px;
+			letter-spacing: 0.7px;
+			opacity: 0.5;
+			transition: opacity 0.3s ease-in-out;
+
+			&:hover {
+				font-weight: bold;
+				cursor: pointer;
+			}
+		}
 	}
 
 	.rounded {
@@ -107,10 +129,12 @@ const Projects = () => {
 	const isMounted = useRef(false);
 
 	//#states
+	const [newTicket, setNewTicket] = useState(null);
 	const [tickets, setTickets] = useState(null);
 	const [selectedTicket, setSelectedTicket] = useState(null);
 	const [editMode, setEditMode] = useState(null);
 	const [ticketOptions, setTicketOptions] = useState(null);
+	const [user, setUser] = useContext(UserContext);
 	const [projectOptions, setProjectOptions] = useState(null);
 	const [project, setProject] = useState(null);
 
@@ -128,21 +152,6 @@ const Projects = () => {
 		/////todoo: populate fields initial value with selected ticket data
 		//todo: need Save button to get data and update selectedTicket
 
-		const buttons = [
-			{
-				name: 'Save',
-				handler: async (data) => {
-					console.log('data from save: ', data);
-					setSelectedTicket(data);
-					setEditMode(null);
-				},
-			},
-			{
-				name: 'Cancel',
-				handler: () => setEditMode(null),
-			},
-		];
-
 		//update tickets table
 		const getTicket = async () => {
 			const data = await API.get(`ticket/query?project=${currentProject}`);
@@ -151,13 +160,34 @@ const Projects = () => {
 
 		const getOptions = async () => {
 			console.log('selected ticket changed', selectedTicket);
+			const buttons = [
+				{
+					name: 'Save',
+					handler: async (data) => {
+						console.log('data from save: ', data);
+						setSelectedTicket(data);
+						setEditMode(null);
+					},
+				},
+				{
+					name: 'Cancel',
+					handler: () => setEditMode(null),
+				},
+			];
 
 			if (isMounted.current) {
-				const options = await generateTicketOptions(
-					selectedTicket,
-					buttons
-				);
-				setTicketOptions(options);
+				let options;
+				console.log(editMode);
+
+				if (editMode === 'ticket') {
+					console.log('generating ticket options');
+					options = await generateTicketOptions(selectedTicket, buttons);
+				} else if (editMode === 'new-ticket') {
+					console.log('generating new ticket options');
+					options = await newticketOptionGenerator(newTicket, buttons);
+				}
+
+				await setTicketOptions(options);
 			} else {
 				isMounted.current = true;
 			}
@@ -165,7 +195,7 @@ const Projects = () => {
 
 		getTicket();
 		getOptions();
-	}, [selectedTicket]);
+	}, [selectedTicket, newTicket, editMode]);
 
 	//#sort ticket data to be fed into List
 	const sortTickets = (tickets) => {
@@ -181,6 +211,26 @@ const Projects = () => {
 		const row = e.target.parentNode;
 		const data = await API.get(`ticket/${row.id}`);
 		setSelectedTicket(data[0]);
+	};
+
+	//#new ticket handler
+	const createTicket = async () => {
+		await setNewTicket({
+			subject: '',
+			description: '',
+			status: 'initiated',
+			priority: 'normal',
+			type: 'bug',
+			assigned_to: { email: 'none', name: 'none' },
+			initiated_by: {
+				email: user.email,
+				name: `${user.firstname} ${user.lastname}`,
+			},
+			project: currentProject,
+			last_updated: { date: new Date() },
+			comments: [],
+		});
+		await setEditMode('new-ticket');
 	};
 
 	return (
@@ -220,7 +270,12 @@ const Projects = () => {
 						/>
 					</div>
 					<div className="tickets border-solid rounded">
-						<div className="title">Tickets</div>
+						<div className="title">
+							Tickets
+							<span className="new" onClick={() => createTicket()}>
+								new
+							</span>
+						</div>
 						<List
 							subject={'Tickets'}
 							colsize={3}
@@ -239,7 +294,9 @@ const Projects = () => {
 				<div>
 					<div className="selected-ticket-container border-solid rounded">
 						<SelectedTicket
-							handleEdit={setEditMode}
+							handleEdit={(input) => {
+								setEditMode(input);
+							}}
 							ticket={selectedTicket}
 						/>
 					</div>

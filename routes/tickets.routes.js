@@ -1,5 +1,4 @@
 const express = require('express');
-const passport = require('passport');
 const { body, validationResult } = require('express-validator');
 const Ticket = require('../models/Ticket');
 const Project = require('../models/Project');
@@ -9,31 +8,44 @@ const Project = require('../models/Project');
 const Router = express.Router();
 
 //new ticket
-Router.route('/create-ticket').post(
+Router.route('/new').post(
 	body('initiated_by.username').trim().escape().toLowerCase(),
-	body('assigned_to.id').optional().trim().escape().toLowerCase(),
+	body('assigned_to').optional().trim().escape().toLowerCase(),
 	body('subject').trim().escape(),
 	body('description').trim().escape(),
-	body('assigned_to.name').optional().trim().escape().toLowerCase(),
-	body('initiated_by.name').trim().escape().toLowerCase(),
 	(req, res) => {
 		const input = req.body;
+		const user = req.user;
 		const errors = validationResult(req); //validate body
+		const project = Project.findById(input.project);
+		const members = project.members;
 
 		//if errors is not empty, return array of all errors
 		if (!errors.isEmpty()) res.json(errors.array());
 		//else create new ticket
-		else if (req.user) {
-			input.status = input['assigned_to'] ? 'assigned' : 'initiated';
-			input.initiated_by.id = req.user._id;
-			Ticket.create(input, (err) => {
+		else if (user) {
+			input.status = input.assigned_to === 'none' ? 'initiated' : 'assigned';
+			input.initiated_by = {
+				email: user.email,
+				name: `${user.firstname} ${user.lastname}`,
+			};
+			input.assigned_to =
+				input.assigned_to === 'none'
+					? { email: 'none', name: 'none' }
+					: members.find(
+							(member) => member.email === input.assigned_to
+					  )[0];
+
+			input.last_updated = { date: new Date(), by: user.email };
+
+			Ticket.create(input, (err, doc) => {
 				if (err) {
 					console.log(err.message);
-					res.status(201).send(`error: ${err.message}`);
-				} else res.send('Ticket successfully created');
+					res.status(201).json(`error: ${err.message}`);
+				} else res.json(doc);
 			});
 		} else {
-			res.status(401).send('Unauthorized user');
+			res.status(401).json('User not authenticated');
 		}
 	}
 );

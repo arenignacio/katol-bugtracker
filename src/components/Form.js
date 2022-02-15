@@ -220,6 +220,10 @@ const Wrapper = styled.div`
 		
 
 	}
+
+	.hidden {
+		display: none;
+	}
 `;
 
 /*
@@ -352,9 +356,15 @@ const Form = ({ options, handleErrorMsg }) => {
 							<div className={`option-selected`}>
 								{formValues[key]}
 								<div
-									className={`toggle-option ${key}`}
-									onClick={async () => {
-										console.log(activeDropdown === key);
+									className={`toggle-option ${key} ${
+										field.options <= 1 ? 'hidden' : ''
+									}`}
+									onClick={() => {
+										console.log(
+											activeDropdown === key,
+											activeDropdown,
+											key
+										);
 										if (activeDropdown === key) {
 											console.log('close dropdown');
 											setActiveDropdown(null);
@@ -420,14 +430,19 @@ const Form = ({ options, handleErrorMsg }) => {
 	return formValues ? (
 		<Wrapper
 			onClick={(e) => {
-				if (activeDropdown && !e.target.className.includes(activeDropdown))
+				const classes = e.target.className;
+
+				console.log('wrapper cliked', activeDropdown);
+				if (activeDropdown && !classes.includes(activeDropdown)) {
+					console.log('wrapper set dropdown to null');
 					setActiveDropdown(null);
+				}
 
 				if (
-					e.target.className.includes('toggle-option') &&
-					!e.target.className.includes(activeDropdown)
+					classes.includes('toggle-option') &&
+					!classes.includes(activeDropdown)
 				) {
-					setActiveDropdown(e.target.className.split(' ')[1]);
+					setActiveDropdown(classes.split(' ')[1]);
 				}
 			}}
 			buttons={buttons}
