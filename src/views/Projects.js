@@ -94,7 +94,8 @@ const Wrapper = styled.div`
 		font-size: 1.3rem;
 
 		.new {
-			font-size: 0.9rem;
+			font-weight: 300;
+			font-size: 1rem;
 			margin-right: 15px;
 			letter-spacing: 0.7px;
 			opacity: 0.5;

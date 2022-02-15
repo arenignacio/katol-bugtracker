@@ -62,20 +62,21 @@ const Modal = ({ options, onClickHandler }) => {
 
 	return (
 		<Wrapper className={`background`} onClick={onClickHandler}>
-			<div className="buffer-zone">
-				<div className="container">
-					<div className="modal-header">Ticket</div>
-					<div className="error">{errorMsg ? errorMsg : ''}</div>
-					{options ? (
+			{options ? (
+				<div className="buffer-zone">
+					<div className="container">
+						<div className="modal-header">Ticket</div>
+						<div className="error">{errorMsg ? errorMsg : ''}</div>
+
 						<Form
 							options={options}
 							handleErrorMsg={(input) => setErrorMsg(input)}
 						></Form>
-					) : (
-						'Loading..'
-					)}
+					</div>
 				</div>
-			</div>
+			) : (
+				''
+			)}
 		</Wrapper>
 	);
 };
