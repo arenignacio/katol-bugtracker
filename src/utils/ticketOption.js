@@ -27,7 +27,7 @@ export const generateTicketOptions = async (ticket, btnArray) => {
 				headers: {
 					'Content-type': 'application/json; charset=UTF-8',
 				},
-				body: '',
+				body: {},
 			},
 		},
 		fields: [
@@ -78,12 +78,12 @@ export const newticketOptionGenerator = async (ticket, btnArray) => {
 				headers: {
 					'Content-type': 'application/json; charset=UTF-8',
 				},
-				body: '',
+				body: { project: project },
 			},
 		},
 		fields: [
 			new field('Subject', 'subject', '', 'text', subject),
-			new field('Status', 'status', '', 'select', status, []),
+			new field('Status', 'status', '', 'select', status, ['initiated']),
 			new field('Priority', 'priority', ' ', 'select', priority, [
 				'low',
 				'normal',

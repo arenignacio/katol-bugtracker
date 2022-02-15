@@ -299,7 +299,12 @@ const Form = ({ options, handleErrorMsg }) => {
 
 		//?fetchData is data to be fed into fetch command
 		//add formvalues to options to complete fetch data
-		fetchData.options.body = JSON.stringify(formValues);
+		fetchData.options.body = JSON.stringify({
+			...fetchData.options.body,
+			...formValues,
+		});
+
+		console.log('options body is ', fetchData.options.body);
 
 		res = await fetch(fetchData.url, fetchData.options);
 
@@ -357,7 +362,7 @@ const Form = ({ options, handleErrorMsg }) => {
 								{formValues[key]}
 								<div
 									className={`toggle-option ${key} ${
-										field.options <= 1 ? 'hidden' : ''
+										field.options.length <= 1 ? 'hidden' : ''
 									}`}
 									onClick={() => {
 										console.log(
