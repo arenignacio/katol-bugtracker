@@ -38,7 +38,7 @@ users.route('/update').put((req, res) => {
 });
 
 //delete user
-users.route('/:id').delete((req, res) => {
+users.route('/:id?').delete((req, res) => {
 	const { id } = req.params;
 	let confirmation = 'User successfully deleted';
 	const curUser = req.user;
@@ -57,7 +57,18 @@ users.route('/:id').delete((req, res) => {
 //find user
 users.route('/query').get(async (req, res) => {
 	const { body } = req;
-	let result = await User.where(body);
+	let result;
+	try {
+		result = await User.find(body);
+		result.sort((a, b) => {
+			if (b.lastname > a.lastname) return -1;
+			if (a.lastname > b.lastname) return 1;
+			return 0;
+		});
+	} catch (err) {
+		result = err.message;
+	}
+	console.log(result);
 
 	res.json(result);
 });

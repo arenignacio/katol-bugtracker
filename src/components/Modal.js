@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Form from './Form';
+import Wheel from './Wheel';
 
 const Wrapper = styled.div`
 	position: absolute;
@@ -57,21 +58,33 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Modal = ({ options, onClickHandler }) => {
+const Modal = ({ options, onClickHandler, mode }) => {
 	const [errorMsg, setErrorMsg] = useState(null);
+
+	const renderBody = (mode) => {
+		console.log(mode);
+
+		if (['New Ticket', 'Ticket'].includes(mode)) {
+			return (
+				<Form
+					options={options}
+					handleErrorMsg={(input) => setErrorMsg(input)}
+				></Form>
+			);
+		} else {
+			return <Wheel options={options}>sad</Wheel>;
+		}
+	};
 
 	return (
 		<Wrapper className={`background`} onClick={onClickHandler}>
-			{options ? (
+			{options && mode ? (
 				<div className="buffer-zone">
 					<div className="container">
-						<div className="modal-header">Ticket</div>
+						<div className="modal-header">{mode}</div>
 						<div className="error">{errorMsg ? errorMsg : ''}</div>
 
-						<Form
-							options={options}
-							handleErrorMsg={(input) => setErrorMsg(input)}
-						></Form>
+						{renderBody(mode)}
 					</div>
 				</div>
 			) : (

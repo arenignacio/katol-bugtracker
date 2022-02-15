@@ -196,7 +196,7 @@ const SelectedTicket = ({ handleEdit, ticket }) => {
 					<span
 						className={ticket ? '' : 'disabled'}
 						onClick={() => {
-							if (ticket) handleEdit('ticket');
+							if (ticket) handleEdit('Ticket');
 						}}
 					>
 						<Edit width={15} />

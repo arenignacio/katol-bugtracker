@@ -66,7 +66,6 @@ const App = () => {
 		{
 			name: 'My Profile',
 			handler: () => {
-				console.log('active button set');
 				setActiveBtn(null);
 				navigate('profile');
 			},

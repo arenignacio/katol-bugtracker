@@ -59,4 +59,19 @@ Router.route('/:id?')
 		res.json(result);
 	});
 
+Router.route('/:id/members').get(async (req, res) => {
+	const { id } = req.params;
+
+	console.log('get members executed');
+
+	try {
+		const project = await Project.findById(id);
+		const members = project.members;
+		res.json(members);
+	} catch (err) {
+		console.log(err);
+		res.json(err.message);
+	}
+});
+
 module.exports = Router;

@@ -64,6 +64,10 @@ const Wrapper = styled.div`
 	.tickets {
 		height: fit-content;
 		box-shadow: 0px 5px 5px 1px rgba(0 0 0 / 30%);
+
+		&:hover .title-btn {
+			opacity: 1;
+		}
 	}
 
 	.members {
@@ -72,10 +76,6 @@ const Wrapper = styled.div`
 
 	.tickets {
 		width: 45%;
-
-		&:hover .new {
-			opacity: 1;
-		}
 	}
 
 	.selected-ticket-container {
@@ -93,7 +93,7 @@ const Wrapper = styled.div`
 		background: white;
 		font-size: 1.3rem;
 
-		.new {
+		&-btn {
 			font-weight: 300;
 			font-size: 1rem;
 			margin-right: 15px;
@@ -132,9 +132,10 @@ const Projects = () => {
 	//#states
 	const [newTicket, setNewTicket] = useState(null);
 	const [tickets, setTickets] = useState(null);
+	const [members, setMembers] = useState(null);
 	const [selectedTicket, setSelectedTicket] = useState(null);
 	const [editMode, setEditMode] = useState(null);
-	const [ticketOptions, setTicketOptions] = useState(null);
+	const [options, setOptions] = useState(null);
 	const [user, setUser] = useContext(UserContext);
 	const [projectOptions, setProjectOptions] = useState(null);
 	const [project, setProject] = useState(null);
@@ -145,18 +146,26 @@ const Projects = () => {
 			const data = await API.get(`project/`);
 			setTickets(data);
 		};
+
+		console.log(user);
 	}, []);
 
-	//
+	//#form handling
 	useEffect(() => {
 		/////todo: needs url
 		/////todoo: populate fields initial value with selected ticket data
-		//todo: need Save button to get data and update selectedTicket
+		/////todo: need Save button to get data and update selectedTicket
 
 		//update tickets table
 		const getTicket = async () => {
 			const data = await API.get(`ticket/query?project=${currentProject}`);
 			setTickets(data);
+		};
+
+		const getMembers = async () => {
+			const data = await API.get(`project/${currentProject}/members`);
+			console.log('members are ', data);
+			setMembers(data);
 		};
 
 		const getOptions = async () => {
@@ -180,28 +189,54 @@ const Projects = () => {
 				let options;
 				console.log(editMode);
 
-				if (editMode === 'ticket') {
+				if (editMode === 'Ticket') {
 					console.log('generating ticket options');
 					options = await generateTicketOptions(selectedTicket, buttons);
-				} else if (editMode === 'new-ticket') {
+				} else if (editMode === 'New Ticket') {
 					console.log('generating new ticket options');
 					options = await newticketOptionGenerator(newTicket, buttons);
+				} else if (editMode === 'Members') {
+					const allmembers = await API.get('user/query');
+					options = {
+						selected: sortMembers(members, true),
+						selectables: sortMembers(allmembers, true),
+						saveHandler: async (newMembers) => {
+							console.log('updated to: ', newMembers);
+						},
+					};
 				}
 
-				await setTicketOptions(options);
+				await setOptions(options);
 			} else {
 				isMounted.current = true;
 			}
 		};
 
 		getTicket();
+		getMembers();
 		getOptions();
-	}, [selectedTicket, newTicket, editMode]);
+	}, [selectedTicket, newTicket, currentProject, editMode]);
 
 	//#sort ticket data to be fed into List
 	const sortTickets = (tickets) => {
-		return tickets.reduce((acc, cur) => {
+		const ticketsCopy = [...tickets];
+		return ticketsCopy.reduce((acc, cur) => {
 			acc.push([cur._id, cur.subject, cur.status]);
+
+			return acc;
+		}, []);
+	};
+
+	const sortMembers = (members, emailOnly) => {
+		const membersCopy = [...members];
+
+		return membersCopy.reduce((acc, member) => {
+			if (!member.name)
+				member.name = `${member.firstname} ${member.lastname}`;
+
+			emailOnly
+				? acc.push([member.email])
+				: acc.push([member.name, member.email]);
 
 			return acc;
 		}, []);
@@ -231,14 +266,17 @@ const Projects = () => {
 			last_updated: { date: new Date() },
 			comments: [],
 		});
-		await setEditMode('new-ticket');
+		await setEditMode('New Ticket');
 	};
+
+	//renderModal
 
 	return (
 		<>
 			{editMode ? (
 				<Modal
-					options={ticketOptions}
+					mode={editMode}
+					options={options}
 					onClickHandler={(e) => {
 						if (e.target.className.includes('background')) {
 							e.target.classList.toggle('hidden');
@@ -255,17 +293,25 @@ const Projects = () => {
 				</div>
 				<div>
 					<div className="members border-solid rounded">
-						<div className="title">Members</div>
+						<div className="title">
+							Members{' '}
+							<span
+								className="title-btn"
+								onClick={async () => {
+									await setEditMode('Members');
+								}}
+							>
+								edit
+							</span>
+						</div>
 						<List
 							subject={'Members'}
 							colsize={3}
 							headers={['Name', 'E-mail']}
-							content={[
-								['Aren Ignacio', 'business.arenignacio@email.com'],
-							]}
+							content={members ? sortMembers(members) : ''}
 							attributes={{
 								isSelectable: false,
-								isHoverable: true,
+								isHoverable: false,
 								isScrollable: true,
 							}}
 						/>
@@ -273,7 +319,7 @@ const Projects = () => {
 					<div className="tickets border-solid rounded">
 						<div className="title">
 							Tickets
-							<span className="new" onClick={() => createTicket()}>
+							<span className="title-btn" onClick={() => createTicket()}>
 								new
 							</span>
 						</div>
@@ -281,7 +327,7 @@ const Projects = () => {
 							subject={'Tickets'}
 							colsize={3}
 							headers={ticketheaders}
-							content={tickets ? sortTickets([...tickets]) : ''}
+							content={tickets ? sortTickets(tickets) : ''}
 							attributes={{
 								isSelectable: true,
 								isScrollable: true,
