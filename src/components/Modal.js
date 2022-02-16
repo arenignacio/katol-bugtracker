@@ -62,7 +62,7 @@ const Modal = ({ options, onClickHandler, mode }) => {
 	const [errorMsg, setErrorMsg] = useState(null);
 
 	const renderBody = (mode) => {
-		console.log(mode);
+		console.log(mode, options);
 
 		if (['New Ticket', 'Ticket'].includes(mode)) {
 			return (

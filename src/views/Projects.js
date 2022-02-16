@@ -12,6 +12,10 @@ import {
 
 /* 
 todo: fetch project data 
+todo: need error handling for ticket form and ticket route (crashes when creating incomplete ticket)
+//todo: app crashes when submitting a complete new ticket with a changed "assigned_to" from none to x 2/16/2022
+//todo: edit member (Wheel) crashes after user edits ticket
+
 */
 
 //#components
@@ -156,8 +160,6 @@ const Projects = () => {
 		/////todoo: populate fields initial value with selected ticket data
 		/////todo: need Save button to get data and update selectedTicket
 
-		const membersAreNew = (body) => {};
-
 		//update tickets table
 		const getTicket = async () => {
 			const data = await API.get(`ticket/query?project=${currentProject}`);
@@ -166,7 +168,6 @@ const Projects = () => {
 
 		const getMembers = async () => {
 			const data = await API.get(`project/${currentProject}/members`);
-			console.log('members are ', data);
 			setMembers(data);
 		};
 
@@ -207,8 +208,6 @@ const Projects = () => {
 							const body = { members: newMembers };
 							updateMembers(body);
 							setEditMode(null);
-
-							return () => {};
 						},
 						cancelHandler: () => {
 							setEditMode(null);
@@ -225,7 +224,7 @@ const Projects = () => {
 		getTicket();
 		getMembers();
 		getOptions();
-	}, [selectedTicket, newTicket, currentProject, editMode]);
+	}, [newTicket, currentProject, editMode]);
 
 	//#sort ticket data to be fed into List
 	const sortTickets = (tickets) => {

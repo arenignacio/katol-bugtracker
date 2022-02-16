@@ -13,12 +13,14 @@ Router.route('/new').post(
 	body('assigned_to').optional().trim().escape().toLowerCase(),
 	body('subject').trim().escape(),
 	body('description').trim().escape(),
-	(req, res) => {
+	async (req, res) => {
 		const input = req.body;
 		const user = req.user;
 		const errors = validationResult(req); //validate body
-		const project = Project.findById(input.project);
+		const project = await Project.findById(input.project);
 		const members = project.members;
+
+		console.log(project);
 
 		//if errors is not empty, return array of all errors
 		if (!errors.isEmpty()) res.json(errors.array());
@@ -32,7 +34,7 @@ Router.route('/new').post(
 			input.assigned_to =
 				input.assigned_to === 'none'
 					? { email: 'none', name: 'none' }
-					: members.find(
+					: members.filter(
 							(member) => member.email === input.assigned_to
 					  )[0];
 
@@ -90,8 +92,6 @@ Router.route('/:id/comments')
 		const project = await Project.findById(ticket.project);
 		const members = project.members;
 		let result;
-
-		console.log(members.find(({ email }) => email === req.user.email));
 
 		try {
 			//if user is authenticated
