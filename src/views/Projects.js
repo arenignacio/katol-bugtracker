@@ -203,7 +203,8 @@ const Projects = () => {
 						selectables: sortMembers(allmembers, true),
 						saveHandler: async (newMembers) => {
 							const body = { members: newMembers };
-							console.log(body);
+							updateMembers(body);
+							setEditMode(null);
 						},
 						cancelHandler: () => {
 							setEditMode(null);
@@ -245,6 +246,12 @@ const Projects = () => {
 
 			return acc;
 		}, []);
+	};
+
+	const updateMembers = async (value) => {
+		console.log('update memebers execute');
+		const data = await API.put(`project/${currentProject}/members`, value);
+		setMembers(sortMembers(data));
 	};
 
 	//#select ticket handler

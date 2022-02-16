@@ -1,5 +1,8 @@
 const express = require('express');
+const isMember = require('../utils/middleware/verification').isMember;
+const isManager = require('../utils/middleware/verification').isManager;
 const Project = require('../models/Project');
+const User = require('../models/User');
 
 const Router = express.Router();
 
@@ -12,6 +15,51 @@ Router.route('/new').post((req, res) => {
 		else res.send('Project successfully created');
 	});
 });
+
+Router.route('/:id/members')
+	.get(async (req, res) => {
+		const { id } = req.params;
+
+		console.log('get members executed');
+
+		try {
+			const project = await Project.findById(id);
+			const members = project.members;
+			res.json(members);
+		} catch (err) {
+			console.log(err);
+			res.json(err.message);
+		}
+	})
+	.put(isManager, async (req, res) => {
+		try {
+			const { id } = req.params;
+			const members = req.body.members;
+			const project = await Project.findById(id);
+			const allUsers = await User.find();
+			const selectedUsers = allUsers.reduce(
+				(acc, { email, firstname, lastname }) => {
+					if (members.includes(email)) {
+						acc.push({ email, name: `${firstname} ${lastname}` });
+					}
+
+					return acc;
+				},
+				[]
+			);
+
+			console.log('members: ', members);
+			console.log('filtered users: ', selectedUsers);
+
+			project.members = selectedUsers;
+			project.save();
+
+			res.json(project.members);
+		} catch (err) {
+			console.log(err.message);
+			res.json(err.message);
+		}
+	});
 
 //get project/s, update project
 Router.route('/:id?')
@@ -58,20 +106,5 @@ Router.route('/:id?')
 
 		res.json(result);
 	});
-
-Router.route('/:id/members').get(async (req, res) => {
-	const { id } = req.params;
-
-	console.log('get members executed');
-
-	try {
-		const project = await Project.findById(id);
-		const members = project.members;
-		res.json(members);
-	} catch (err) {
-		console.log(err);
-		res.json(err.message);
-	}
-});
 
 module.exports = Router;
