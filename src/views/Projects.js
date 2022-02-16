@@ -156,6 +156,8 @@ const Projects = () => {
 		/////todoo: populate fields initial value with selected ticket data
 		/////todo: need Save button to get data and update selectedTicket
 
+		const membersAreNew = (body) => {};
+
 		//update tickets table
 		const getTicket = async () => {
 			const data = await API.get(`ticket/query?project=${currentProject}`);
@@ -205,6 +207,8 @@ const Projects = () => {
 							const body = { members: newMembers };
 							updateMembers(body);
 							setEditMode(null);
+
+							return () => {};
 						},
 						cancelHandler: () => {
 							setEditMode(null);
@@ -249,8 +253,23 @@ const Projects = () => {
 	};
 
 	const updateMembers = async (value) => {
-		console.log('update memebers execute');
-		const data = await API.put(`project/${currentProject}/members`, value);
+		let isDifferent;
+
+		//for every member in value being passed
+		for (let i = 0; i < value.members.length; i++) {
+			isDifferent = true;
+
+			//check current members and compare with members being passed
+			for (let j = 0; j < members.length; j++) {
+				if (members[j].email === value.members[i]) {
+					isDifferent = false;
+					break;
+				}
+			}
+		}
+
+		if (isDifferent)
+			await API.put(`project/${currentProject}/members`, value);
 	};
 
 	//#select ticket handler
