@@ -251,7 +251,6 @@ const Projects = () => {
 	const updateMembers = async (value) => {
 		console.log('update memebers execute');
 		const data = await API.put(`project/${currentProject}/members`, value);
-		setMembers(sortMembers(data));
 	};
 
 	//#select ticket handler
