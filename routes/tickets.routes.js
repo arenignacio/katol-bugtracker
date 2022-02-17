@@ -26,26 +26,31 @@ Router.route('/new').post(
 		if (!errors.isEmpty()) res.json(errors.array());
 		//else create new ticket
 		else if (user) {
-			input.status = input.assigned_to === 'none' ? 'initiated' : 'assigned';
-			input.initiated_by = {
-				email: user.email,
-				name: `${user.firstname} ${user.lastname}`,
-			};
-			input.assigned_to =
-				input.assigned_to === 'none'
-					? { email: 'none', name: 'none' }
-					: members.filter(
-							(member) => member.email === input.assigned_to
-					  )[0];
+			if (!input.subject || !input.description) {
+				res.status(422).json('Fill in required fields');
+			} else {
+				input.status =
+					input.assigned_to === 'none' ? 'initiated' : 'assigned';
+				input.initiated_by = {
+					email: user.email,
+					name: `${user.firstname} ${user.lastname}`,
+				};
+				input.assigned_to =
+					input.assigned_to === 'none'
+						? { email: 'none', name: 'none' }
+						: members.filter(
+								(member) => member.email === input.assigned_to
+						  )[0];
 
-			input.last_updated = { date: new Date(), by: user.email };
+				input.last_updated = { date: new Date(), by: user.email };
 
-			Ticket.create(input, (err, doc) => {
-				if (err) {
-					console.log(err.message);
-					res.status(201).json(`error: ${err.message}`);
-				} else res.json(doc);
-			});
+				Ticket.create(input, (err, doc) => {
+					if (err) {
+						console.log(err.message);
+						res.status(201).json(`error: ${err.message}`);
+					} else res.json(doc);
+				});
+			}
 		} else {
 			res.status(401).json('User not authenticated');
 		}

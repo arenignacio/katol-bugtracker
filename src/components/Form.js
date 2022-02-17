@@ -314,12 +314,18 @@ const Form = ({ options, handleErrorMsg }) => {
 			const data = await res.json();
 			if (typeof dataHandler === 'function') dataHandler(data);
 		} else if (res.status === 401) {
+			fetchData.options.body = JSON.parse(fetchData.options.body);
 			handleErrorMsg('Invalid login');
 		} else if (res.status === 403) {
+			fetchData.options.body = JSON.parse(fetchData.options.body);
 			handleErrorMsg('Unauthorized action');
+		} else if (res.status === 422) {
+			fetchData.options.body = JSON.parse(fetchData.options.body);
+			handleErrorMsg('Please fill in all required fields');
 		} else {
 			const err = await res.json();
 			console.log(err);
+			fetchData.options.body = JSON.parse(fetchData.options.body);
 			handleErrorMsg(err);
 		}
 	};

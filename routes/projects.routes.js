@@ -32,6 +32,8 @@ Router.route('/:id/members')
 		}
 	})
 	.put(isManager, async (req, res) => {
+		console.log('put members executed');
+
 		try {
 			const { id } = req.params;
 			const members = req.body.members;

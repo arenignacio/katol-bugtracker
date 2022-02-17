@@ -12,7 +12,8 @@ import {
 
 /* 
 todo: fetch project data 
-todo: need error handling for ticket form and ticket route (crashes when creating incomplete ticket)
+todo: members not updating, saveHandler not executing
+//todo: need error handling for ticket form and ticket route (crashes when creating incomplete ticket)
 //todo: app crashes when submitting a complete new ticket with a changed "assigned_to" from none to x 2/16/2022
 //todo: edit member (Wheel) crashes after user edits ticket
 
@@ -202,9 +203,10 @@ const Projects = () => {
 					const allmembers = await API.get('user/query');
 					options = {
 						header: 'add/remove a member',
-						selected: sortMembers(members, true),
+						selected: sortMembers(members, true), //2nd param is "email only" boolean
 						selectables: sortMembers(allmembers, true),
 						saveHandler: async (newMembers) => {
+							console.log('wheel save handler executed', newMembers);
 							const body = { members: newMembers };
 							updateMembers(body);
 							setEditMode(null);
@@ -215,6 +217,7 @@ const Projects = () => {
 					};
 				}
 
+				console.log('setting options to ', options);
 				await setOptions(options);
 			} else {
 				isMounted.current = true;
@@ -253,20 +256,22 @@ const Projects = () => {
 
 	const updateMembers = async (value) => {
 		let isDifferent;
+		console.log(
+			'update members executed. isDiff is: ',
+			value.members,
+			members
+		);
 
-		//for every member in value being passed
-		for (let i = 0; i < value.members.length; i++) {
+		if (value.members.length !== members.length) {
 			isDifferent = true;
-
+		} else {
 			//check current members and compare with members being passed
-			for (let j = 0; j < members.length; j++) {
-				if (members[j].email === value.members[i]) {
-					isDifferent = false;
-					break;
-				}
+			for (let i = 0; i < value.members.length; i++) {
+				isDifferent = true;
+				if (value.members.includes(members[i].email)) isDifferent = false;
 			}
 		}
-
+		console.log('members are different: ', isDifferent);
 		if (isDifferent)
 			await API.put(`project/${currentProject}/members`, value);
 	};
