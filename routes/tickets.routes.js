@@ -2,6 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const Ticket = require('../models/Ticket');
 const Project = require('../models/Project');
+const { isMember } = require('../utils/middleware/verification');
 //const { DateTime } = require('luxon');
 // DateTime.fromJSDate(doc.date_initiated).toLocaleString(DateTime.DATE_MED)  ----returns Mon, DD, YYYY
 
@@ -217,14 +218,14 @@ Router.route('/:id')
 			}
 		}
 	)
-	.delete((req, res) => {
+	.delete(isMember, (req, res) => {
 		const { id } = req.params;
 		let confirmation = `Document ${id} successfully deleted.`;
 
 		Ticket.findByIdAndDelete(id, null, (err) => {
 			if (err) confirmation = 'Invalid ID';
 
-			res.send(confirmation);
+			res.json(confirmation);
 		});
 	});
 

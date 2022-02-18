@@ -238,6 +238,21 @@ const Projects = () => {
 							setEditMode(null);
 						},
 					};
+				} else if (editMode === 'Delete') {
+					options = {
+						confirmHandler: async () => {
+							console.log('deleting ', selectedTicket._id);
+							await API.del(`ticket/${selectedTicket._id}`, {
+								project: selectedTicket.project,
+							});
+							setSelectedTicket(null);
+							setEditMode(null);
+						},
+
+						cancelHandler: async () => {
+							setEditMode(null);
+						},
+					};
 				}
 
 				console.log('setting options to ', options);
@@ -260,7 +275,13 @@ const Projects = () => {
 				cur._id,
 				cur.subject,
 				<div className="status">
-					{cur.status} <span className="btn-delete">delete</span>
+					{cur.status}{' '}
+					<span
+						onClick={() => setEditMode('Delete')}
+						className="btn-delete"
+					>
+						delete
+					</span>
 				</div>,
 			]);
 

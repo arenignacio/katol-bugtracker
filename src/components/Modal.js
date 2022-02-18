@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Form from './Form';
 import Wheel from './Wheel';
+import Confirm from './Confirm';
 
 const Wrapper = styled.div`
 	position: absolute;
@@ -71,8 +72,10 @@ const Modal = ({ options, onClickHandler, mode }) => {
 					handleErrorMsg={(input) => setErrorMsg(input)}
 				></Form>
 			);
-		} else {
-			return <Wheel options={options}>sad</Wheel>;
+		} else if (mode === 'Members') {
+			return <Wheel options={options} />;
+		} else if (mode === 'Delete') {
+			return <Confirm options={options} />;
 		}
 	};
 
