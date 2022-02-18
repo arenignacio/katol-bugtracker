@@ -75,7 +75,12 @@ const Modal = ({ options, onClickHandler, mode }) => {
 		} else if (mode === 'Members') {
 			return <Wheel options={options} />;
 		} else if (mode === 'Delete') {
-			return <Confirm options={options} />;
+			return (
+				<Confirm
+					options={options}
+					handleErrorMsg={(input) => setErrorMsg}
+				/>
+			);
 		}
 	};
 

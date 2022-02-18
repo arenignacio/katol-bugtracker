@@ -218,15 +218,20 @@ Router.route('/:id')
 			}
 		}
 	)
-	.delete(isMember, (req, res) => {
+	.delete(isMember, async (req, res) => {
 		const { id } = req.params;
 		let confirmation = `Document ${id} successfully deleted.`;
 
 		Ticket.findByIdAndDelete(id, null, (err) => {
-			if (err) confirmation = 'Invalid ID';
-
-			res.json(confirmation);
+			if (err) {
+				console.log('error delete');
+				res.status(403).json(err.message);
+			} else {
+				console.log('delete success');
+			}
 		});
+
+		res.json();
 	});
 
 module.exports = Router;

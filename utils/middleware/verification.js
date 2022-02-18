@@ -3,7 +3,7 @@ const Project = require('../../models/Project');
 //verify user is member of project
 module.exports.isMember = async (req, res, next) => {
 	try {
-		const id = req.url.includes('ticket') ? req.body.project : req.params.id;
+		const id = req.body.project ? req.body.project : req.params.id;
 		const project = await Project.findById(id);
 		const members = project.members.map((member) => {
 			return member.email;
@@ -12,13 +12,13 @@ module.exports.isMember = async (req, res, next) => {
 		if (!members.includes(req.user.email)) {
 			console.log('unauthorized access');
 			res.status(403).json('Unauthorized action');
+		} else {
+			next();
 		}
 	} catch (err) {
 		console.log(err.message);
 		res.json(err.message);
 	}
-
-	next();
 };
 
 //verify user is pm
