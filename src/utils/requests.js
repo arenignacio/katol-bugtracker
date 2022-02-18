@@ -42,17 +42,11 @@ const requests = (baseURL) => {
 
 	const del = async (subURL, body = null) => {
 		console.log('attempting to update data..');
-		const data = await fetch(`${baseURL}/${subURL}`, {
+		await fetch(`${baseURL}/${subURL}`, {
 			method: 'Delete',
 			headers: { 'Content-type': 'application/json; charset=UTF-8' },
 			body: body ? JSON.stringify(body) : '',
 		});
-
-		if (data.ok) {
-			return await data.json();
-		} else {
-			console.log('data update failed');
-		}
 	};
 
 	return {
