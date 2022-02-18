@@ -269,9 +269,7 @@ const Form = ({ options, handleErrorMsg }) => {
 		setFormValues(initialFormValues);
 	}, [fields]);
 
-	useEffect(() => {
-		console.log('active dropdown is: ', activeDropdown);
-	}, [activeDropdown]);
+	useEffect(() => {}, [activeDropdown]);
 
 	//#handle input change in forms
 	const handleInputChange = (e) => {
@@ -292,7 +290,6 @@ const Form = ({ options, handleErrorMsg }) => {
 	//#handle form submit
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
-		console.log('submit handler activated');
 		let res; //response
 		const dataHandler = submitBtn.handler;
 		handleErrorMsg(null);
@@ -304,11 +301,7 @@ const Form = ({ options, handleErrorMsg }) => {
 			...formValues,
 		});
 
-		console.log('options body is ', fetchData.options.body);
-
 		res = await fetch(fetchData.url, fetchData.options);
-
-		console.log('res.ok: ' + res.ok);
 
 		if (res.ok) {
 			const data = await res.json();
@@ -371,13 +364,7 @@ const Form = ({ options, handleErrorMsg }) => {
 										field.options.length <= 1 ? 'hidden' : ''
 									}`}
 									onClick={() => {
-										console.log(
-											activeDropdown === key,
-											activeDropdown,
-											key
-										);
 										if (activeDropdown === key) {
-											console.log('close dropdown');
 											setActiveDropdown(null);
 										} else setActiveDropdown(key);
 									}}
@@ -438,26 +425,24 @@ const Form = ({ options, handleErrorMsg }) => {
 		});
 	};
 
+	//# handle dropdown when clicking outside of dropdown
+	const dropdownHandler = (e) => {
+		const classes = e.target.className;
+
+		if (activeDropdown && !classes.includes(activeDropdown)) {
+			setActiveDropdown(null);
+		}
+
+		if (
+			classes.includes('toggle-option') &&
+			!classes.includes(activeDropdown)
+		) {
+			setActiveDropdown(classes.split(' ')[1]);
+		}
+	};
+
 	return formValues ? (
-		<Wrapper
-			onClick={(e) => {
-				const classes = e.target.className;
-
-				console.log('wrapper cliked', activeDropdown);
-				if (activeDropdown && !classes.includes(activeDropdown)) {
-					console.log('wrapper set dropdown to null');
-					setActiveDropdown(null);
-				}
-
-				if (
-					classes.includes('toggle-option') &&
-					!classes.includes(activeDropdown)
-				) {
-					setActiveDropdown(classes.split(' ')[1]);
-				}
-			}}
-			buttons={buttons}
-		>
+		<Wrapper onClick={dropdownHandler} buttons={buttons}>
 			<form onSubmit={onSubmitHandler}>
 				{fields ? renderFields(fields) : ''}
 				<div id="buttons">

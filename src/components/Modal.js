@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 35%;
+		width: 40%;
 		height: 90%;
 	}
 
@@ -63,8 +63,6 @@ const Modal = ({ options, onClickHandler, mode }) => {
 	const [errorMsg, setErrorMsg] = useState(null);
 
 	const renderBody = (mode) => {
-		console.log(mode, options);
-
 		if (['New Ticket', 'Ticket'].includes(mode)) {
 			return (
 				<Form

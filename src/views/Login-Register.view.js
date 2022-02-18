@@ -82,9 +82,6 @@ const Wrapper = styled.div`
 `;
 
 const Login = ({ handleLogin }) => {
-	const testfield = new field('E-mail', 'email');
-	console.log(testfield);
-
 	//#states
 	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [errorMsg, setErrorMsg] = useState(null);
@@ -130,11 +127,6 @@ const Login = ({ handleLogin }) => {
 			new field('Lastname', 'lastname', 'Enter last name'),
 			new field('Password', 'password', 'Enter password', 'password'),
 			new field('Phone Number', 'phone', 'Enter phone number'),
-			/* email: '',
-				firstname: '',
-				lastname: '',
-				password: '',
-				phone: '', */
 		],
 		buttons: [{ name: 'Register', handler: login }],
 	};

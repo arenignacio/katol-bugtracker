@@ -33,11 +33,11 @@ module.exports.isManager = async (req, res, next) => {
 		if (!managers.includes(req.user.email)) {
 			console.log('unauthorized access');
 			res.status(403).json('Unauthorized action');
+		} else {
+			next();
 		}
 	} catch (err) {
 		console.log(err.message);
 		res.json(err.message);
 	}
-
-	next();
 };

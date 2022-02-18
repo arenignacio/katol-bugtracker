@@ -34,16 +34,12 @@ const Wrapper = styled.div`
 const Confirm = ({ options, handleErrorMsg }) => {
 	const { confirmHandler, cancelHandler } = options;
 
-	useEffect(() => {
-		console.log('Confirm rendered ', options);
-	});
-
 	return (
 		<Wrapper>
 			<button
 				onClick={() => {
 					try {
-						options.confirmHandler();
+						confirmHandler();
 					} catch (err) {
 						handleErrorMsg('Unauthorized Action');
 					}
@@ -51,7 +47,17 @@ const Confirm = ({ options, handleErrorMsg }) => {
 			>
 				Yes
 			</button>
-			<button onClick={options.cancelHandler}>No</button>
+			<button
+				onClick={() => {
+					try {
+						cancelHandler();
+					} catch (err) {
+						handleErrorMsg('Unauthorized Action');
+					}
+				}}
+			>
+				No
+			</button>
 		</Wrapper>
 	);
 };

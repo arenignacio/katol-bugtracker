@@ -66,7 +66,6 @@ const Navigation = ({ navLinks, activeBtn, setActiveBtn }) => {
 						className={activeBtn === name ? 'active' : ''}
 						onClick={(e) => {
 							setActiveBtn(name);
-							console.log(e.target);
 							navigate(`/${name}`);
 						}}
 					>
