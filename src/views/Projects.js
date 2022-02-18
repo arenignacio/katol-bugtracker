@@ -123,6 +123,29 @@ const Wrapper = styled.div`
 			border: 1px solid rgba(0, 0, 0, 0.3);
 		}
 	}
+
+	.active {
+		&:hover .btn-delete {
+			opacity: 1;
+		}
+	}
+
+	.status {
+		display: flex;
+		justify-content: space-between;
+
+		.btn-delete {
+			opacity: 0;
+			color: gray;
+			margin-right: 25px;
+			transition: opacity 0.3s ease-in-out;
+
+			&:hover {
+				color: red;
+				font-weight: bold;
+			}
+		}
+	}
 `;
 
 const Projects = () => {
@@ -233,7 +256,13 @@ const Projects = () => {
 	const sortTickets = (tickets) => {
 		const ticketsCopy = [...tickets];
 		return ticketsCopy.reduce((acc, cur) => {
-			acc.push([cur._id, cur.subject, cur.status]);
+			acc.push([
+				cur._id,
+				cur.subject,
+				<div className="status">
+					{cur.status} <span className="btn-delete">delete</span>
+				</div>,
+			]);
 
 			return acc;
 		}, []);
@@ -254,13 +283,9 @@ const Projects = () => {
 		}, []);
 	};
 
+	//#passed to wheel component for updating members
 	const updateMembers = async (value) => {
 		let isDifferent;
-		console.log(
-			'update members executed. isDiff is: ',
-			value.members,
-			members
-		);
 
 		if (value.members.length !== members.length) {
 			isDifferent = true;
@@ -271,7 +296,7 @@ const Projects = () => {
 				if (value.members.includes(members[i].email)) isDifferent = false;
 			}
 		}
-		console.log('members are different: ', isDifferent);
+
 		if (isDifferent)
 			await API.put(`project/${currentProject}/members`, value);
 	};

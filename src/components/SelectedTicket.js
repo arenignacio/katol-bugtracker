@@ -196,18 +196,18 @@ const SelectedTicket = ({ handleEdit, ticket }) => {
 					<span
 						className={ticket ? '' : 'disabled'}
 						onClick={() => {
-							if (ticket) handleEdit('Ticket');
-						}}
-					>
-						<Edit width={15} />
-					</span>
-					<span
-						className={ticket ? '' : 'disabled'}
-						onClick={() => {
 							if (ticket) setIsHidden(!isHidden);
 						}}
 					>
 						-
+					</span>
+					<span
+						className={ticket ? '' : 'disabled'}
+						onClick={() => {
+							if (ticket) handleEdit('Ticket');
+						}}
+					>
+						<Edit width={15} />
 					</span>
 				</div>
 			</div>

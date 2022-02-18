@@ -60,6 +60,7 @@ const App = () => {
 		JSON.parse(localStorage.getItem('isLoggedIn'))
 	);
 	const [activeBtn, setActiveBtn] = useState('dashboard');
+	const [activeSubBtn, setActiveSubBtn] = useState(null);
 
 	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
 	const dropdownLinks = [

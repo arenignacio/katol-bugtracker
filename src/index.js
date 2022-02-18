@@ -16,9 +16,10 @@ ReactDOM.render(
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<App />}>
+					<Route path="projects/:id" element={<Projects />} />
+					<Route path="projects" element={<Projects />} />
 					<Route path="profile" element={<MyProfile />} />
 					<Route path="dashboard" element={<Dashboard />} />
-					<Route path="projects" element={<Projects />} />
 					<Route path="tickets" element={<Tickets />} />
 					<Route path="settings" element={<Settings />} />
 				</Route>
