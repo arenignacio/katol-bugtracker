@@ -1,6 +1,9 @@
 const requests = (baseURL) => {
 	const get = async (subURL) => {
-		console.log('attempting to get data..');
+		if (subURL[0] === '/') {
+			console.log('/forward slash at beginning of subURL not required');
+		}
+
 		const data = await fetch(`${baseURL}/${subURL}`);
 
 		if (data.ok) {
@@ -11,7 +14,9 @@ const requests = (baseURL) => {
 	};
 
 	const post = async (subURL, values) => {
-		console.log('attempting to post data..');
+		if (subURL[0] === '/') {
+			console.log('/forward slash at beginning of subURL not required');
+		}
 		const data = await fetch(`${baseURL}/${subURL}`, {
 			method: 'Post',
 			headers: { 'Content-type': 'application/json; charset=UTF-8' },
@@ -26,7 +31,10 @@ const requests = (baseURL) => {
 	};
 
 	const put = async (subURL, values) => {
-		console.log('attempting to update data..');
+		if (subURL[0] === '/') {
+			console.log('/forward slash at beginning of subURL not required');
+		}
+
 		const data = await fetch(`${baseURL}/${subURL}`, {
 			method: 'Put',
 			headers: { 'Content-type': 'application/json; charset=UTF-8' },

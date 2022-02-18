@@ -164,7 +164,6 @@ const Wheel = ({ options }) => {
 				{currentSelected ? renderSelected(currentSelected) : ''}
 			</div>
 			<List
-				colsize={3}
 				headers={['add/remove a member']}
 				content={currentSelectables ? currentSelectables : ''}
 				attributes={{

@@ -23,6 +23,7 @@ todo: members not updating, saveHandler not executing
 import List from '../../src/components/List';
 import SelectedTicket from '../components/SelectedTicket';
 import Modal from '../components/Modal';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 	box-sizing: border-box;
@@ -149,13 +150,14 @@ const Wrapper = styled.div`
 `;
 
 const Projects = () => {
+	//#other hooks
+	const navigate = useNavigate();
+	const isMounted = useRef(false);
+
 	//#immutables
 	const ticketheaders = ['Ticket ID', 'Subject', 'Status'];
 	const API = requests(API_BASEURL);
 	const currentProject = '61ed05ec878f129f1a51e196';
-
-	//#refs
-	const isMounted = useRef(false);
 
 	//#states
 	const [newTicket, setNewTicket] = useState(null);
@@ -326,6 +328,11 @@ const Projects = () => {
 	const selectTicket = async (e) => {
 		const row = e.target.parentNode;
 		const data = await API.get(`ticket/${row.id}`);
+		const subject = data[0].subject;
+		console.log(subject);
+		navigate(
+			`/projects/${currentProject}/tickets/${subject.replaceAll(' ', '-')}`
+		);
 		setSelectedTicket(data[0]);
 	};
 

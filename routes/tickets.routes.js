@@ -60,6 +60,7 @@ Router.route('/new').post(
 
 //find tickets
 Router.route('/query*').get(async (req, res) => {
+	console.log('get query launched');
 	const urlStart = req.url.indexOf('?') + 1;
 	const url = req.url.substring(urlStart);
 	const params = url.split('&');
@@ -72,6 +73,8 @@ Router.route('/query*').get(async (req, res) => {
 		acc[cur[0]] = cur[1];
 		return acc;
 	}, {});
+
+	console.log(query);
 
 	let result = null;
 
@@ -126,6 +129,8 @@ Router.route('/:id/comments')
 		console.log('json reached');
 		res.json(result);
 	});
+
+Router.route('/:id/?');
 
 //get, edit, delete existing ticket
 Router.route('/:id')
