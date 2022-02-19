@@ -91,6 +91,8 @@ Router.route('/:id?')
 				(el) => el.email === req.user.email
 			);
 
+			body.completed = body.completed === 'yes' ? true : false;
+
 			if (isAuthorized) {
 				Project.findByIdAndUpdate(id, body, (err, res) => {
 					if (err) result = 'err' + err.message;

@@ -224,12 +224,7 @@ const SelectedTicket = ({ handleEdit, ticket }) => {
 						</div>
 						<div className="description">
 							Description{' '}
-							<span>
-								{(ticket &&
-									ticket.description +
-										'uuntur ipsa ad fugit magnam mollitia earum quas beatae, autem velit! Reprehenderit fugit nulla, quasi dolorum aspernatur tenetur a impedit.') ||
-									''}
-							</span>
+							<span>{(ticket && ticket.description) || ''}</span>
 						</div>
 					</div>
 					<div>

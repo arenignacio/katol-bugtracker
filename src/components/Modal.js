@@ -79,6 +79,7 @@ const Modal = ({ options, onClickHandler, mode }) => {
 					handleErrorMsg={(input) => setErrorMsg}
 				/>
 			);
+		} else if (['New Project', 'Edit Project'].includes(mode)) {
 		}
 	};
 
