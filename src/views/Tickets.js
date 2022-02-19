@@ -87,8 +87,8 @@ const Tickets = () => {
 			const data = await API.get(url);
 			setTickets(data);
 		};
-		getTickets();
-	}, []);
+		if (user) getTickets();
+	}, [user]);
 
 	const renderHeader = (headersArr) => {
 		return headersArr.map((ticket) => {
