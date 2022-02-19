@@ -304,12 +304,6 @@ const Projects = () => {
 		const membersCopy = [...members];
 
 		return membersCopy.reduce((acc, member) => {
-			const isManager = project.project_manager.some(
-				(manager) => manager.email === member.email
-			)
-				? 'Y'
-				: '';
-
 			if (!member.name)
 				member.name = `${member.firstname} ${member.lastname}`;
 
