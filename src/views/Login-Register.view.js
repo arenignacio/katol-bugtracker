@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { API_BASEURL } from '../utils/constants';
+import requests from '../utils/requests';
 
 import loginBg from '../assets/img/bubbles.jpg';
 import { ReactComponent as Logo } from '../assets/img/spiral.svg';
@@ -37,13 +38,14 @@ const Wrapper = styled.div`
 			background-color: #ffd2d2;
 		}
 
-		#prompt {
+		.prompt {
 			display: flex;
 			justify-content: center;
 			margin-top: 0.8rem;
 			font-size: 0.7rem;
 
-			> span:nth-child(2) {
+			> span:nth-child(2),
+			span > span {
 				font-weight: bold;
 				color: blue;
 				text-decoration: underline;
@@ -91,6 +93,8 @@ const Login = ({ handleLogin }) => {
 		handleLogin(data);
 	};
 
+	const API = requests(API_BASEURL);
+
 	const loginOptions = {
 		fetchData: {
 			url: `${API_BASEURL}/user/login`,
@@ -136,6 +140,23 @@ const Login = ({ handleLogin }) => {
 		setErrorMsg(null);
 	};
 
+	const demoUserLogin = async () => {
+		const data = await API.post('user/login', {
+			email: 'guest123@email.com',
+			password: 'Guest123',
+		});
+
+		login(data);
+	};
+	const demoPMLogin = async () => {
+		const data = await API.post('user/login', {
+			email: 'johdoe123@email.com',
+			password: 'Password123',
+		});
+
+		login(data);
+	};
+
 	return (
 		<Wrapper isLoginForm={isLoginForm}>
 			<div id="content">
@@ -157,7 +178,7 @@ const Login = ({ handleLogin }) => {
 						handleErrorMsg={(err) => setErrorMsg(err)}
 					/>
 				)}
-				<div id="prompt">
+				<div className="prompt">
 					{isLoginForm ? (
 						<>
 							<span>Don't have an account yet?</span>&nbsp;
@@ -169,6 +190,13 @@ const Login = ({ handleLogin }) => {
 							<span onClick={toggleForm}>Sign In</span>.
 						</>
 					)}
+				</div>
+				<div className="prompt">
+					<span>
+						Trying it out? auto-login as{' '}
+						<span onClick={demoPMLogin}>PM</span> or{' '}
+						<span onClick={demoUserLogin}>User</span> for demo.
+					</span>
 				</div>
 			</div>
 
