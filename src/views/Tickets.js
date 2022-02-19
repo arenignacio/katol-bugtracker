@@ -73,11 +73,17 @@ const Wrapper = styled.div`
 const Tickets = () => {
 	const API = requests(API_BASEURL);
 	const navigate = useNavigate();
-	const { setActiveBtn, setSelectedTicket } = useOutletContext();
+	const { activeBtn, setActiveBtn, setSelectedTicket } = useOutletContext();
 	const headers = ['Subject', 'Description', 'Status', 'Last Updated'];
 
 	const [user] = useContext(UserContext);
 	const [tickets, setTickets] = useState(null);
+
+	useEffect(() => {
+		if (activeBtn !== 'tickets') {
+			setActiveBtn('tickets');
+		}
+	}, []);
 
 	useEffect(() => {
 		const getTickets = async () => {

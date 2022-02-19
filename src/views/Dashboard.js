@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -76,6 +78,14 @@ const Wrapper = styled.div`
 `;
 
 const Dashboard = () => {
+	const { user, activeBtn, setActiveBtn } = useOutletContext();
+
+	useEffect(() => {
+		if (activeBtn !== 'dashboard') {
+			setActiveBtn('dashboard');
+		}
+	}, []);
+
 	return (
 		<Wrapper>
 			<div>

@@ -6,6 +6,7 @@ import requests from '../utils/requests';
 
 //#context import
 import { UserContext } from '../App';
+import { useOutletContext } from 'react-router-dom';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -13,6 +14,7 @@ const Wrapper = styled.div`
 	align-items: center;
 	box-sizing: border-box;
 	height: 100%;
+
 	background: rgba(0, 0, 0, 0.1);
 	z-index: 1;
 	padding: 25px 30px;
@@ -196,11 +198,16 @@ const MyProfile = () => {
 	const [user, setUser] = useContext(UserContext);
 	const [formValues, setFormValues] = useState();
 
+	const { activeBtn, setActiveBtn } = useOutletContext();
 	const req = requests(API_BASEURL);
 	const updateDB = req.put;
 
 	//#update form everytime user changes
 	useEffect(() => {
+		if (activeBtn !== null) {
+			setActiveBtn(null);
+		}
+
 		setFormValues(user);
 	}, [user]);
 

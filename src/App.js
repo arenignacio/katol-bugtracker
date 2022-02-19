@@ -53,20 +53,20 @@ const BodyWrapper = styled.div`
 const App = () => {
 	console.log(`base url is: ${API_BASEURL}`);
 
+	const defaultLoc = 'dashboard';
+	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
 	const navigate = useNavigate();
 
 	const [currentUser, setCurrentUser] = useState(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(
 		JSON.parse(localStorage.getItem('isLoggedIn'))
 	);
-	const [activeBtn, setActiveBtn] = useState('dashboard');
+	const [activeBtn, setActiveBtn] = useState(defaultLoc);
 	const [selectedTicket, setSelectedTicket] = useState(null);
 	const [currentProject, setCurrentProject] = useState(
 		'61ed05ec878f129f1a51e196'
 	);
 
-	const defaultLoc = '/dashboard';
-	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
 	const dropdownLinks = [
 		{
 			name: 'My Profile',
@@ -90,18 +90,16 @@ const App = () => {
 			console.log(url === API_BASEURL);
 
 			if (url === `${API_BASEURL}/`) {
-				setActiveBtn('dashboard');
-				navigate(defaultLoc);
-				console.log(defaultLoc, ' set');
+				navigate('/' + defaultLoc);
 			}
 		};
 
-		if (!isLoggedIn) {
+		if (!localStorage.getItem('isLoggedIn')) {
 			navigate('/');
 		} else {
 			checkLocation();
 		}
-	}, [isLoggedIn]);
+	}, []);
 
 	//verify login status
 	useEffect(() => {
@@ -140,7 +138,7 @@ const App = () => {
 					handleLogin={(val) => {
 						if (val) setIsLoggedIn(true);
 						setCurrentUser(val);
-						navigate(defaultLoc);
+						navigate('/' + defaultLoc);
 					}}
 				/>
 			) : (

@@ -175,10 +175,16 @@ const Projects = () => {
 		setSelectedTicket,
 		currentProject,
 		setCurrentProject,
+		activeBtn,
+		setActiveBtn,
 	} = useOutletContext();
 
 	//#get project on first render
 	useEffect(() => {
+		if (activeBtn !== 'projects') {
+			setActiveBtn('projects');
+		}
+
 		const getProject = async () => {
 			const data = await API.get(`project/`);
 			await setCurrentProject(data[0]._id);
