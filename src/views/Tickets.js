@@ -31,14 +31,17 @@ const Wrapper = styled.div`
 		justify-content: center;
 		font-size: 2rem;
 		background: white;
+		padding: 5px;
 	}
 
 	.row {
 		display: flex;
 		padding: 5px 0px;
+		font-size: 0.9rem;
 
 		&:not(.header) {
 			border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+			font-size: 0.8rem;
 		}
 		&.header {
 			background: rgba(0, 0, 0, 0.8);

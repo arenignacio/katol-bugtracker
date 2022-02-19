@@ -89,7 +89,7 @@ users.route('/login').post(
 //logout
 users.route('/logout').get((req, res) => {
 	req.logout();
-	console.log('loging out. user is now ' + req.user);
+	console.log('logging out. user is now ' + req.user);
 	res.end();
 });
 

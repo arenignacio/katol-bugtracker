@@ -186,14 +186,20 @@ Router.route('/:id')
 
 				if (!members.find(({ email }) => email === req.user.email)) {
 					console.log('not member');
-					res.status(403).json('unauthorized action');
+					res.status(403).json('Only team members can edit');
 				} else if (
 					!pm.find(({ email }) => email === req.user.email) &&
-					assigned_to !== req.user.email
+					![req.user.email, ticket.assigned_to.email].includes(
+						assigned_to
+					) &&
+					!(
+						ticket.assigned_to.email === req.user.email &&
+						assigned_to === 'none'
+					)
 				) {
 					console.log(assigned_to === req.user.email);
 					console.log('not pm');
-					res.status(403).json("Only pm's can assign to others");
+					res.status(403).json('Unauthorized to assign to others');
 				} else {
 					ticket.subject = subject;
 					ticket.type = type;

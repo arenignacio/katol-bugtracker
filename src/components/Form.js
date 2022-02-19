@@ -310,9 +310,10 @@ const Form = ({ options, handleErrorMsg }) => {
 			fetchData.options.body = JSON.parse(fetchData.options.body);
 			handleErrorMsg('Invalid login');
 		} else if (res.status === 403) {
+			const data = await res.json();
 			fetchData.options.body = JSON.parse(fetchData.options.body);
-			console.log(res.json());
-			handleErrorMsg('Unauthorized action');
+
+			handleErrorMsg(data);
 		} else if (res.status === 422) {
 			fetchData.options.body = JSON.parse(fetchData.options.body);
 			handleErrorMsg('Please fill in all required fields');
