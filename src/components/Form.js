@@ -311,6 +311,7 @@ const Form = ({ options, handleErrorMsg }) => {
 			handleErrorMsg('Invalid login');
 		} else if (res.status === 403) {
 			fetchData.options.body = JSON.parse(fetchData.options.body);
+			console.log(res.json());
 			handleErrorMsg('Unauthorized action');
 		} else if (res.status === 422) {
 			fetchData.options.body = JSON.parse(fetchData.options.body);

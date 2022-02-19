@@ -189,16 +189,11 @@ Router.route('/:id')
 					res.status(403).json('unauthorized action');
 				} else if (
 					!pm.find(({ email }) => email === req.user.email) &&
-					ticket.assigned_to.email !== assigned_to
+					assigned_to !== req.user.email
 				) {
-					console.log(
-						pm.find(({ email }) => {
-							console.log(email, req.user.email);
-							return email === req.user.email;
-						})
-					);
+					console.log(assigned_to === req.user.email);
 					console.log('not pm');
-					res.status(403).json('unauthorized action');
+					res.status(403).json("Only pm's can assign to others");
 				} else {
 					ticket.subject = subject;
 					ticket.type = type;
