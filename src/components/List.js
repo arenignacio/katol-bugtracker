@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 //todo: add fillers to rows
@@ -102,9 +102,15 @@ const List = ({
 	},
 	handleClick,
 	viewableRows,
+	activeIndicator,
 }) => {
 	//#states
 	const [activeItem, setActiveItem] = useState();
+
+	useEffect(() => {
+		console.log('active indicator effect acctivated');
+		setActiveItem(activeIndicator);
+	}, [activeIndicator]);
 
 	const renderHeaders = (arr) => {
 		return arr.map((el, idx) => {
@@ -134,7 +140,8 @@ const List = ({
 					id={row[0]}
 					key={row[0] + idx}
 					onClick={(e) => {
-						if (attributes.isSelectable) setActiveItem(row[0]);
+						if (attributes.isSelectable && !activeIndicator)
+							setActiveItem(row[0]);
 						if (handleClick) handleClick(e);
 					}}
 				>

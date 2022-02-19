@@ -60,7 +60,7 @@ const App = () => {
 		JSON.parse(localStorage.getItem('isLoggedIn'))
 	);
 	const [activeBtn, setActiveBtn] = useState('dashboard');
-	const [activeSubBtn, setActiveSubBtn] = useState(null);
+	const [selectedTicket, setSelectedTicket] = useState(null);
 
 	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
 	const dropdownLinks = [
@@ -140,7 +140,13 @@ const App = () => {
 							</div>
 
 							<div id="body-content">
-								<Outlet></Outlet>
+								<Outlet
+									context={{
+										selectedTicket,
+										setSelectedTicket,
+										setActiveBtn,
+									}}
+								></Outlet>
 							</div>
 						</BodyWrapper>
 					</Container>

@@ -23,7 +23,7 @@ todo: members not updating, saveHandler not executing
 import List from '../../src/components/List';
 import SelectedTicket from '../components/SelectedTicket';
 import Modal from '../components/Modal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 
 const Wrapper = styled.div`
 	box-sizing: border-box;
@@ -163,7 +163,7 @@ const Projects = () => {
 	const [newTicket, setNewTicket] = useState(null);
 	const [tickets, setTickets] = useState(null);
 	const [members, setMembers] = useState(null);
-	const [selectedTicket, setSelectedTicket] = useState(null);
+	const { selectedTicket, setSelectedTicket } = useOutletContext();
 	const [editMode, setEditMode] = useState(null);
 	const [options, setOptions] = useState(null);
 	const [user, setUser] = useContext(UserContext);
@@ -286,7 +286,6 @@ const Projects = () => {
 					</span>
 				</div>,
 			]);
-
 			return acc;
 		}, []);
 	};
@@ -422,6 +421,7 @@ const Projects = () => {
 							}}
 							handleClick={selectTicket}
 							viewableRows={10}
+							activeIndicator={selectedTicket ? selectedTicket._id : ''}
 						/>
 					</div>
 				</div>
