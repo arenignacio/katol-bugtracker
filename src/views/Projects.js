@@ -48,14 +48,13 @@ const Wrapper = styled.div`
 			justify-content: flex-start;
 			height: 10%;
 			margin: 10px 15px;
-			padding-left: 50px;
 
 			div {
 				font-family: lato, sans-serif;
 				font-size: 2rem;
 				height: fit-content;
 				border-radius: 2.5px;
-				padding: 7px 10px;
+				padding: 7px 50px;
 				transition: box-shadow 0.3s ease-in-out;
 
 				&:hover {
@@ -185,6 +184,8 @@ const Projects = () => {
 			await setCurrentProject(data[0]._id);
 			await setProject(data[0]);
 			console.log(data[0]);
+
+			if (!selectedTicket) navigate(`/projects/${data[0]._id}`);
 		};
 
 		getProject();
@@ -391,7 +392,7 @@ const Projects = () => {
 					<div className="members border-solid rounded">
 						<div className="title">
 							Members{' '}
-							{project ? (
+							{project && user ? (
 								<span
 									className={`title-btn ${
 										project.project_manager.some(
