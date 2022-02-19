@@ -107,6 +107,10 @@ const Wrapper = styled.div`
 			opacity: 0.5;
 			transition: opacity 0.3s ease-in-out;
 
+			&.hidden {
+				display: none;
+			}
+
 			&:hover {
 				font-weight: bold;
 				cursor: pointer;
@@ -157,27 +161,33 @@ const Projects = () => {
 	//#immutables
 	const ticketheaders = ['Ticket ID', 'Subject', 'Status'];
 	const API = requests(API_BASEURL);
-	const currentProject = '61ed05ec878f129f1a51e196';
 
 	//#states
 	const [newTicket, setNewTicket] = useState(null);
 	const [tickets, setTickets] = useState(null);
 	const [members, setMembers] = useState(null);
-	const { selectedTicket, setSelectedTicket } = useOutletContext();
 	const [editMode, setEditMode] = useState(null);
 	const [options, setOptions] = useState(null);
 	const [user, setUser] = useContext(UserContext);
 	const [projectOptions, setProjectOptions] = useState(null);
 	const [project, setProject] = useState(null);
+	const {
+		selectedTicket,
+		setSelectedTicket,
+		currentProject,
+		setCurrentProject,
+	} = useOutletContext();
 
 	//#get project on first render
 	useEffect(() => {
 		const getProject = async () => {
 			const data = await API.get(`project/`);
-			setTickets(data);
+			await setCurrentProject(data[0]._id);
+			await setProject(data[0]);
+			console.log(data[0]);
 		};
 
-		console.log(user);
+		getProject();
 	}, []);
 
 	//#form handling
@@ -294,6 +304,12 @@ const Projects = () => {
 		const membersCopy = [...members];
 
 		return membersCopy.reduce((acc, member) => {
+			const isManager = project.project_manager.some(
+				(manager) => manager.email === member.email
+			)
+				? 'Y'
+				: '';
+
 			if (!member.name)
 				member.name = `${member.firstname} ${member.lastname}`;
 
@@ -375,20 +391,30 @@ const Projects = () => {
 			)}
 			<Wrapper>
 				<div className="project-name-container">
-					<div className="project-name"> Project 1</div>
+					<div className="project-name">{project ? project.name : ''}</div>
 				</div>
 				<div>
 					<div className="members border-solid rounded">
 						<div className="title">
 							Members{' '}
-							<span
-								className="title-btn"
-								onClick={async () => {
-									await setEditMode('Members');
-								}}
-							>
-								edit
-							</span>
+							{project ? (
+								<span
+									className={`title-btn ${
+										project.project_manager.some(
+											(manager) => manager.email === user.email
+										)
+											? ''
+											: 'hidden'
+									}`}
+									onClick={async () => {
+										await setEditMode('Members');
+									}}
+								>
+									edit
+								</span>
+							) : (
+								''
+							)}
 						</div>
 						<List
 							subject={'Members'}

@@ -76,7 +76,7 @@ const Tickets = () => {
 	const { setActiveBtn, setSelectedTicket } = useOutletContext();
 	const headers = ['Subject', 'Description', 'Status', 'Last Updated'];
 
-	const [user, setUser] = useContext(UserContext);
+	const [user] = useContext(UserContext);
 	const [tickets, setTickets] = useState(null);
 
 	useEffect(() => {
@@ -104,7 +104,11 @@ const Tickets = () => {
 					onClick={() => {
 						setSelectedTicket(ticket);
 						setActiveBtn('projects');
-						navigate(`/projects/${ticket.project}/tickets/${ticket._id}`);
+						navigate(
+							`/projects/${
+								ticket.project
+							}/tickets/${ticket.subject.replaceAll(' ', '-')}`
+						);
 					}}
 				>
 					<div className="col">{ticket.subject}</div>

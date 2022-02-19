@@ -61,6 +61,9 @@ const App = () => {
 	);
 	const [activeBtn, setActiveBtn] = useState('dashboard');
 	const [selectedTicket, setSelectedTicket] = useState(null);
+	const [currentProject, setCurrentProject] = useState(
+		'61ed05ec878f129f1a51e196'
+	);
 
 	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
 	const dropdownLinks = [
@@ -77,6 +80,12 @@ const App = () => {
 			handler: handleLogout,
 		},
 	];
+
+	useEffect(() => {
+		if (!isLoggedIn) {
+			navigate('/');
+		}
+	}, [isLoggedIn]);
 
 	//verify login status
 	useEffect(() => {
@@ -145,6 +154,8 @@ const App = () => {
 										selectedTicket,
 										setSelectedTicket,
 										setActiveBtn,
+										currentProject,
+										setCurrentProject,
 									}}
 								></Outlet>
 							</div>
