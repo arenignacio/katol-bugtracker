@@ -16,6 +16,7 @@ ReactDOM.render(
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<App />}>
+					<Route index element={<Dashboard />} />
 					<Route path="projects/:id/tickets/:tid" element={<Projects />} />
 					<Route path="projects/:id/" element={<Projects />} />
 

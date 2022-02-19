@@ -65,6 +65,7 @@ const App = () => {
 		'61ed05ec878f129f1a51e196'
 	);
 
+	const defaultLoc = '/dashboard';
 	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
 	const dropdownLinks = [
 		{
@@ -82,8 +83,23 @@ const App = () => {
 	];
 
 	useEffect(() => {
+		const checkLocation = () => {
+			const url = window.location.href;
+
+			console.log('url is ', url, API_BASEURL);
+			console.log(url === API_BASEURL);
+
+			if (url === `${API_BASEURL}/`) {
+				setActiveBtn('dashboard');
+				navigate(defaultLoc);
+				console.log(defaultLoc, ' set');
+			}
+		};
+
 		if (!isLoggedIn) {
 			navigate('/');
+		} else {
+			checkLocation();
 		}
 	}, [isLoggedIn]);
 
@@ -124,7 +140,7 @@ const App = () => {
 					handleLogin={(val) => {
 						if (val) setIsLoggedIn(true);
 						setCurrentUser(val);
-						navigate('dashboard');
+						navigate(defaultLoc);
 					}}
 				/>
 			) : (

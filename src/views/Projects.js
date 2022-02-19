@@ -191,7 +191,7 @@ const Projects = () => {
 		getProject();
 	}, []);
 
-	//#form handling
+	//#form handling, ticket
 	useEffect(() => {
 		/////todo: needs url
 		/////todoo: populate fields initial value with selected ticket data
@@ -203,11 +203,13 @@ const Projects = () => {
 			setTickets(data);
 		};
 
+		//get project members
 		const getMembers = async () => {
 			const data = await API.get(`project/${currentProject}/members`);
 			setMembers(data);
 		};
 
+		//get options for form handling
 		const getOptions = async () => {
 			console.log('selected ticket changed', selectedTicket);
 			const buttons = [
