@@ -290,7 +290,7 @@ const Projects = () => {
 				cur._id,
 				cur.subject,
 				<div className="status">
-					{cur.status}{' '}
+					{cur.status}
 					<span
 						onClick={() => setEditMode('Delete')}
 						className="btn-delete"
@@ -338,7 +338,10 @@ const Projects = () => {
 
 	//#select ticket handler
 	const selectTicket = async (e) => {
-		const row = e.target.parentNode;
+		const classes = [...e.target.classList];
+		const row = classes.includes('status')
+			? e.target.parentNode.parentNode
+			: e.target.parentNode;
 		const data = await API.get(`ticket/${row.id}`);
 		const subject = data[0].subject;
 		console.log(subject);
