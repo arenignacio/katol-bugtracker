@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Form from './Form';
 import Wheel from './Wheel';
@@ -60,6 +60,10 @@ const Wrapper = styled.div`
 `;
 
 const Modal = ({ options, onClickHandler, mode }) => {
+	useEffect(() => {
+		console.log('modal launched');
+	});
+
 	const [errorMsg, setErrorMsg] = useState(null);
 
 	const renderBody = (mode) => {
@@ -80,6 +84,7 @@ const Modal = ({ options, onClickHandler, mode }) => {
 				/>
 			);
 		} else if (['New Project', 'Edit Project'].includes(mode)) {
+			<div>HELLO. THIS IS NEW/EDIT PROJECT</div>;
 		}
 	};
 
@@ -95,7 +100,7 @@ const Modal = ({ options, onClickHandler, mode }) => {
 					</div>
 				</div>
 			) : (
-				''
+				'..Loading'
 			)}
 		</Wrapper>
 	);

@@ -10,6 +10,7 @@ import Projects from './views/Projects';
 import Tickets from './views/Tickets';
 import Settings from './views/Settings';
 import './index.css';
+import Modal from './components/Modal';
 
 ReactDOM.render(
 	<React.StrictMode>
@@ -17,10 +18,19 @@ ReactDOM.render(
 			<Routes>
 				<Route path="/" element={<App />}>
 					<Route index element={<Dashboard />} />
-					<Route path="projects/:id/tickets/:tid" element={<Projects />} />
-					<Route path="projects/:id/" element={<Projects />} />
-
-					<Route path="projects" element={<Projects />} />
+					<Route path="projects">
+						<Route
+							index
+							element={<div>This is a list of projects</div>}
+						/>
+						<Route
+							path="new-project"
+							element={<Modal options="test" mode="New Project" />}
+						/>
+						<Route path=":id" element={<Projects />}>
+							<Route path="tickets/:tid" element={<Projects />} />
+						</Route>
+					</Route>
 					<Route path="profile" element={<MyProfile />} />
 					<Route path="dashboard" element={<Dashboard />} />
 					<Route path="tickets" element={<Tickets />} />

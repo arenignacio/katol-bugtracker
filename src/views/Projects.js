@@ -29,7 +29,6 @@ const Wrapper = styled.div`
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
-	padding: 25px;
 	background: rgba(0, 0, 0, 0.1);
 	overflow-y: scroll;
 
@@ -38,7 +37,6 @@ const Wrapper = styled.div`
 		justify-content: space-evenly;
 		box-sizing: border-box;
 		height: 44%;
-		width: 100%;
 
 		&:not(:first-of-type) {
 			min-height: 40%;
@@ -46,21 +44,49 @@ const Wrapper = styled.div`
 
 		&.project-name-container {
 			justify-content: flex-start;
+			align-items: center;
 			height: 10%;
-			margin: 10px 15px;
+			margin: 10px;
 
-			div {
+			.project-name {
+				display: flex;
+				align-items: center;
 				font-family: lato, sans-serif;
-				font-size: 2rem;
+				font-size: 1.8rem;
 				height: fit-content;
 				border-radius: 2.5px;
 				padding: 7px 50px;
-				transition: box-shadow 0.3s ease-in-out;
 
 				&:hover {
 					cursor: pointer;
-					box-shadow: 3px 5px 10px 1px rgba(0 0 0 / 30%);
+
+					.project-name-menu {
+						opacity: 1;
+
+						span {
+							opacity: 1;
+						}
+					}
 				}
+			}
+		}
+	}
+
+	div.project-name-menu {
+		opacity: 0;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		font-size: 0.8rem;
+		margin-left: 25px;
+
+		span {
+			opacity: 0;
+			transition: opacity 0.5s ease-in-out;
+			margin-left: 10px;
+
+			&:hover {
+				color: brown;
 			}
 		}
 	}
@@ -185,7 +211,7 @@ const Projects = () => {
 			setActiveBtn('projects');
 		}
 
-		const getProject = async () => {
+		/* 	const getProject = async () => {
 			const data = await API.get(`project/`);
 			await setCurrentProject(data[0]._id);
 			await setProject(data[0]);
@@ -194,7 +220,7 @@ const Projects = () => {
 			if (!selectedTicket) navigate(`/projects/${data[0]._id}`);
 		};
 
-		getProject();
+		getProject(); */
 	}, []);
 
 	//#form handling, ticket
@@ -397,7 +423,14 @@ const Projects = () => {
 			)}
 			<Wrapper>
 				<div className="project-name-container">
-					<div className="project-name">{project ? project.name : ''}</div>
+					<div className="project-name">
+						{project ? project.name : ''}{' '}
+						<div className="project-name-menu">
+							<span>new</span>
+							<span>edit</span>
+							<span>change</span>
+						</div>
+					</div>
 				</div>
 				<div>
 					<div className="members border-solid rounded">

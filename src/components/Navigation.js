@@ -8,7 +8,7 @@ const Wrapper = styled.div`
 	height: 95%;
 	width: 10vw;
 	min-width: fit-content;
-	padding: 30px;
+	padding: 20px;
 	font-size: 0.9rem;
 	z-index: 2;
 	box-shadow: 5px 0px 18px -10px rgba(0, 0, 0, 0.3);
@@ -38,6 +38,7 @@ const Wrapper = styled.div`
 
 		> li {
 			margin-bottom: 20px;
+			height: 15px;
 
 			.active {
 				font-weight: bold;
@@ -58,21 +59,27 @@ const Navigation = ({ navLinks, activeBtn, setActiveBtn }) => {
 	const navigate = useNavigate();
 
 	const renderLinks = (navLinks) =>
-		navLinks.map((name, idx) => {
-			return (
-				<li key={name + idx}>
-					<span
-						id={name}
-						className={activeBtn === name ? 'active' : ''}
-						onClick={(e) => {
-							setActiveBtn(name);
-							navigate(`/${name}`);
-						}}
-					>
-						{name[0].toUpperCase() + name.substring(1)}
-					</span>
-				</li>
-			);
+		navLinks.map((link, idx) => {
+			if (typeof link === 'object') {
+				return link;
+			} else {
+				const name = link;
+
+				return (
+					<li key={name + idx}>
+						<span
+							id={name}
+							className={activeBtn === name ? 'active' : ''}
+							onClick={(e) => {
+								setActiveBtn(name);
+								navigate(`/${name}`);
+							}}
+						>
+							{name[0].toUpperCase() + name.substring(1)}
+						</span>
+					</li>
+				);
+			}
 		});
 
 	return (

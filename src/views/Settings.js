@@ -9,7 +9,7 @@ const Settings = () => {
 			setActiveBtn('settings');
 		}
 	}, []);
-	return <div>This is settings</div>;
+	return <div>This is settings. It's under construction.</div>;
 };
 
 export default Settings;

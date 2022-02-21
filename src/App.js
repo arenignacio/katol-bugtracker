@@ -9,11 +9,13 @@ import styled from 'styled-components';
 import Login from './views/Login-Register.view';
 import Navigation from './components/Navigation';
 import HeaderBar from './components/HeaderBar';
+import { ReactComponent as New } from '../src/assets/img/new.svg';
 
 /* import checkLoginStatus from './utils/UseVerifyLogin'; */
 //#utilities
 import { API_BASEURL } from './utils/constants';
 import { Outlet } from 'react-router-dom';
+import requests from './utils/requests';
 
 //#context
 export const UserContext = createContext();
@@ -29,6 +31,33 @@ const Container = styled.div`
 
 	.navigation-container {
 		z-index: 1;
+
+		> div > ul > li > span {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			&.active .icon {
+				display: block;
+			}
+		}
+
+		span {
+			display: flex;
+			align-items: center;
+		}
+
+		.icon {
+			display: none;
+			transition: opacity 0.4s ease-in-out;
+			fill: rgba(0, 0, 0, 0.3);
+			font-weight: bold;
+
+			&:hover {
+				cursor: pointer;
+				fill: rgba(0, 0, 0, 0.8);
+			}
+		}
 	}
 `;
 
@@ -54,8 +83,9 @@ const App = () => {
 	console.log(`base url is: ${API_BASEURL}`);
 
 	const defaultLoc = 'dashboard';
-	const navLinks = ['dashboard', 'projects', 'tickets', 'settings'];
+
 	const navigate = useNavigate();
+	const API = requests(API_BASEURL);
 
 	const [currentUser, setCurrentUser] = useState(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(
@@ -63,9 +93,37 @@ const App = () => {
 	);
 	const [activeBtn, setActiveBtn] = useState(defaultLoc);
 	const [selectedTicket, setSelectedTicket] = useState(null);
+	const [allProjects, setAllProjects] = useState(null);
 	const [currentProject, setCurrentProject] = useState(
 		'61ed05ec878f129f1a51e196'
 	);
+	const navLinks = [
+		'dashboard',
+		<li key={'project-idx'}>
+			<span
+				id="projects"
+				className={activeBtn === 'projects' ? 'active' : ''}
+				onClick={(e) => {
+					setActiveBtn('projects');
+					const classes = [...e.target.classList];
+					console.log(classes);
+					if (!classes.includes('new-btn')) navigate(`/projects`);
+				}}
+			>
+				{'Projects'}
+				<span
+					onClick={() => {
+						console.log('projects/new-project');
+						navigate('projects/new-project');
+					}}
+				>
+					<New className="icon new-btn" height="15px" />
+				</span>
+			</span>
+		</li>,
+		'tickets',
+		'settings',
+	];
 
 	const dropdownLinks = [
 		{
@@ -83,6 +141,11 @@ const App = () => {
 	];
 
 	useEffect(() => {
+		const getProjects = async () => {
+			const data = API.get('projects');
+			console.log('all data is ', data);
+		};
+
 		const checkLocation = () => {
 			const url = window.location.href;
 
@@ -98,6 +161,7 @@ const App = () => {
 			navigate('/');
 		} else {
 			checkLocation();
+			getProjects();
 		}
 	}, []);
 

@@ -88,6 +88,8 @@ const Dashboard = () => {
 
 	return (
 		<Wrapper>
+			This is dashboard. It's currently non-functional and exists to give the
+			user a vision of what's to come.
 			<div>
 				<div className="cards-container">
 					<div className="card">
