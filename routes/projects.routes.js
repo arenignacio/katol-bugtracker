@@ -64,8 +64,9 @@ Router.route('/:id/members')
 	});
 
 //get project/s, update project
-Router.route('/:id?')
+Router.route('/:id')
 	.get(async (req, res) => {
+		console.log('get projects executed');
 		const id = req.params.id;
 		let result;
 
@@ -110,5 +111,24 @@ Router.route('/:id?')
 
 		res.json(result);
 	});
+
+Router.route('/').get(async (req, res) => {
+	console.log('get all projects executed');
+	let result;
+
+	try {
+		const project = await Project.where({
+			'members.email': 'johdoe123@email.com' /* req.user.email */,
+		});
+
+		result = project;
+	} catch (err) {
+		result = err.message;
+		res.status(403);
+	}
+
+	console.log(result);
+	res.json(result);
+});
 
 module.exports = Router;

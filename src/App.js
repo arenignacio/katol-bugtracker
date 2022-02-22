@@ -77,6 +77,22 @@ const BodyWrapper = styled.div`
 		margin-left: 10vw;
 		z-index: 1;
 	}
+
+	.sub-list {
+		margin-left: 5px;
+		width: 7vw;
+	
+	}
+
+	.subnav {
+		margin-top: 7px;
+		height: 1rem;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		padding-top: 2px;
+	}
+}
 `;
 
 const App = () => {
@@ -92,6 +108,7 @@ const App = () => {
 		JSON.parse(localStorage.getItem('isLoggedIn'))
 	);
 	const [activeBtn, setActiveBtn] = useState(defaultLoc);
+	const [activeSubBtn, setActiveSubBtn] = useState(null);
 	const [selectedTicket, setSelectedTicket] = useState(null);
 	const [allProjects, setAllProjects] = useState(null);
 	const [currentProject, setCurrentProject] = useState(
@@ -106,20 +123,21 @@ const App = () => {
 				onClick={(e) => {
 					setActiveBtn('projects');
 					const classes = [...e.target.classList];
-					console.log(classes);
+					console.log(classes.includes('new-btn'));
 					if (!classes.includes('new-btn')) navigate(`/projects`);
+					else {
+						navigate('/projects/new-project');
+					}
 				}}
 			>
 				{'Projects'}
-				<span
-					onClick={() => {
-						console.log('projects/new-project');
-						navigate('projects/new-project');
-					}}
-				>
+				<span className="new-btn">
 					<New className="icon new-btn" height="15px" />
 				</span>
 			</span>
+			<div className="sub-list">
+				{allProjects ? renderProjectsNav(allProjects) : ''}
+			</div>
 		</li>,
 		'tickets',
 		'settings',
@@ -141,27 +159,8 @@ const App = () => {
 	];
 
 	useEffect(() => {
-		const getProjects = async () => {
-			const data = API.get('projects');
-			console.log('all data is ', data);
-		};
-
-		const checkLocation = () => {
-			const url = window.location.href;
-
-			console.log('url is ', url, API_BASEURL);
-			console.log(url === API_BASEURL);
-
-			if (url === `${API_BASEURL}/`) {
-				navigate('/' + defaultLoc);
-			}
-		};
-
 		if (!localStorage.getItem('isLoggedIn')) {
 			navigate('/');
-		} else {
-			checkLocation();
-			getProjects();
 		}
 	}, []);
 
@@ -175,7 +174,6 @@ const App = () => {
 			if (response.ok) {
 				const data = await response.json();
 				localStorage.setItem('isLoggedIn', response.ok);
-
 				setCurrentUser(data);
 				console.log('data succesfully retrieved');
 			} else {
@@ -188,11 +186,41 @@ const App = () => {
 		checkLoginStatus();
 	}, []);
 
+	useEffect(() => {
+		const getProjects = async () => {
+			const data = await API.get('project');
+			setAllProjects(data);
+		};
+
+		getProjects();
+	}, []);
+
 	async function handleLogout(e) {
 		await fetch(`${API_BASEURL}/user/logout`);
 		localStorage.removeItem('isLoggedIn');
 		setIsLoggedIn(null);
 		setCurrentUser(null);
+	}
+
+	function renderProjectsNav(projects) {
+		if (projects) {
+			return projects.map((project) => {
+				return (
+					<div
+						className={`subnav ${
+							activeSubBtn === project._id ? 'active' : ''
+						}`}
+						onClick={(e) => {
+							navigate(`/projects/${project._id}`);
+							setActiveBtn('projects');
+							setActiveSubBtn(project._id);
+						}}
+					>
+						{project.name}
+					</div>
+				);
+			});
+		}
 	}
 
 	return (

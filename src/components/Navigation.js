@@ -38,7 +38,8 @@ const Wrapper = styled.div`
 
 		> li {
 			margin-bottom: 20px;
-			height: 15px;
+			padding: 2px 0px 2px 0px;
+			height: fit-content;
 
 			.active {
 				font-weight: bold;
