@@ -56,7 +56,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Navigation = ({ navLinks, activeBtn, setActiveBtn }) => {
+const Navigation = ({ navLinks, activeBtn, setActiveBtn, setActiveSubBtn }) => {
 	const navigate = useNavigate();
 
 	const renderLinks = (navLinks) =>
@@ -73,6 +73,7 @@ const Navigation = ({ navLinks, activeBtn, setActiveBtn }) => {
 							className={activeBtn === name ? 'active' : ''}
 							onClick={(e) => {
 								setActiveBtn(name);
+								setActiveSubBtn(null);
 								navigate(`/${name}`);
 							}}
 						>

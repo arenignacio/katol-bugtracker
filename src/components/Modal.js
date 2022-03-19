@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Form from './Form';
 import Wheel from './Wheel';
 import Confirm from './Confirm';
+import ProjectForm from './ProjectForm';
 
 const Wrapper = styled.div`
 	position: absolute;
@@ -60,10 +61,7 @@ const Wrapper = styled.div`
 `;
 
 const Modal = ({ options, onClickHandler, mode }) => {
-	useEffect(() => {
-		console.log('modal launched');
-	});
-
+	const [newProject, setNewProject] = useState(null);
 	const [errorMsg, setErrorMsg] = useState(null);
 
 	const renderBody = (mode) => {
@@ -84,7 +82,7 @@ const Modal = ({ options, onClickHandler, mode }) => {
 				/>
 			);
 		} else if (['New Project', 'Edit Project'].includes(mode)) {
-			<div>HELLO. THIS IS NEW/EDIT PROJECT</div>;
+			return <ProjectForm></ProjectForm>;
 		}
 	};
 

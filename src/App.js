@@ -87,10 +87,23 @@ const BodyWrapper = styled.div`
 	.subnav {
 		margin-top: 7px;
 		height: 1rem;
+		font-family: montserrat;
+		font-size: 0.7rem;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		padding-top: 2px;
+
+		&:hover {
+			font-weight: 500;
+			color: rgba(0, 0, 0, 0.9);
+			cursor: pointer;
+		}
+
+		&:active {
+			color: rgba(0, 0, 0, 0.5);
+		}
+	}
 	}
 }
 `;
@@ -122,6 +135,7 @@ const App = () => {
 				className={activeBtn === 'projects' ? 'active' : ''}
 				onClick={(e) => {
 					setActiveBtn('projects');
+					setActiveSubBtn(null);
 					const classes = [...e.target.classList];
 					console.log(classes.includes('new-btn'));
 					if (!classes.includes('new-btn')) navigate(`/projects`);
@@ -251,6 +265,7 @@ const App = () => {
 									navLinks={navLinks}
 									activeBtn={activeBtn}
 									setActiveBtn={setActiveBtn}
+									setActiveSubBtn={setActiveSubBtn}
 								></Navigation>
 							</div>
 

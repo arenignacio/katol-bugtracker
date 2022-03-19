@@ -21,7 +21,12 @@ ReactDOM.render(
 					<Route path="projects" element={<Projects />} />
 					<Route
 						path="projects/new-project"
-						element={<Modal options="test" mode="New Project" />}
+						element={
+							<Modal
+								options={{ saveHandler: () => {} }}
+								mode="New Project"
+							/>
+						}
 					/>
 					<Route path="projects/:id" element={<Projects />} />
 					<Route path="projects/:id/tickets/:tid" element={<Projects />} />
