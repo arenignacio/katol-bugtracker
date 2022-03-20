@@ -101,7 +101,7 @@ const List = ({
 		isExpandable: false,
 	},
 	handleClick,
-	viewableRows,
+	viewableRows = 10,
 	activeIndicator,
 }) => {
 	//#states
@@ -122,6 +122,8 @@ const List = ({
 		});
 	};
 
+	//each element is a row, each subelement is a column
+	//[[col, col, col], [col, col, col]]
 	const renderRows = (arr) => {
 		return arr.map((row, idx) => {
 			const contents = row.map((col, idx) => {
@@ -151,7 +153,7 @@ const List = ({
 		});
 	};
 
-	const fillRows = (arr, viewableRows = 10) => {
+	const fillRows = (arr, viewableRows) => {
 		if (arr.length >= viewableRows) {
 			return;
 		}
