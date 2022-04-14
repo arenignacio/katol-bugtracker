@@ -108,7 +108,6 @@ const List = ({
 	const [activeItem, setActiveItem] = useState();
 
 	useEffect(() => {
-		console.log('active indicator effect acctivated');
 		setActiveItem(activeIndicator);
 	}, [activeIndicator]);
 

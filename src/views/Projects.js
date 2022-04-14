@@ -11,8 +11,6 @@ import {
 } from '../utils/ticketOption';
 
 /* 
-todo: fetch project data 
-todo: members not updating, saveHandler not executing
 //todo: need error handling for ticket form and ticket route (crashes when creating incomplete ticket)
 //todo: app crashes when submitting a complete new ticket with a changed "assigned_to" from none to x 2/16/2022
 //todo: edit member (Wheel) crashes after user edits ticket
@@ -194,7 +192,7 @@ const Projects = () => {
 	const [editMode, setEditMode] = useState(null);
 	const [options, setOptions] = useState(null);
 	const [user, setUser] = useContext(UserContext);
-	const [projectOptions, setProjectOptions] = useState(null);
+	// const [projectOptions, setProjectOptions] = useState(null);
 	const [project, setProject] = useState(null);
 	const {
 		selectedTicket,
@@ -205,40 +203,28 @@ const Projects = () => {
 		setActiveBtn,
 	} = useOutletContext();
 
-	//#get project on first render
+	//#setProject project on first render
 	useEffect(() => {
 		if (activeBtn !== 'projects') {
 			setActiveBtn('projects');
 		}
 
-		/* 	const getProject = async () => {
-			const data = await API.get(`project/`);
-			await setCurrentProject(data[0]._id);
-			await setProject(data[0]);
-			console.log(data[0]);
-
-			if (!selectedTicket) navigate(`/projects/${data[0]._id}`);
+		const initialize = async (id) => {
+			const data = await API.get(`project/${id}`);
+			const project = await data[0];
+			await setProject(project);
+			await setMembers(project.members);
 		};
 
-		getProject(); */
-	}, []);
+		initialize(currentProject);
+	}, [currentProject]);
 
 	//#form handling, ticket
 	useEffect(() => {
-		/////todo: needs url
-		/////todoo: populate fields initial value with selected ticket data
-		/////todo: need Save button to get data and update selectedTicket
-
 		//update tickets table
 		const getTicket = async () => {
 			const data = await API.get(`ticket/query?project=${currentProject}`);
 			setTickets(data);
-		};
-
-		//get project members
-		const getMembers = async () => {
-			const data = await API.get(`project/${currentProject}/members`);
-			setMembers(data);
 		};
 
 		//get options for form handling
@@ -278,7 +264,8 @@ const Projects = () => {
 						saveHandler: async (newMembers) => {
 							console.log('wheel save handler executed', newMembers);
 							const body = { members: newMembers };
-							updateMembers(body);
+							const updatedMembers = await updateMembers(body);
+							setMembers(updatedMembers);
 							setEditMode(null);
 						},
 						cancelHandler: () => {
@@ -310,7 +297,6 @@ const Projects = () => {
 		};
 
 		getTicket();
-		getMembers();
 		getOptions();
 	}, [newTicket, currentProject, editMode]);
 
@@ -354,18 +340,30 @@ const Projects = () => {
 	const updateMembers = async (value) => {
 		let isDifferent;
 
-		if (value.members.length !== members.length) {
-			isDifferent = true;
-		} else {
-			//check current members and compare with members being passed
-			for (let i = 0; i < value.members.length; i++) {
+		try {
+			if (value.members.length !== members.length) {
 				isDifferent = true;
-				if (value.members.includes(members[i].email)) isDifferent = false;
+			} else {
+				//check current members and compare with members being passed
+				for (let i = 0; i < value.members.length; i++) {
+					isDifferent = true;
+					if (value.members.includes(members[i].email))
+						isDifferent = false;
+				}
 			}
-		}
 
-		if (isDifferent)
-			await API.put(`project/${currentProject}/members`, value);
+			if (isDifferent) {
+				const newMembers = await API.put(
+					`project/${currentProject}/members`,
+					value
+				);
+
+				return newMembers;
+			}
+		} catch (err) {
+			console.log(err);
+			//updated log here
+		}
 	};
 
 	//#select ticket handler

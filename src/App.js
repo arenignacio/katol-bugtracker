@@ -109,8 +109,6 @@ const BodyWrapper = styled.div`
 `;
 
 const App = () => {
-	console.log(`base url is: ${API_BASEURL}`);
-
 	const defaultLoc = 'dashboard';
 
 	const navigate = useNavigate();
@@ -137,7 +135,6 @@ const App = () => {
 					setActiveBtn('projects');
 					setActiveSubBtn(null);
 					const classes = [...e.target.classList];
-					console.log(classes.includes('new-btn'));
 					if (!classes.includes('new-btn')) navigate(`/projects`);
 					else {
 						navigate('/projects/new-project');
@@ -180,7 +177,6 @@ const App = () => {
 
 	//verify login status
 	useEffect(() => {
-		console.log('checkloginstatus is running...');
 		localStorage.removeItem('isLoggedIn');
 
 		const checkLoginStatus = async () => {
@@ -189,7 +185,6 @@ const App = () => {
 				const data = await response.json();
 				localStorage.setItem('isLoggedIn', response.ok);
 				setCurrentUser(data);
-				console.log('data succesfully retrieved');
 			} else {
 				setCurrentUser(null);
 			}

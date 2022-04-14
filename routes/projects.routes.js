@@ -66,7 +66,7 @@ Router.route('/:id/members')
 //get project/s, update project
 Router.route('/:id')
 	.get(async (req, res) => {
-		console.log('get projects executed');
+		console.log('get projects executed ', req.params.id);
 		const id = req.params.id;
 		let result;
 
@@ -76,6 +76,7 @@ Router.route('/:id')
 			result = 'err: ' + err.message;
 		}
 
+		console.log(result);
 		res.json(result);
 	})
 	.put(async (req, res) => {
