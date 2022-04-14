@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { API_BASEURL } from '../utils/constants';
 import { UserContext } from '../App';
@@ -179,6 +180,7 @@ const Wrapper = styled.div`
 const Projects = () => {
 	//#other hooks
 	const navigate = useNavigate();
+	const location = useLocation();
 	const isMounted = useRef(false);
 
 	//#immutables
@@ -299,6 +301,65 @@ const Projects = () => {
 		getTicket();
 		getOptions();
 	}, [newTicket, currentProject, editMode]);
+
+	//#handle ticket navigation
+	useEffect(() => {
+		//listen on pathname
+		const pathname = location.pathname;
+		console.log(pathname);
+
+		const updateTicket = async () => {
+			if (selectedTicket) {
+				let ticketHistory = localStorage.getItem('ticketHistory');
+				const pathArr = pathname.split('/');
+
+				if (!ticketHistory) {
+					localStorage.setItem('ticketHistory', '[]');
+					ticketHistory = localStorage.getItem('ticketHistory');
+				}
+				ticketHistory = JSON.parse(ticketHistory);
+
+				if (
+					!ticketHistory.some(
+						(ticket) =>
+							ticket.subject ===
+							pathArr[pathArr.indexOf('tickets') + 1]
+								.split('-')
+								.join(' ')
+					)
+				) {
+					ticketHistory.push({
+						subject: selectedTicket.subject,
+						_id: selectedTicket._id,
+					});
+					localStorage.setItem(
+						'ticketHistory',
+						JSON.stringify(ticketHistory)
+					);
+				} else {
+					const idx = await ticketHistory.findIndex(
+						(ticket) =>
+							ticket.subject ===
+							pathArr[pathArr.indexOf('tickets') + 1]
+								.split('-')
+								.join(' ')
+					);
+					const { _id } = ticketHistory[idx];
+					const data = await API.get(`ticket/${_id}`);
+					const ticket = await data[0];
+					console.log('new ticket is ', ticket);
+					setSelectedTicket(ticket);
+				}
+			}
+			//add ticket id and name to localstorage
+			//get ticket from server
+			//set current ticket to data
+		};
+
+		if (pathname.includes('projects') && pathname.includes('tickets')) {
+			updateTicket();
+		}
+	}, [location]);
 
 	//#sort ticket data to be fed into List
 	const sortTickets = (tickets) => {
